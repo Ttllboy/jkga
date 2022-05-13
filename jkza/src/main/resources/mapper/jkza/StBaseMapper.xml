@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.StBaseMapper">
+    
+    <resultMap type="StBase" id="StBaseResult">
+        <result property="id"    column="id"    />
+        <result property="airQuality"    column="air_quality"    />
+        <result property="solidWasteCapacity"    column="solid_waste_capacity"    />
+        <result property="waterQuality"    column="water_quality"    />
+        <result property="waterQualityAverage"    column="water_quality_average"    />
+        <result property="accessEquipment"    column="access_equipment"    />
+        <result property="onlineEquipment"    column="online_equipment"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectStBaseVo">
+        select id, air_quality, solid_waste_capacity, water_quality, water_quality_average, access_equipment, online_equipment, data_type from st_base
+    </sql>
+
+    <select id="selectStBaseList" parameterType="StBase" resultMap="StBaseResult">
+        <include refid="selectStBaseVo"/>
+        <where>  
+            <if test="airQuality != null "> and air_quality = #{airQuality}</if>
+            <if test="solidWasteCapacity != null "> and solid_waste_capacity = #{solidWasteCapacity}</if>
+            <if test="waterQuality != null "> and water_quality = #{waterQuality}</if>
+            <if test="waterQualityAverage != null "> and water_quality_average = #{waterQualityAverage}</if>
+            <if test="accessEquipment != null "> and access_equipment = #{accessEquipment}</if>
+            <if test="onlineEquipment != null "> and online_equipment = #{onlineEquipment}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectStBaseById" parameterType="Long" resultMap="StBaseResult">
+        <include refid="selectStBaseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStBase" parameterType="StBase" useGeneratedKeys="true" keyProperty="id">
+        insert into st_base
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="airQuality != null">air_quality,</if>
+            <if test="solidWasteCapacity != null">solid_waste_capacity,</if>
+            <if test="waterQuality != null">water_quality,</if>
+            <if test="waterQualityAverage != null">water_quality_average,</if>
+            <if test="accessEquipment != null">access_equipment,</if>
+            <if test="onlineEquipment != null">online_equipment,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="airQuality != null">#{airQuality},</if>
+            <if test="solidWasteCapacity != null">#{solidWasteCapacity},</if>
+            <if test="waterQuality != null">#{waterQuality},</if>
+            <if test="waterQualityAverage != null">#{waterQualityAverage},</if>
+            <if test="accessEquipment != null">#{accessEquipment},</if>
+            <if test="onlineEquipment != null">#{onlineEquipment},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStBase" parameterType="StBase">
+        update st_base
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="airQuality != null">air_quality = #{airQuality},</if>
+            <if test="solidWasteCapacity != null">solid_waste_capacity = #{solidWasteCapacity},</if>
+            <if test="waterQuality != null">water_quality = #{waterQuality},</if>
+            <if test="waterQualityAverage != null">water_quality_average = #{waterQualityAverage},</if>
+            <if test="accessEquipment != null">access_equipment = #{accessEquipment},</if>
+            <if test="onlineEquipment != null">online_equipment = #{onlineEquipment},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStBaseById" parameterType="Long">
+        delete from st_base where id = #{id}
+    </delete>
+
+    <delete id="deleteStBaseByIds" parameterType="String">
+        delete from st_base where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

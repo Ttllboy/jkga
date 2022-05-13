@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YyYyMapper">
+
+    <resultMap type="YyYy" id="YyYyResult">
+        <result property="id"    column="id"    />
+        <result property="hosName"    column="hos_name"    />
+        <result property="bed"    column="bed"    />
+        <result property="car"    column="car"    />
+        <result property="securityStaff"    column="security_staff"    />
+        <result property="securityStaffOnline"    column="security_staff_online"    />
+        <result property="coordinate"    column="coordinate"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectYyYyVo">
+        select id, hos_name, bed, car, security_staff, security_staff_online, coordinate, data_type from yy_yy
+    </sql>
+
+    <select id="selectYyYyList" parameterType="YyYy" resultMap="YyYyResult">
+        <include refid="selectYyYyVo"/>
+        <where>
+            <if test="hosName != null  and hosName != ''"> and hos_name like concat('%', #{hosName}, '%')</if>
+            <if test="bed != null "> and bed = #{bed}</if>
+            <if test="car != null "> and car = #{car}</if>
+            <if test="securityStaff != null "> and security_staff = #{securityStaff}</if>
+            <if test="securityStaffOnline != null "> and security_staff_online = #{securityStaffOnline}</if>
+            <if test="coordinate != null  and coordinate != ''"> and coordinate = #{coordinate}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+
+    <select id="selectYyYyById" parameterType="Long" resultMap="YyYyResult">
+        <include refid="selectYyYyVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertYyYy" parameterType="YyYy" useGeneratedKeys="true" keyProperty="id">
+        insert into yy_yy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="hosName != null">hos_name,</if>
+            <if test="bed != null">bed,</if>
+            <if test="car != null">car,</if>
+            <if test="securityStaff != null">security_staff,</if>
+            <if test="securityStaffOnline != null">security_staff_online,</if>
+            <if test="coordinate != null">coordinate,</if>
+            <if test="dataType != null">data_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="hosName != null">#{hosName},</if>
+            <if test="bed != null">#{bed},</if>
+            <if test="car != null">#{car},</if>
+            <if test="securityStaff != null">#{securityStaff},</if>
+            <if test="securityStaffOnline != null">#{securityStaffOnline},</if>
+            <if test="coordinate != null">#{coordinate},</if>
+            <if test="dataType != null">#{dataType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateYyYy" parameterType="YyYy">
+        update yy_yy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="hosName != null">hos_name = #{hosName},</if>
+            <if test="bed != null">bed = #{bed},</if>
+            <if test="car != null">car = #{car},</if>
+            <if test="securityStaff != null">security_staff = #{securityStaff},</if>
+            <if test="securityStaffOnline != null">security_staff_online = #{securityStaffOnline},</if>
+            <if test="coordinate != null">coordinate = #{coordinate},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYyYyById" parameterType="Long">
+        delete from yy_yy where id = #{id}
+    </delete>
+
+    <delete id="deleteYyYyByIds" parameterType="String">
+        delete from yy_yy where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

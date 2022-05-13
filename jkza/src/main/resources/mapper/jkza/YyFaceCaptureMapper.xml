@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YyFaceCaptureMapper">
+    
+    <resultMap type="YyFaceCapture" id="YyFaceCaptureResult">
+        <result property="id"    column="id"    />
+        <result property="faceImg"    column="face_img"    />
+        <result property="snapTime"    column="snap_time"    />
+        <result property="snapPlace"    column="snap_place"    />
+        <result property="temperature"    column="temperature"    />
+        <result property="healthCode"    column="health_code"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectYyFaceCaptureVo">
+        select id, face_img, snap_time, snap_place, temperature, health_code, data_type from yy_face_capture
+    </sql>
+
+    <select id="selectYyFaceCaptureList" parameterType="YyFaceCapture" resultMap="YyFaceCaptureResult">
+        <include refid="selectYyFaceCaptureVo"/>
+        <where>  
+            <if test="faceImg != null  and faceImg != ''"> and face_img = #{faceImg}</if>
+            <if test="snapTime != null "> and snap_time = #{snapTime}</if>
+            <if test="snapPlace != null  and snapPlace != ''"> and snap_place = #{snapPlace}</if>
+            <if test="temperature != null "> and temperature = #{temperature}</if>
+            <if test="healthCode != null "> and health_code = #{healthCode}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectYyFaceCaptureById" parameterType="Long" resultMap="YyFaceCaptureResult">
+        <include refid="selectYyFaceCaptureVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertYyFaceCapture" parameterType="YyFaceCapture" useGeneratedKeys="true" keyProperty="id">
+        insert into yy_face_capture
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="faceImg != null">face_img,</if>
+            <if test="snapTime != null">snap_time,</if>
+            <if test="snapPlace != null">snap_place,</if>
+            <if test="temperature != null">temperature,</if>
+            <if test="healthCode != null">health_code,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="faceImg != null">#{faceImg},</if>
+            <if test="snapTime != null">#{snapTime},</if>
+            <if test="snapPlace != null">#{snapPlace},</if>
+            <if test="temperature != null">#{temperature},</if>
+            <if test="healthCode != null">#{healthCode},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYyFaceCapture" parameterType="YyFaceCapture">
+        update yy_face_capture
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="faceImg != null">face_img = #{faceImg},</if>
+            <if test="snapTime != null">snap_time = #{snapTime},</if>
+            <if test="snapPlace != null">snap_place = #{snapPlace},</if>
+            <if test="temperature != null">temperature = #{temperature},</if>
+            <if test="healthCode != null">health_code = #{healthCode},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYyFaceCaptureById" parameterType="Long">
+        delete from yy_face_capture where id = #{id}
+    </delete>
+
+    <delete id="deleteYyFaceCaptureByIds" parameterType="String">
+        delete from yy_face_capture where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

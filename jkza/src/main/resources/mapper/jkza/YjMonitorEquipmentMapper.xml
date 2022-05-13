@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YjMonitorEquipmentMapper">
+    
+    <resultMap type="YjMonitorEquipment" id="YjMonitorEquipmentResult">
+        <result property="id"    column="id"    />
+        <result property="monitorEquipment"    column="monitor_equipment"    />
+        <result property="monitorEquipmentDuty"    column="monitor_equipment_duty"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectYjMonitorEquipmentVo">
+        select id, monitor_equipment, monitor_equipment_duty, data_type from yj_monitor_equipment
+    </sql>
+
+    <select id="selectYjMonitorEquipmentList" parameterType="YjMonitorEquipment" resultMap="YjMonitorEquipmentResult">
+        <include refid="selectYjMonitorEquipmentVo"/>
+        <where>  
+            <if test="monitorEquipment != null "> and monitor_equipment = #{monitorEquipment}</if>
+            <if test="monitorEquipmentDuty != null "> and monitor_equipment_duty = #{monitorEquipmentDuty}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectYjMonitorEquipmentById" parameterType="Long" resultMap="YjMonitorEquipmentResult">
+        <include refid="selectYjMonitorEquipmentVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertYjMonitorEquipment" parameterType="YjMonitorEquipment" useGeneratedKeys="true" keyProperty="id">
+        insert into yj_monitor_equipment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="monitorEquipment != null">monitor_equipment,</if>
+            <if test="monitorEquipmentDuty != null">monitor_equipment_duty,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="monitorEquipment != null">#{monitorEquipment},</if>
+            <if test="monitorEquipmentDuty != null">#{monitorEquipmentDuty},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYjMonitorEquipment" parameterType="YjMonitorEquipment">
+        update yj_monitor_equipment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="monitorEquipment != null">monitor_equipment = #{monitorEquipment},</if>
+            <if test="monitorEquipmentDuty != null">monitor_equipment_duty = #{monitorEquipmentDuty},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYjMonitorEquipmentById" parameterType="Long">
+        delete from yj_monitor_equipment where id = #{id}
+    </delete>
+
+    <delete id="deleteYjMonitorEquipmentByIds" parameterType="String">
+        delete from yj_monitor_equipment where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

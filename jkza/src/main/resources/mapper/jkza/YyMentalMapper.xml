@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YyMentalMapper">
+    
+    <resultMap type="YyMental" id="YyMentalResult">
+        <result property="id"    column="id"    />
+        <result property="streetId"    column="street_id"    />
+        <result property="checkTime"    column="check_time"    />
+        <result property="people"    column="people"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectYyMentalVo">
+        select id, street_id, check_time, people, data_type from yy_mental
+    </sql>
+
+    <select id="selectYyMentalList" parameterType="YyMental" resultMap="YyMentalResult">
+        <include refid="selectYyMentalVo"/>
+        <where>  
+            <if test="streetId != null "> and street_id = #{streetId}</if>
+            <if test="checkTime != null "> and check_time = #{checkTime}</if>
+            <if test="people != null "> and people = #{people}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectYyMentalById" parameterType="Long" resultMap="YyMentalResult">
+        <include refid="selectYyMentalVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertYyMental" parameterType="YyMental" useGeneratedKeys="true" keyProperty="id">
+        insert into yy_mental
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="streetId != null">street_id,</if>
+            <if test="checkTime != null">check_time,</if>
+            <if test="people != null">people,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="streetId != null">#{streetId},</if>
+            <if test="checkTime != null">#{checkTime},</if>
+            <if test="people != null">#{people},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYyMental" parameterType="YyMental">
+        update yy_mental
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="streetId != null">street_id = #{streetId},</if>
+            <if test="checkTime != null">check_time = #{checkTime},</if>
+            <if test="people != null">people = #{people},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYyMentalById" parameterType="Long">
+        delete from yy_mental where id = #{id}
+    </delete>
+
+    <delete id="deleteYyMentalByIds" parameterType="String">
+        delete from yy_mental where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

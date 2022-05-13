@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.GdDustDataMapper">
+    
+    <resultMap type="GdDustData" id="GdDustDataResult">
+        <result property="id"    column="id"    />
+        <result property="buildingId"    column="building_id"    />
+        <result property="equipmentNum"    column="equipment_num"    />
+        <result property="date"    column="date"    />
+        <result property="pm25"    column="pm25"    />
+        <result property="pm10"    column="pm10"    />
+        <result property="temperature"    column="temperature"    />
+        <result property="humidity"    column="humidity"    />
+        <result property="noise"    column="noise"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectGdDustDataVo">
+        select id, building_id, equipment_num, date, pm25, pm10, temperature, humidity, noise, data_type from gd_dust_data
+    </sql>
+
+    <select id="selectGdDustDataList" parameterType="GdDustData" resultMap="GdDustDataResult">
+        <include refid="selectGdDustDataVo"/>
+        <where>  
+            <if test="buildingId != null "> and building_id = #{buildingId}</if>
+            <if test="equipmentNum != null  and equipmentNum != ''"> and equipment_num = #{equipmentNum}</if>
+            <if test="date != null "> and date = #{date}</if>
+            <if test="pm25 != null  and pm25 != ''"> and pm25 = #{pm25}</if>
+            <if test="pm10 != null  and pm10 != ''"> and pm10 = #{pm10}</if>
+            <if test="temperature != null  and temperature != ''"> and temperature = #{temperature}</if>
+            <if test="humidity != null  and humidity != ''"> and humidity = #{humidity}</if>
+            <if test="noise != null  and noise != ''"> and noise = #{noise}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectGdDustDataById" parameterType="Long" resultMap="GdDustDataResult">
+        <include refid="selectGdDustDataVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGdDustData" parameterType="GdDustData" useGeneratedKeys="true" keyProperty="id">
+        insert into gd_dust_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="buildingId != null">building_id,</if>
+            <if test="equipmentNum != null">equipment_num,</if>
+            <if test="date != null">date,</if>
+            <if test="pm25 != null">pm25,</if>
+            <if test="pm10 != null">pm10,</if>
+            <if test="temperature != null">temperature,</if>
+            <if test="humidity != null">humidity,</if>
+            <if test="noise != null">noise,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="buildingId != null">#{buildingId},</if>
+            <if test="equipmentNum != null">#{equipmentNum},</if>
+            <if test="date != null">#{date},</if>
+            <if test="pm25 != null">#{pm25},</if>
+            <if test="pm10 != null">#{pm10},</if>
+            <if test="temperature != null">#{temperature},</if>
+            <if test="humidity != null">#{humidity},</if>
+            <if test="noise != null">#{noise},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGdDustData" parameterType="GdDustData">
+        update gd_dust_data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="buildingId != null">building_id = #{buildingId},</if>
+            <if test="equipmentNum != null">equipment_num = #{equipmentNum},</if>
+            <if test="date != null">date = #{date},</if>
+            <if test="pm25 != null">pm25 = #{pm25},</if>
+            <if test="pm10 != null">pm10 = #{pm10},</if>
+            <if test="temperature != null">temperature = #{temperature},</if>
+            <if test="humidity != null">humidity = #{humidity},</if>
+            <if test="noise != null">noise = #{noise},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGdDustDataById" parameterType="Long">
+        delete from gd_dust_data where id = #{id}
+    </delete>
+
+    <delete id="deleteGdDustDataByIds" parameterType="String">
+        delete from gd_dust_data where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

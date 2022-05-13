@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.GdSynergyMapper">
+    
+    <resultMap type="GdSynergy" id="GdSynergyResult">
+        <result property="id"    column="id"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="checkPosition"    column="check_position"    />
+        <result property="checkTime"    column="check_time"    />
+        <result property="streetId"    column="street_id"    />
+        <result property="buildingId"    column="building_id"    />
+        <result property="notificationType"    column="notification_type"    />
+        <result property="replyCheck"    column="reply_check"    />
+        <result property="replyInfo"    column="reply_info"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectGdSynergyVo">
+        select id, project_name, check_time, street_id, building_id, notification_type, reply_check, reply_info, data_type,check_position from gd_synergy
+    </sql>
+
+    <select id="selectGdSynergyList" parameterType="GdSynergy" resultMap="GdSynergyResult">
+        <include refid="selectGdSynergyVo"/>
+        <where>  
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+            <if test="checkTime != null "> and check_time = #{checkTime}</if>
+            <if test="streetId != null "> and street_id = #{streetId}</if>
+            <if test="buildingId != null "> and building_id = #{buildingId}</if>
+            <if test="notificationType != null "> and notification_type = #{notificationType}</if>
+            <if test="replyCheck != null "> and reply_check = #{replyCheck}</if>
+            <if test="checkPosition != null and checkPosition != ''"> and check_position = #{checkPosition}</if>
+            <if test="replyInfo != null  and replyInfo != ''"> and reply_info = #{replyInfo}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectGdSynergyById" parameterType="Long" resultMap="GdSynergyResult">
+        <include refid="selectGdSynergyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGdSynergy" parameterType="GdSynergy" useGeneratedKeys="true" keyProperty="id">
+        insert into gd_synergy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectName != null">project_name,</if>
+            <if test="checkTime != null">check_time,</if>
+            <if test="streetId != null">street_id,</if>
+            <if test="buildingId != null">building_id,</if>
+            <if test="notificationType != null">notification_type,</if>
+            <if test="replyCheck != null">reply_check,</if>
+            <if test="replyInfo != null">reply_info,</if>
+            <if test="checkPosition != null">check_position,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectName != null">#{projectName},</if>
+            <if test="checkTime != null">#{checkTime},</if>
+            <if test="streetId != null">#{streetId},</if>
+            <if test="buildingId != null">#{buildingId},</if>
+            <if test="notificationType != null">#{notificationType},</if>
+            <if test="replyCheck != null">#{replyCheck},</if>
+            <if test="replyInfo != null">#{replyInfo},</if>
+            <if test="checkPosition != null">#{checkPosition},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGdSynergy" parameterType="GdSynergy">
+        update gd_synergy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectName != null">project_name = #{projectName},</if>
+            <if test="checkTime != null">check_time = #{checkTime},</if>
+            <if test="streetId != null">street_id = #{streetId},</if>
+            <if test="buildingId != null">building_id = #{buildingId},</if>
+            <if test="notificationType != null">notification_type = #{notificationType},</if>
+            <if test="replyCheck != null">reply_check = #{replyCheck},</if>
+            <if test="replyInfo != null">reply_info = #{replyInfo},</if>
+            <if test="checkPosition != null">check_position = #{checkPosition},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGdSynergyById" parameterType="Long">
+        delete from gd_synergy where id = #{id}
+    </delete>
+
+    <delete id="deleteGdSynergyByIds" parameterType="String">
+        delete from gd_synergy where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

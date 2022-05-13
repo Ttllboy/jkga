@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YyVideoBaseMapper">
+    
+    <resultMap type="YyVideoBase" id="YyVideoBaseResult">
+        <result property="id"    column="id"    />
+        <result property="videoSum"    column="video_sum"    />
+        <result property="videoDuty"    column="video_duty"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectYyVideoBaseVo">
+        select id, video_sum, video_duty, data_type from yy_video_base
+    </sql>
+
+    <select id="selectYyVideoBaseList" parameterType="YyVideoBase" resultMap="YyVideoBaseResult">
+        <include refid="selectYyVideoBaseVo"/>
+        <where>  
+            <if test="videoSum != null "> and video_sum = #{videoSum}</if>
+            <if test="videoDuty != null "> and video_duty = #{videoDuty}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectYyVideoBaseById" parameterType="Long" resultMap="YyVideoBaseResult">
+        <include refid="selectYyVideoBaseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertYyVideoBase" parameterType="YyVideoBase" useGeneratedKeys="true" keyProperty="id">
+        insert into yy_video_base
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="videoSum != null">video_sum,</if>
+            <if test="videoDuty != null">video_duty,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="videoSum != null">#{videoSum},</if>
+            <if test="videoDuty != null">#{videoDuty},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYyVideoBase" parameterType="YyVideoBase">
+        update yy_video_base
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="videoSum != null">video_sum = #{videoSum},</if>
+            <if test="videoDuty != null">video_duty = #{videoDuty},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYyVideoBaseById" parameterType="Long">
+        delete from yy_video_base where id = #{id}
+    </delete>
+
+    <delete id="deleteYyVideoBaseByIds" parameterType="String">
+        delete from yy_video_base where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

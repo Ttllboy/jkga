@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.GdDustEquipmentMapper">
+    
+    <resultMap type="GdDustEquipment" id="GdDustEquipmentResult">
+        <result property="id"    column="id"    />
+        <result property="equipmentName"    column="equipment_name"    />
+        <result property="buildingId"    column="building_id"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectGdDustEquipmentVo">
+        select id, equipment_name, building_id, data_type from gd_dust_equipment
+    </sql>
+
+    <select id="selectGdDustEquipmentList" parameterType="GdDustEquipment" resultMap="GdDustEquipmentResult">
+        <include refid="selectGdDustEquipmentVo"/>
+        <where>  
+            <if test="equipmentName != null  and equipmentName != ''"> and equipment_name like concat('%', #{equipmentName}, '%')</if>
+            <if test="buildingId != null "> and building_id = #{buildingId}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectGdDustEquipmentById" parameterType="Long" resultMap="GdDustEquipmentResult">
+        <include refid="selectGdDustEquipmentVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGdDustEquipment" parameterType="GdDustEquipment" useGeneratedKeys="true" keyProperty="id">
+        insert into gd_dust_equipment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="equipmentName != null">equipment_name,</if>
+            <if test="buildingId != null">building_id,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="equipmentName != null">#{equipmentName},</if>
+            <if test="buildingId != null">#{buildingId},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGdDustEquipment" parameterType="GdDustEquipment">
+        update gd_dust_equipment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="equipmentName != null">equipment_name = #{equipmentName},</if>
+            <if test="buildingId != null">building_id = #{buildingId},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGdDustEquipmentById" parameterType="Long">
+        delete from gd_dust_equipment where id = #{id}
+    </delete>
+
+    <delete id="deleteGdDustEquipmentByIds" parameterType="String">
+        delete from gd_dust_equipment where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

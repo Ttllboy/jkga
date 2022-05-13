@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.StSolidWasteMapper">
+
+    <resultMap type="StSolidWaste" id="StSolidWasteResult">
+        <result property="id"    column="id"    />
+        <result property="solidName"    column="solid_name"    />
+        <result property="capacity"    column="capacity"    />
+        <result property="currentSoildWaste"    column="current_soild_waste"    />
+        <result property="processSoildWaste"    column="process_soild_waste"    />
+        <result property="coordinate"    column="coordinate"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectStSolidWasteVo">
+        select id, solid_name, capacity, current_soild_waste, process_soild_waste, coordinate, data_type from st_solid_waste
+    </sql>
+
+    <select id="selectStSolidWasteList" parameterType="StSolidWaste" resultMap="StSolidWasteResult">
+        <include refid="selectStSolidWasteVo"/>
+        <where>
+            <if test="solidName != null  and solidName != ''"> and solid_name like concat('%', #{solidName}, '%')</if>
+            <if test="capacity != null "> and capacity = #{capacity}</if>
+            <if test="currentSoildWaste != null "> and current_soild_waste = #{currentSoildWaste}</if>
+            <if test="processSoildWaste != null "> and process_soild_waste = #{processSoildWaste}</if>
+            <if test="coordinate != null  and coordinate != ''"> and coordinate = #{coordinate}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+
+    <select id="selectStSolidWasteById" parameterType="Long" resultMap="StSolidWasteResult">
+        <include refid="selectStSolidWasteVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertStSolidWaste" parameterType="StSolidWaste" useGeneratedKeys="true" keyProperty="id">
+        insert into st_solid_waste
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="solidName != null">solid_name,</if>
+            <if test="capacity != null">capacity,</if>
+            <if test="currentSoildWaste != null">current_soild_waste,</if>
+            <if test="processSoildWaste != null">process_soild_waste,</if>
+            <if test="coordinate != null">coordinate,</if>
+            <if test="dataType != null">data_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="solidName != null">#{solidName},</if>
+            <if test="capacity != null">#{capacity},</if>
+            <if test="currentSoildWaste != null">#{currentSoildWaste},</if>
+            <if test="processSoildWaste != null">#{processSoildWaste},</if>
+            <if test="coordinate != null">#{coordinate},</if>
+            <if test="dataType != null">#{dataType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateStSolidWaste" parameterType="StSolidWaste">
+        update st_solid_waste
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="solidName != null">solid_name = #{solidName},</if>
+            <if test="capacity != null">capacity = #{capacity},</if>
+            <if test="currentSoildWaste != null">current_soild_waste = #{currentSoildWaste},</if>
+            <if test="processSoildWaste != null">process_soild_waste = #{processSoildWaste},</if>
+            <if test="coordinate != null">coordinate = #{coordinate},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStSolidWasteById" parameterType="Long">
+        delete from st_solid_waste where id = #{id}
+    </delete>
+
+    <delete id="deleteStSolidWasteByIds" parameterType="String">
+        delete from st_solid_waste where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

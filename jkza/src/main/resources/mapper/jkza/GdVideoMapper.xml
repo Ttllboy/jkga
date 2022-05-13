@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.GdVideoMapper">
+
+    <resultMap type="GdVideo" id="GdVideoResult">
+        <result property="id" column="id"/>
+        <result property="buildingSiteId" column="building_site_id"/>
+        <result property="videoName" column="video_name"/>
+        <result property="equipmentType" column="equipment_type"/>
+        <result property="onlineType" column="online_type"/>
+        <result property="channelCode"    column="channel_code"    />
+        <result property="gpsx"    column="gpsX"    />
+        <result property="gpsy"    column="gpsY"    />
+        <result property="dataType" column="data_type"/>
+        <result property="buildingSiteName" column="building_site_name"/>
+    </resultMap>
+
+    <sql id="selectGdVideoVo">
+        select id, building_site_id, video_name, equipment_type, online_type, channel_code, gpsX, gpsY, data_type
+        from gd_video
+    </sql>
+    <sql id="selectGdVideoAndBuilding">
+        select t1.id, t1.building_site_id, t1.video_name,t1.equipment_type,t1.online_type,t1.channel_code,t1.gpsX,t1.gpsY, t1.data_type, t2.building_site_name, t2.id
+        from gd_video t1
+                 left join gd_building t2 on t1.building_site_id = t2.id
+    </sql>
+
+    <select id="selectGdVideoList" parameterType="GdVideo" resultMap="GdVideoResult">
+        <include refid="selectGdVideoVo"/>
+        <where>
+            <if test="buildingSiteId != null ">and building_site_id = #{buildingSiteId}</if>
+            <if test="videoName != null  and videoName != ''">and video_name like concat('%', #{videoName}, '%')</if>
+            <if test="equipmentType != null ">and equipment_type = #{equipmentType}</if>
+            <if test="onlineType != null ">and online_type = #{onlineType}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="gpsx != null  and gpsx != ''"> and gpsX = #{gpsx}</if>
+            <if test="gpsy != null  and gpsy != ''"> and gpsY = #{gpsy}</if>
+            <if test="dataType != null ">and data_type = #{dataType}</if>
+        </where>
+    </select>
+
+    <select id="selectGdVideoListAndBuilding" parameterType="GdVideo" resultMap="GdVideoResult">
+        <include refid="selectGdVideoAndBuilding"/>
+        <where>
+            <if test="buildingSiteId != null ">and t1.building_site_id = #{buildingSiteId}</if>
+            <if test="videoName != null  and videoName != ''">and t1.video_name like concat('%', #{videoName}, '%')</if>
+            <if test="coordinate != null  and coordinate != ''">and t1.coordinate like concat('%', #{coordinate}, '%')</if>
+            <if test="dataType != null ">and t1.data_type = #{dataType}</if>
+            <if test="equipmentType != null ">and t1.equipment_type = #{equipmentType}</if>
+            <if test="gpsX != null ">and t1.gpsx = #{gpsX}</if>
+            <if test="gpsY != null ">and t1.gpsy = #{gpsY}</if>
+            <if test="channelCode != null ">and t1.channel_code = #{channelCode}</if>
+            <if test="onlineType != null ">and t1.online_type = #{onlineType}</if>
+            <if test="buildingSiteName != null and buildingSiteName != '' ">and t2.building_site_name =
+                #{buildingSiteName}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectGdVideoById" parameterType="Long" resultMap="GdVideoResult">
+        <include refid="selectGdVideoVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertGdVideo" parameterType="GdVideo" useGeneratedKeys="true" keyProperty="id">
+        insert into gd_video
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="buildingSiteId != null">building_site_id,</if>
+            <if test="videoName != null">video_name,</if>
+            <if test="equipmentType != null">equipment_type,</if>
+            <if test="onlineType != null">online_type,</if>
+            <if test="channelCode != null">channel_code,</if>
+            <if test="gpsx != null">gpsX,</if>
+            <if test="gpsy != null">gpsY,</if>
+            <if test="dataType != null">data_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="buildingSiteId != null">#{buildingSiteId},</if>
+            <if test="videoName != null">#{videoName},</if>
+            <if test="equipmentType != null">#{equipmentType},</if>
+            <if test="onlineType != null">#{onlineType},</if>
+            <if test="channelCode != null">#{channelCode},</if>
+            <if test="gpsx != null">#{gpsx},</if>
+            <if test="gpsy != null">#{gpsy},</if>
+            <if test="dataType != null">#{dataType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateGdVideo" parameterType="GdVideo">
+        update gd_video
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="buildingSiteId != null">building_site_id = #{buildingSiteId},</if>
+            <if test="videoName != null">video_name = #{videoName},</if>
+            <if test="equipmentType != null">equipment_type = #{equipmentType},</if>
+            <if test="onlineType != null">online_type = #{onlineType},</if>
+            <if test="channelCode != null">channel_code = #{channelCode},</if>
+            <if test="gpsx != null">gpsX = #{gpsx},</if>
+            <if test="gpsy != null">gpsY = #{gpsy},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGdVideoById" parameterType="Long">
+        delete
+        from gd_video
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteGdVideoByIds" parameterType="String">
+        delete from gd_video where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

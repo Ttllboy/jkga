@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YjMaterialMapper">
+    
+    <resultMap type="YjMaterial" id="YjMaterialResult">
+        <result property="id"    column="id"    />
+        <result property="emergencyMaterialName"    column="emergency_material_name"    />
+        <result property="emergencyMaterialNum"    column="emergency_material_num"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectYjMaterialVo">
+        select id, emergency_material_name, emergency_material_num, data_type from yj_material
+    </sql>
+
+    <select id="selectYjMaterialList" parameterType="YjMaterial" resultMap="YjMaterialResult">
+        <include refid="selectYjMaterialVo"/>
+        <where>  
+            <if test="emergencyMaterialName != null  and emergencyMaterialName != ''"> and emergency_material_name like concat('%', #{emergencyMaterialName}, '%')</if>
+            <if test="emergencyMaterialNum != null "> and emergency_material_num = #{emergencyMaterialNum}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectYjMaterialById" parameterType="Long" resultMap="YjMaterialResult">
+        <include refid="selectYjMaterialVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertYjMaterial" parameterType="YjMaterial" useGeneratedKeys="true" keyProperty="id">
+        insert into yj_material
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="emergencyMaterialName != null">emergency_material_name,</if>
+            <if test="emergencyMaterialNum != null">emergency_material_num,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="emergencyMaterialName != null">#{emergencyMaterialName},</if>
+            <if test="emergencyMaterialNum != null">#{emergencyMaterialNum},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYjMaterial" parameterType="YjMaterial">
+        update yj_material
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="emergencyMaterialName != null">emergency_material_name = #{emergencyMaterialName},</if>
+            <if test="emergencyMaterialNum != null">emergency_material_num = #{emergencyMaterialNum},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYjMaterialById" parameterType="Long">
+        delete from yj_material where id = #{id}
+    </delete>
+
+    <delete id="deleteYjMaterialByIds" parameterType="String">
+        delete from yj_material where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

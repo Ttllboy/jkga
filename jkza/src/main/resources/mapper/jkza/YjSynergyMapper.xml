@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YjSynergyMapper">
+    
+    <resultMap type="YjSynergy" id="YjSynergyResult">
+        <result property="id"    column="id"    />
+        <result property="belongStreet"    column="belong_street"    />
+        <result property="checkTime"    column="check_time"    />
+        <result property="incidentDescribe"    column="incident_describe"    />
+        <result property="incidentType"    column="incident_type"    />
+        <result property="checkInfo"    column="check_info"    />
+        <result property="replyCheck"    column="reply_check"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectYjSynergyVo">
+        select id, belong_street, check_time, incident_describe, incident_type, check_info, reply_check, data_type from yj_synergy
+    </sql>
+
+    <select id="selectYjSynergyList" parameterType="YjSynergy" resultMap="YjSynergyResult">
+        <include refid="selectYjSynergyVo"/>
+        <where>  
+            <if test="belongStreet != null "> and belong_street = #{belongStreet}</if>
+            <if test="checkTime != null "> and check_time = #{checkTime}</if>
+            <if test="incidentDescribe != null  and incidentDescribe != ''"> and incident_describe = #{incidentDescribe}</if>
+            <if test="incidentType != null "> and incident_type = #{incidentType}</if>
+            <if test="checkInfo != null  and checkInfo != ''"> and check_info = #{checkInfo}</if>
+            <if test="replyCheck != null "> and reply_check = #{replyCheck}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectYjSynergyById" parameterType="Long" resultMap="YjSynergyResult">
+        <include refid="selectYjSynergyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertYjSynergy" parameterType="YjSynergy" useGeneratedKeys="true" keyProperty="id">
+        insert into yj_synergy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="belongStreet != null">belong_street,</if>
+            <if test="checkTime != null">check_time,</if>
+            <if test="incidentDescribe != null">incident_describe,</if>
+            <if test="incidentType != null">incident_type,</if>
+            <if test="checkInfo != null">check_info,</if>
+            <if test="replyCheck != null">reply_check,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="belongStreet != null">#{belongStreet},</if>
+            <if test="checkTime != null">#{checkTime},</if>
+            <if test="incidentDescribe != null">#{incidentDescribe},</if>
+            <if test="incidentType != null">#{incidentType},</if>
+            <if test="checkInfo != null">#{checkInfo},</if>
+            <if test="replyCheck != null">#{replyCheck},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYjSynergy" parameterType="YjSynergy">
+        update yj_synergy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="belongStreet != null">belong_street = #{belongStreet},</if>
+            <if test="checkTime != null">check_time = #{checkTime},</if>
+            <if test="incidentDescribe != null">incident_describe = #{incidentDescribe},</if>
+            <if test="incidentType != null">incident_type = #{incidentType},</if>
+            <if test="checkInfo != null">check_info = #{checkInfo},</if>
+            <if test="replyCheck != null">reply_check = #{replyCheck},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYjSynergyById" parameterType="Long">
+        delete from yj_synergy where id = #{id}
+    </delete>
+
+    <delete id="deleteYjSynergyByIds" parameterType="String">
+        delete from yj_synergy where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

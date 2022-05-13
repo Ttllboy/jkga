@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.StProjectMapper">
+    
+    <resultMap type="StProject" id="StProjectResult">
+        <result property="guid"    column="GUID"    />
+        <result property="projectname"    column="ProjectName"    />
+        <result property="segmentid"    column="SegmentID"    />
+        <result property="projectaddress"    column="ProjectAddress"    />
+        <result property="projectarea"    column="ProjectArea"    />
+        <result property="buildarea"    column="BuildArea"    />
+        <result property="projectprice"    column="ProjectPrice"    />
+        <result property="coordinate"    column="Coordinate"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectStProjectVo">
+        select GUID, ProjectName, SegmentID, ProjectAddress, ProjectArea, BuildArea, ProjectPrice, Coordinate, create_time from st_project
+    </sql>
+
+    <select id="selectStProjectList" parameterType="StProject" resultMap="StProjectResult">
+        <include refid="selectStProjectVo"/>
+        <where>  
+            <if test="guid != null  and guid != ''"> and GUID = #{guid}</if>
+            <if test="projectname != null  and projectname != ''"> and ProjectName like concat('%', #{projectname}, '%')</if>
+            <if test="segmentid != null  and segmentid != ''"> and SegmentID = #{segmentid}</if>
+            <if test="projectaddress != null  and projectaddress != ''"> and ProjectAddress = #{projectaddress}</if>
+            <if test="projectarea != null  and projectarea != ''"> and ProjectArea = #{projectarea}</if>
+            <if test="buildarea != null "> and BuildArea = #{buildarea}</if>
+            <if test="projectprice != null "> and ProjectPrice = #{projectprice}</if>
+            <if test="coordinate != null  and coordinate != ''"> and Coordinate = #{coordinate}</if>
+        </where>
+    </select>
+    
+    <select id="selectStProjectByGuid" parameterType="String" resultMap="StProjectResult">
+        <include refid="selectStProjectVo"/>
+        where GUID = #{guid}
+    </select>
+        
+    <insert id="insertStProject" parameterType="StProject">
+        insert into st_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">GUID,</if>
+            <if test="projectname != null">ProjectName,</if>
+            <if test="segmentid != null">SegmentID,</if>
+            <if test="projectaddress != null">ProjectAddress,</if>
+            <if test="projectarea != null">ProjectArea,</if>
+            <if test="buildarea != null">BuildArea,</if>
+            <if test="projectprice != null">ProjectPrice,</if>
+            <if test="coordinate != null">Coordinate,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guid != null">#{guid},</if>
+            <if test="projectname != null">#{projectname},</if>
+            <if test="segmentid != null">#{segmentid},</if>
+            <if test="projectaddress != null">#{projectaddress},</if>
+            <if test="projectarea != null">#{projectarea},</if>
+            <if test="buildarea != null">#{buildarea},</if>
+            <if test="projectprice != null">#{projectprice},</if>
+            <if test="coordinate != null">#{coordinate},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStProject" parameterType="StProject">
+        update st_project
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectname != null">ProjectName = #{projectname},</if>
+            <if test="segmentid != null">SegmentID = #{segmentid},</if>
+            <if test="projectaddress != null">ProjectAddress = #{projectaddress},</if>
+            <if test="projectarea != null">ProjectArea = #{projectarea},</if>
+            <if test="buildarea != null">BuildArea = #{buildarea},</if>
+            <if test="projectprice != null">ProjectPrice = #{projectprice},</if>
+            <if test="coordinate != null">Coordinate = #{coordinate},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where GUID = #{guid}
+    </update>
+
+    <delete id="deleteStProjectByGuid" parameterType="String">
+        delete from st_project where GUID = #{guid}
+    </delete>
+
+    <delete id="deleteStProjectByGuids" parameterType="String">
+        delete from st_project where GUID in 
+        <foreach item="guid" collection="array" open="(" separator="," close=")">
+            #{guid}
+        </foreach>
+    </delete>
+</mapper>

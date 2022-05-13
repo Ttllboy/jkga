@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.TAttAttendancepersonMapper">
+    
+    <resultMap type="TAttAttendanceperson" id="TAttAttendancepersonResult">
+        <result property="projectguid"    column="ProjectGUID"    />
+        <result property="personguid"    column="PersonGUID"    />
+        <result property="personname"    column="PersonName"    />
+        <result property="idcard"    column="IDCard"    />
+        <result property="postname"    column="PostName"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectTAttAttendancepersonVo">
+        select ProjectGUID, PersonGUID, PersonName, IDCard, PostName, create_time from t_att_attendanceperson
+    </sql>
+
+    <select id="selectTAttAttendancepersonList" parameterType="TAttAttendanceperson" resultMap="TAttAttendancepersonResult">
+        <include refid="selectTAttAttendancepersonVo"/>
+        <where>  
+            <if test="projectguid != null  and projectguid != ''"> and ProjectGUID = #{projectguid}</if>
+            <if test="personguid != null  and personguid != ''"> and PersonGUID = #{personguid}</if>
+            <if test="personname != null  and personname != ''"> and PersonName like concat('%', #{personname}, '%')</if>
+            <if test="idcard != null  and idcard != ''"> and IDCard = #{idcard}</if>
+            <if test="postname != null  and postname != ''"> and PostName like concat('%', #{postname}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectTAttAttendancepersonByProjectguid" parameterType="String" resultMap="TAttAttendancepersonResult">
+        <include refid="selectTAttAttendancepersonVo"/>
+        where ProjectGUID = #{projectguid}
+    </select>
+        
+    <insert id="insertTAttAttendanceperson" parameterType="TAttAttendanceperson">
+        insert into t_att_attendanceperson
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectguid != null">ProjectGUID,</if>
+            <if test="personguid != null">PersonGUID,</if>
+            <if test="personname != null">PersonName,</if>
+            <if test="idcard != null">IDCard,</if>
+            <if test="postname != null">PostName,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectguid != null">#{projectguid},</if>
+            <if test="personguid != null">#{personguid},</if>
+            <if test="personname != null">#{personname},</if>
+            <if test="idcard != null">#{idcard},</if>
+            <if test="postname != null">#{postname},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTAttAttendanceperson" parameterType="TAttAttendanceperson">
+        update t_att_attendanceperson
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="personguid != null">PersonGUID = #{personguid},</if>
+            <if test="personname != null">PersonName = #{personname},</if>
+            <if test="idcard != null">IDCard = #{idcard},</if>
+            <if test="postname != null">PostName = #{postname},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where ProjectGUID = #{projectguid}
+    </update>
+
+    <delete id="deleteTAttAttendancepersonByProjectguid" parameterType="String">
+        delete from t_att_attendanceperson where ProjectGUID = #{projectguid}
+    </delete>
+
+    <delete id="deleteTAttAttendancepersonByProjectguids" parameterType="String">
+        delete from t_att_attendanceperson where ProjectGUID in 
+        <foreach item="projectguid" collection="array" open="(" separator="," close=")">
+            #{projectguid}
+        </foreach>
+    </delete>
+</mapper>

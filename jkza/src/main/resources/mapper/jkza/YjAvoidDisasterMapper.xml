@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YjAvoidDisasterMapper">
+
+    <resultMap type="YjAvoidDisaster" id="YjAvoidDisasterResult">
+        <result property="id"    column="id"    />
+        <result property="placeName"    column="place_name"    />
+        <result property="placeType"    column="place_type"    />
+        <result property="intoNum"    column="into_num"    />
+        <result property="outNum"    column="out_num"    />
+        <result property="innerNum"    column="inner_num"    />
+        <result property="remainNum"    column="remain_num"    />
+        <result property="coordinate"    column="coordinate"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectYjAvoidDisasterVo">
+        select id, place_name, place_type, into_num, out_num, inner_num, remain_num, coordinate, data_type from yj_avoid_disaster
+    </sql>
+
+    <select id="selectYjAvoidDisasterList" parameterType="YjAvoidDisaster" resultMap="YjAvoidDisasterResult">
+        <include refid="selectYjAvoidDisasterVo"/>
+        <where>
+            <if test="placeName != null  and placeName != ''"> and place_name like concat('%', #{placeName}, '%')</if>
+            <if test="placeType != null "> and place_type = #{placeType}</if>
+            <if test="intoNum != null "> and into_num = #{intoNum}</if>
+            <if test="outNum != null "> and out_num = #{outNum}</if>
+            <if test="innerNum != null "> and inner_num = #{innerNum}</if>
+            <if test="remainNum != null "> and remain_num = #{remainNum}</if>
+            <if test="coordinate != null  and coordinate != ''"> and coordinate = #{coordinate}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+
+    <select id="selectYjAvoidDisasterById" parameterType="Long" resultMap="YjAvoidDisasterResult">
+        <include refid="selectYjAvoidDisasterVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertYjAvoidDisaster" parameterType="YjAvoidDisaster" useGeneratedKeys="true" keyProperty="id">
+        insert into yj_avoid_disaster
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="placeName != null">place_name,</if>
+            <if test="placeType != null">place_type,</if>
+            <if test="intoNum != null">into_num,</if>
+            <if test="outNum != null">out_num,</if>
+            <if test="innerNum != null">inner_num,</if>
+            <if test="remainNum != null">remain_num,</if>
+            <if test="coordinate != null">coordinate,</if>
+            <if test="dataType != null">data_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="placeName != null">#{placeName},</if>
+            <if test="placeType != null">#{placeType},</if>
+            <if test="intoNum != null">#{intoNum},</if>
+            <if test="outNum != null">#{outNum},</if>
+            <if test="innerNum != null">#{innerNum},</if>
+            <if test="remainNum != null">#{remainNum},</if>
+            <if test="coordinate != null">#{coordinate},</if>
+            <if test="dataType != null">#{dataType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateYjAvoidDisaster" parameterType="YjAvoidDisaster">
+        update yj_avoid_disaster
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="placeName != null">place_name = #{placeName},</if>
+            <if test="placeType != null">place_type = #{placeType},</if>
+            <if test="intoNum != null">into_num = #{intoNum},</if>
+            <if test="outNum != null">out_num = #{outNum},</if>
+            <if test="innerNum != null">inner_num = #{innerNum},</if>
+            <if test="remainNum != null">remain_num = #{remainNum},</if>
+            <if test="coordinate != null">coordinate = #{coordinate},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYjAvoidDisasterById" parameterType="Long">
+        delete from yj_avoid_disaster where id = #{id}
+    </delete>
+
+    <delete id="deleteYjAvoidDisasterByIds" parameterType="String">
+        delete from yj_avoid_disaster where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

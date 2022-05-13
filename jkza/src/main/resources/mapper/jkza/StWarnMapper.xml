@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.StWarnMapper">
+    
+    <resultMap type="StWarn" id="StWarnResult">
+        <result property="id"    column="id"    />
+        <result property="warnName"    column="warn_name"    />
+        <result property="warnTime"    column="warn_time"    />
+        <result property="warnPlace"    column="warn_place"    />
+        <result property="warnType"    column="warn_type"    />
+        <result property="replyCheck"    column="reply_check"    />
+        <result property="replyInfo"    column="reply_info"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectStWarnVo">
+        select id, warn_name, warn_time, warn_place, warn_type, reply_check, reply_info, data_type from st_warn
+    </sql>
+
+    <select id="selectStWarnList" parameterType="StWarn" resultMap="StWarnResult">
+        <include refid="selectStWarnVo"/>
+        <where>  
+            <if test="warnName != null  and warnName != ''"> and warn_name like concat('%', #{warnName}, '%')</if>
+            <if test="warnTime != null "> and warn_time = #{warnTime}</if>
+            <if test="warnPlace != null  and warnPlace != ''"> and warn_place = #{warnPlace}</if>
+            <if test="warnType != null "> and warn_type = #{warnType}</if>
+            <if test="replyCheck != null "> and reply_check = #{replyCheck}</if>
+            <if test="replyInfo != null  and replyInfo != ''"> and reply_info = #{replyInfo}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectStWarnById" parameterType="Long" resultMap="StWarnResult">
+        <include refid="selectStWarnVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStWarn" parameterType="StWarn" useGeneratedKeys="true" keyProperty="id">
+        insert into st_warn
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warnName != null">warn_name,</if>
+            <if test="warnTime != null">warn_time,</if>
+            <if test="warnPlace != null">warn_place,</if>
+            <if test="warnType != null">warn_type,</if>
+            <if test="replyCheck != null">reply_check,</if>
+            <if test="replyInfo != null">reply_info,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warnName != null">#{warnName},</if>
+            <if test="warnTime != null">#{warnTime},</if>
+            <if test="warnPlace != null">#{warnPlace},</if>
+            <if test="warnType != null">#{warnType},</if>
+            <if test="replyCheck != null">#{replyCheck},</if>
+            <if test="replyInfo != null">#{replyInfo},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStWarn" parameterType="StWarn">
+        update st_warn
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warnName != null">warn_name = #{warnName},</if>
+            <if test="warnTime != null">warn_time = #{warnTime},</if>
+            <if test="warnPlace != null">warn_place = #{warnPlace},</if>
+            <if test="warnType != null">warn_type = #{warnType},</if>
+            <if test="replyCheck != null">reply_check = #{replyCheck},</if>
+            <if test="replyInfo != null">reply_info = #{replyInfo},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStWarnById" parameterType="Long">
+        delete from st_warn where id = #{id}
+    </delete>
+
+    <delete id="deleteStWarnByIds" parameterType="String">
+        delete from st_warn where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

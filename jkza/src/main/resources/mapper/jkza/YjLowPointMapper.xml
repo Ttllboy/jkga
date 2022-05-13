@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YjLowPointMapper">
+
+    <resultMap type="YjLowPoint" id="YjLowPointResult">
+        <result property="id"    column="id"    />
+        <result property="lowPointName"    column="low_point_name"    />
+        <result property="nowWaterLevel"    column="now_water_level"    />
+        <result property="waterLevelWarn"    column="water_level_warn"    />
+        <result property="coordinate"    column="coordinate"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectYjLowPointVo">
+        select id, low_point_name, now_water_level, water_level_warn, coordinate, data_type from yj_low_point
+    </sql>
+
+    <select id="selectYjLowPointList" parameterType="YjLowPoint" resultMap="YjLowPointResult">
+        <include refid="selectYjLowPointVo"/>
+        <where>
+            <if test="lowPointName != null  and lowPointName != ''"> and low_point_name like concat('%', #{lowPointName}, '%')</if>
+            <if test="nowWaterLevel != null "> and now_water_level = #{nowWaterLevel}</if>
+            <if test="waterLevelWarn != null "> and water_level_warn = #{waterLevelWarn}</if>
+            <if test="coordinate != null  and coordinate != ''"> and coordinate = #{coordinate}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+
+    <select id="selectYjLowPointById" parameterType="Long" resultMap="YjLowPointResult">
+        <include refid="selectYjLowPointVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertYjLowPoint" parameterType="YjLowPoint" useGeneratedKeys="true" keyProperty="id">
+        insert into yj_low_point
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="lowPointName != null">low_point_name,</if>
+            <if test="nowWaterLevel != null">now_water_level,</if>
+            <if test="waterLevelWarn != null">water_level_warn,</if>
+            <if test="coordinate != null">coordinate,</if>
+            <if test="dataType != null">data_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="lowPointName != null">#{lowPointName},</if>
+            <if test="nowWaterLevel != null">#{nowWaterLevel},</if>
+            <if test="waterLevelWarn != null">#{waterLevelWarn},</if>
+            <if test="coordinate != null">#{coordinate},</if>
+            <if test="dataType != null">#{dataType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateYjLowPoint" parameterType="YjLowPoint">
+        update yj_low_point
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="lowPointName != null">low_point_name = #{lowPointName},</if>
+            <if test="nowWaterLevel != null">now_water_level = #{nowWaterLevel},</if>
+            <if test="waterLevelWarn != null">water_level_warn = #{waterLevelWarn},</if>
+            <if test="coordinate != null">coordinate = #{coordinate},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYjLowPointById" parameterType="Long">
+        delete from yj_low_point where id = #{id}
+    </delete>
+
+    <delete id="deleteYjLowPointByIds" parameterType="String">
+        delete from yj_low_point where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.GdStreetMapper">
+    
+    <resultMap type="GdStreet" id="GdStreetResult">
+        <result property="id"    column="id"    />
+        <result property="streetName"    column="street_name"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectGdStreetVo">
+        select id, street_name, data_type from gd_street
+    </sql>
+
+    <select id="selectGdStreetList" parameterType="GdStreet" resultMap="GdStreetResult">
+        <include refid="selectGdStreetVo"/>
+        <where>  
+            <if test="streetName != null  and streetName != ''"> and street_name like concat('%', #{streetName}, '%')</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectGdStreetById" parameterType="Long" resultMap="GdStreetResult">
+        <include refid="selectGdStreetVo"/>
+        where id = #{id}
+    </select>
+
+        
+    <insert id="insertGdStreet" parameterType="GdStreet" useGeneratedKeys="true" keyProperty="id">
+        insert into gd_street
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="streetName != null">street_name,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="streetName != null">#{streetName},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGdStreet" parameterType="GdStreet">
+        update gd_street
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="streetName != null">street_name = #{streetName},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGdStreetById" parameterType="Long">
+        delete from gd_street where id = #{id}
+    </delete>
+
+    <delete id="deleteGdStreetByIds" parameterType="String">
+        delete from gd_street where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

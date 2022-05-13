@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YyVideoMapper">
+
+    <resultMap type="YyVideo" id="YyVideoResult">
+        <result property="id"    column="id"    />
+        <result property="hosId"    column="hos_id"    />
+        <result property="videoName"    column="video_name"    />
+        <result property="hosName"    column="hos_name"    />
+        <result property="coordinate"    column="coordinate"    />
+        <result property="equipmentType"    column="equipment_type"    />
+        <result property="onlineType"    column="online_type"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectYyVideoVo">
+        select id, hos_id, video_name, coordinate, equipment_type, online_type,data_type from yy_video
+    </sql>
+    <sql id="selectYyVideoListAndName">
+        select t1.id, t1.hos_id, t1.video_name,t1.coordinate, t1.equipment_type,t1.online_type,t1.data_type ,t2.id, t2.hos_name
+        from yy_video t1
+                 left join yy_yy t2
+                           on t1.hos_id = t2.id
+    </sql>
+
+    <select id="selectYyVideoList" parameterType="YyVideo" resultMap="YyVideoResult">
+        <include refid="selectYyVideoVo"/>
+        <where>
+            <if test="hosId != null "> and hos_id = #{hosId}</if>
+            <if test="videoName != null  and videoName != ''"> and video_name like concat('%', #{videoName}, '%')</if>
+            <if test="coordinate != null  and coordinate != ''"> and coordinate = #{coordinate}</if>
+            <if test="equipmentType != null "> and equipment_type = #{equipmentType}</if>
+            <if test="onlineType != null "> and online_type = #{onlineType}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    <select id="selectYyVideoListAndName" parameterType="YyVideo" resultMap="YyVideoResult">
+        <include refid="selectYyVideoListAndName"/>
+        <where>
+            <if test="hosId != null "> and t1.hos_id = #{hosId}</if>
+            <if test="videoName != null  and videoName != ''"> and t1.video_name like concat('%', #{videoName}, '%')</if>
+            <if test="coordinate != null  and coordinate != ''"> and t1.coordinate = #{coordinate}</if>
+            <if test="equipmentType != null "> and t1.equipment_type = #{equipmentType}</if>
+            <if test="onlineType != null "> and t1.online_type = #{onlineType}</if>
+            <if test="hosName != null  and hosName != ''"> and t2.hos_name like concat('%', #{hosName}, '%')</if>
+            <if test="dataType != null "> and t1.data_type = #{dataType}</if>
+        </where>
+    </select>
+
+    <select id="selectYyVideoById" parameterType="Long" resultMap="YyVideoResult">
+        <include refid="selectYyVideoVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertYyVideo" parameterType="YyVideo" useGeneratedKeys="true" keyProperty="id">
+        insert into yy_video
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="hosId != null">hos_id,</if>
+            <if test="videoName != null">video_name,</if>
+            <if test="coordinate != null">coordinate,</if>
+            <if test="equipmentType != null">equipment_type,</if>
+            <if test="onlineType != null">online_type,</if>
+            <if test="dataType != null">data_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="hosId != null">#{hosId},</if>
+            <if test="videoName != null">#{videoName},</if>
+            <if test="coordinate != null">#{coordinate},</if>
+            <if test="equipmentType != null">#{equipmentType},</if>
+            <if test="onlineType != null">#{onlineType},</if>
+            <if test="dataType != null">#{dataType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateYyVideo" parameterType="YyVideo">
+        update yy_video
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="hosId != null">hos_id = #{hosId},</if>
+            <if test="videoName != null">video_name = #{videoName},</if>
+            <if test="coordinate != null">coordinate = #{coordinate},</if>
+            <if test="equipmentType != null">equipment_type = #{equipmentType},</if>
+            <if test="onlineType != null">online_type = #{onlineType},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYyVideoById" parameterType="Long">
+        delete from yy_video where id = #{id}
+    </delete>
+
+    <delete id="deleteYyVideoByIds" parameterType="String">
+        delete from yy_video where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

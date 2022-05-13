@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.GdWorkerMapper">
+    
+    <resultMap type="GdWorker" id="GdWorkerResult">
+        <result property="id"    column="id"    />
+        <result property="workerName"    column="worker_name"    />
+        <result property="peopleType"    column="people_type"    />
+        <result property="workerLicense"    column="worker_license"    />
+        <result property="buildingId"    column="building_id"    />
+        <result property="phone"    column="phone"    />
+        <result property="type"    column="type"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectGdWorkerVo">
+        select id, people_type,worker_name, worker_license,phone, building_id, type, data_type from gd_worker
+    </sql>
+
+    <select id="selectGdWorkerList" parameterType="GdWorker" resultMap="GdWorkerResult">
+        <include refid="selectGdWorkerVo"/>
+        <where>
+            <if test="peopleType != null "> and people_type = #{peopleType}</if>
+            <if test="workerName != null  and workerName != ''"> and worker_name like concat('%', #{workerName}, '%')</if>
+            <if test="workerLicense != null  and workerLicense != ''"> and worker_license = #{workerLicense}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="buildingId != null "> and building_id = #{buildingId}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectGdWorkerById" parameterType="Long" resultMap="GdWorkerResult">
+        <include refid="selectGdWorkerVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGdWorker" parameterType="GdWorker" useGeneratedKeys="true" keyProperty="id">
+        insert into gd_worker
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="peopleType != null">people_type,</if>
+            <if test="workerName != null">worker_name,</if>
+            <if test="workerLicense != null">worker_license,</if>
+            <if test="phone != null">phone,</if>
+            <if test="buildingId != null">building_id,</if>
+            <if test="type != null">type,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="peopleType != null">#{peopleType},</if>
+            <if test="workerName != null">#{workerName},</if>
+            <if test="workerLicense != null">#{workerLicense},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="buildingId != null">#{buildingId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGdWorker" parameterType="GdWorker">
+        update gd_worker
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="peopleType != null">people_type = #{peopleType},</if>
+            <if test="workerName != null">worker_name = #{workerName},</if>
+            <if test="workerLicense != null">worker_license = #{workerLicense},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="buildingId != null">building_id = #{buildingId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGdWorkerById" parameterType="Long">
+        delete from gd_worker where id = #{id}
+    </delete>
+
+    <delete id="deleteGdWorkerByIds" parameterType="String">
+        delete from gd_worker where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

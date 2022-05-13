@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YyPerceptionMapper">
+    
+    <resultMap type="YyPerception" id="YyPerceptionResult">
+        <result property="id"    column="id"    />
+        <result property="faceSnap"    column="face_snap"    />
+        <result property="carSnap"    column="car_snap"    />
+        <result property="temperatureSnap"    column="temperature_snap"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectYyPerceptionVo">
+        select id, face_snap, car_snap, temperature_snap, data_type from yy_perception
+    </sql>
+
+    <select id="selectYyPerceptionList" parameterType="YyPerception" resultMap="YyPerceptionResult">
+        <include refid="selectYyPerceptionVo"/>
+        <where>  
+            <if test="faceSnap != null "> and face_snap = #{faceSnap}</if>
+            <if test="carSnap != null "> and car_snap = #{carSnap}</if>
+            <if test="temperatureSnap != null "> and temperature_snap = #{temperatureSnap}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectYyPerceptionById" parameterType="Long" resultMap="YyPerceptionResult">
+        <include refid="selectYyPerceptionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertYyPerception" parameterType="YyPerception" useGeneratedKeys="true" keyProperty="id">
+        insert into yy_perception
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="faceSnap != null">face_snap,</if>
+            <if test="carSnap != null">car_snap,</if>
+            <if test="temperatureSnap != null">temperature_snap,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="faceSnap != null">#{faceSnap},</if>
+            <if test="carSnap != null">#{carSnap},</if>
+            <if test="temperatureSnap != null">#{temperatureSnap},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYyPerception" parameterType="YyPerception">
+        update yy_perception
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="faceSnap != null">face_snap = #{faceSnap},</if>
+            <if test="carSnap != null">car_snap = #{carSnap},</if>
+            <if test="temperatureSnap != null">temperature_snap = #{temperatureSnap},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYyPerceptionById" parameterType="Long">
+        delete from yy_perception where id = #{id}
+    </delete>
+
+    <delete id="deleteYyPerceptionByIds" parameterType="String">
+        delete from yy_perception where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

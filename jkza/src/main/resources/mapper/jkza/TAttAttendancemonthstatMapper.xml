@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.TAttAttendancemonthstatMapper">
+    
+    <resultMap type="TAttAttendancemonthstat" id="TAttAttendancemonthstatResult">
+        <result property="projectguid"    column="ProjectGUID"    />
+        <result property="personguid"    column="PersonGUID"    />
+        <result property="year"    column="Year"    />
+        <result property="month"    column="Month"    />
+        <result property="degree"    column="Degree"    />
+        <result property="postName"    column="PostName"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectTAttAttendancemonthstatVo">
+        select ProjectGUID, PersonGUID, Year, Month, Degree, create_time from t_att_attendancemonthstat
+    </sql>
+
+    <sql id="selectTAttAttendancemonthstatAndPost">
+        select t1.ProjectGUID, t1.PersonGUID, t1.Year, t1.Month, t1.Degree, t1.create_time,
+               t2.PersonGUID,t2.PostName
+        from t_att_attendancemonthstat t1
+        left join t_att_attendanceperson t2 on t1.PersonGUID = t2.PersonGUID
+    </sql>
+
+    <sql id="selectTAttAttendancemonthstatAndPostByGd">
+        select t1.ProjectGUID, t1.PersonGUID, t1.Year, t1.Month, t1.Degree, t1.create_time,
+               t2.PersonGUID,t2.PostName
+        from t_att_attendancemonthstat t1
+        left join t_att_attendanceperson t2 on t1.PersonGUID = t2.PersonGUID
+    </sql>
+
+    <select id="selectTAttAttendancemonthstatList" parameterType="TAttAttendancemonthstat" resultMap="TAttAttendancemonthstatResult">
+        <include refid="selectTAttAttendancemonthstatVo"/>
+        <where>  
+            <if test="projectguid != null  and projectguid != ''"> and ProjectGUID = #{projectguid}</if>
+            <if test="personguid != null  and personguid != ''"> and PersonGUID = #{personguid}</if>
+            <if test="year != null "> and Year = #{year}</if>
+            <if test="month != null "> and Month = #{month}</if>
+            <if test="degree != null "> and Degree = #{degree}</if>
+        </where>
+    </select>
+
+    <select id="selectList" parameterType="DateCal" resultMap="TAttAttendancemonthstatResult">
+        <include refid="selectTAttAttendancemonthstatAndPost"/>
+        <where>
+            <if test="Year != null "> and Year = #{Year}</if>
+            <if test="Month != null "> and Month = #{Month}</if>
+        </where>
+    </select>
+    <select id="selectListByGd" parameterType="DateCal" resultMap="TAttAttendancemonthstatResult">
+        <include refid="selectTAttAttendancemonthstatAndPostByGd"/>
+        <where>
+            <if test="Year != null "> and Year = #{Year}</if>
+            <if test="Month != null "> and Month = #{Month}</if>
+            <if test="ProjectGuid != null "> and t1.ProjectGUID = #{ProjectGuid}</if>
+        </where>
+    </select>
+    
+    <select id="selectTAttAttendancemonthstatByProjectguid" parameterType="String" resultMap="TAttAttendancemonthstatResult">
+        <include refid="selectTAttAttendancemonthstatVo"/>
+        where ProjectGUID = #{projectguid}
+    </select>
+        
+    <insert id="insertTAttAttendancemonthstat" parameterType="TAttAttendancemonthstat">
+        insert into t_att_attendancemonthstat
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectguid != null">ProjectGUID,</if>
+            <if test="personguid != null">PersonGUID,</if>
+            <if test="year != null">Year,</if>
+            <if test="month != null">Month,</if>
+            <if test="degree != null">Degree,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectguid != null">#{projectguid},</if>
+            <if test="personguid != null">#{personguid},</if>
+            <if test="year != null">#{year},</if>
+            <if test="month != null">#{month},</if>
+            <if test="degree != null">#{degree},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTAttAttendancemonthstat" parameterType="TAttAttendancemonthstat">
+        update t_att_attendancemonthstat
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="personguid != null">PersonGUID = #{personguid},</if>
+            <if test="year != null">Year = #{year},</if>
+            <if test="month != null">Month = #{month},</if>
+            <if test="degree != null">Degree = #{degree},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where ProjectGUID = #{projectguid}
+    </update>
+
+    <delete id="deleteTAttAttendancemonthstatByProjectguid" parameterType="String">
+        delete from t_att_attendancemonthstat where ProjectGUID = #{projectguid}
+    </delete>
+
+    <delete id="deleteTAttAttendancemonthstatByProjectguids" parameterType="String">
+        delete from t_att_attendancemonthstat where ProjectGUID in 
+        <foreach item="projectguid" collection="array" open="(" separator="," close=")">
+            #{projectguid}
+        </foreach>
+    </delete>
+</mapper>

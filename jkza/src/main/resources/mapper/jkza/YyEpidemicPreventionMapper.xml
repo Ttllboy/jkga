@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YyEpidemicPreventionMapper">
+    
+    <resultMap type="YyEpidemicPrevention" id="YyEpidemicPreventionResult">
+        <result property="id"    column="id"    />
+        <result property="green"    column="green"    />
+        <result property="yellow"    column="yellow"    />
+        <result property="red"    column="red"    />
+        <result property="temperatureAbnormal"    column="temperature_abnormal"    />
+        <result property="greenProportion"    column="green_proportion"    />
+        <result property="yellowProportion"    column="yellow_proportion"    />
+        <result property="redProportion"    column="red_proportion"    />
+        <result property="temperatureProportion"    column="temperature_proportion"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectYyEpidemicPreventionVo">
+        select id, green, yellow, red, temperature_abnormal, green_proportion, yellow_proportion, red_proportion, temperature_proportion, data_type from yy_epidemic_prevention
+    </sql>
+
+    <select id="selectYyEpidemicPreventionList" parameterType="YyEpidemicPrevention" resultMap="YyEpidemicPreventionResult">
+        <include refid="selectYyEpidemicPreventionVo"/>
+        <where>  
+            <if test="green != null "> and green = #{green}</if>
+            <if test="yellow != null "> and yellow = #{yellow}</if>
+            <if test="red != null "> and red = #{red}</if>
+            <if test="temperatureAbnormal != null "> and temperature_abnormal = #{temperatureAbnormal}</if>
+            <if test="greenProportion != null "> and green_proportion = #{greenProportion}</if>
+            <if test="yellowProportion != null "> and yellow_proportion = #{yellowProportion}</if>
+            <if test="redProportion != null "> and red_proportion = #{redProportion}</if>
+            <if test="temperatureProportion != null "> and temperature_proportion = #{temperatureProportion}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectYyEpidemicPreventionById" parameterType="Long" resultMap="YyEpidemicPreventionResult">
+        <include refid="selectYyEpidemicPreventionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertYyEpidemicPrevention" parameterType="YyEpidemicPrevention" useGeneratedKeys="true" keyProperty="id">
+        insert into yy_epidemic_prevention
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="green != null">green,</if>
+            <if test="yellow != null">yellow,</if>
+            <if test="red != null">red,</if>
+            <if test="temperatureAbnormal != null">temperature_abnormal,</if>
+            <if test="greenProportion != null">green_proportion,</if>
+            <if test="yellowProportion != null">yellow_proportion,</if>
+            <if test="redProportion != null">red_proportion,</if>
+            <if test="temperatureProportion != null">temperature_proportion,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="green != null">#{green},</if>
+            <if test="yellow != null">#{yellow},</if>
+            <if test="red != null">#{red},</if>
+            <if test="temperatureAbnormal != null">#{temperatureAbnormal},</if>
+            <if test="greenProportion != null">#{greenProportion},</if>
+            <if test="yellowProportion != null">#{yellowProportion},</if>
+            <if test="redProportion != null">#{redProportion},</if>
+            <if test="temperatureProportion != null">#{temperatureProportion},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYyEpidemicPrevention" parameterType="YyEpidemicPrevention">
+        update yy_epidemic_prevention
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="green != null">green = #{green},</if>
+            <if test="yellow != null">yellow = #{yellow},</if>
+            <if test="red != null">red = #{red},</if>
+            <if test="temperatureAbnormal != null">temperature_abnormal = #{temperatureAbnormal},</if>
+            <if test="greenProportion != null">green_proportion = #{greenProportion},</if>
+            <if test="yellowProportion != null">yellow_proportion = #{yellowProportion},</if>
+            <if test="redProportion != null">red_proportion = #{redProportion},</if>
+            <if test="temperatureProportion != null">temperature_proportion = #{temperatureProportion},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYyEpidemicPreventionById" parameterType="Long">
+        delete from yy_epidemic_prevention where id = #{id}
+    </delete>
+
+    <delete id="deleteYyEpidemicPreventionByIds" parameterType="String">
+        delete from yy_epidemic_prevention where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

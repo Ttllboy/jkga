@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YjWarnMapper">
+    
+    <resultMap type="YjWarn" id="YjWarnResult">
+        <result property="id"    column="id"    />
+        <result property="warnLevel"    column="warn_level"    />
+        <result property="warnTime"    column="warn_time"    />
+        <result property="warnInfo"    column="warn_info"    />
+        <result property="warnType"    column="warn_type"    />
+        <result property="incidentType"    column="incident_type"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectYjWarnVo">
+        select id, warn_level, warn_time, warn_info, warn_type, incident_type, data_type from yj_warn
+    </sql>
+
+    <select id="selectYjWarnList" parameterType="YjWarn" resultMap="YjWarnResult">
+        <include refid="selectYjWarnVo"/>
+        <where>  
+            <if test="warnLevel != null "> and warn_level = #{warnLevel}</if>
+            <if test="warnTime != null "> and warn_time = #{warnTime}</if>
+            <if test="warnInfo != null  and warnInfo != ''"> and warn_info = #{warnInfo}</if>
+            <if test="warnType != null "> and warn_type = #{warnType}</if>
+            <if test="incidentType != null "> and incident_type = #{incidentType}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectYjWarnById" parameterType="Long" resultMap="YjWarnResult">
+        <include refid="selectYjWarnVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertYjWarn" parameterType="YjWarn" useGeneratedKeys="true" keyProperty="id">
+        insert into yj_warn
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warnLevel != null">warn_level,</if>
+            <if test="warnTime != null">warn_time,</if>
+            <if test="warnInfo != null">warn_info,</if>
+            <if test="warnType != null">warn_type,</if>
+            <if test="incidentType != null">incident_type,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warnLevel != null">#{warnLevel},</if>
+            <if test="warnTime != null">#{warnTime},</if>
+            <if test="warnInfo != null">#{warnInfo},</if>
+            <if test="warnType != null">#{warnType},</if>
+            <if test="incidentType != null">#{incidentType},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYjWarn" parameterType="YjWarn">
+        update yj_warn
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warnLevel != null">warn_level = #{warnLevel},</if>
+            <if test="warnTime != null">warn_time = #{warnTime},</if>
+            <if test="warnInfo != null">warn_info = #{warnInfo},</if>
+            <if test="warnType != null">warn_type = #{warnType},</if>
+            <if test="incidentType != null">incident_type = #{incidentType},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYjWarnById" parameterType="Long">
+        delete from yj_warn where id = #{id}
+    </delete>
+
+    <delete id="deleteYjWarnByIds" parameterType="String">
+        delete from yj_warn where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

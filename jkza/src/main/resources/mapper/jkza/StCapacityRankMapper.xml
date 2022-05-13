@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.StCapacityRankMapper">
+
+    <resultMap type="StCapacityRank" id="StCapacityRankResult">
+        <result property="id"    column="id"    />
+        <result property="rank"    column="rank"    />
+        <result property="solidName"    column="solid_name"    />
+        <result property="capacityUse"    column="capacity_use"    />
+        <result property="capacity"    column="capacity"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectStCapacityRankVo">
+        select id, rank, solid_name, capacity_use, capacity, data_type from st_capacity_rank
+    </sql>
+
+    <select id="selectStCapacityRankList" parameterType="StCapacityRank" resultMap="StCapacityRankResult">
+        <include refid="selectStCapacityRankVo"/>
+        <where>
+            <if test="rank != null "> and rank = #{rank}</if>
+            <if test="solidName != null  and solidName != ''"> and solid_name like concat('%', #{solidName}, '%')</if>
+            <if test="capacityUse != null "> and capacity_use = #{capacityUse}</if>
+            <if test="capacity != null "> and capacity = #{capacity}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+
+    <select id="selectStCapacityRankById" parameterType="Long" resultMap="StCapacityRankResult">
+        <include refid="selectStCapacityRankVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertStCapacityRank" parameterType="StCapacityRank" useGeneratedKeys="true" keyProperty="id">
+        insert into st_capacity_rank
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="rank != null">rank,</if>
+            <if test="solidName != null">solid_name,</if>
+            <if test="capacityUse != null">capacity_use,</if>
+            <if test="capacity != null">capacity,</if>
+            <if test="dataType != null">data_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="rank != null">#{rank},</if>
+            <if test="solidName != null">#{solidName},</if>
+            <if test="capacityUse != null">#{capacityUse},</if>
+            <if test="capacity != null">#{capacity},</if>
+            <if test="dataType != null">#{dataType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateStCapacityRank" parameterType="StCapacityRank">
+        update st_capacity_rank
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="rank != null">rank = #{rank},</if>
+            <if test="solidName != null">solid_name = #{solidName},</if>
+            <if test="capacityUse != null">capacity_use = #{capacityUse},</if>
+            <if test="capacity != null">capacity = #{capacity},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStCapacityRankById" parameterType="Long">
+        delete from st_capacity_rank where id = #{id}
+    </delete>
+
+    <delete id="deleteStCapacityRankByIds" parameterType="String">
+        delete from st_capacity_rank where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

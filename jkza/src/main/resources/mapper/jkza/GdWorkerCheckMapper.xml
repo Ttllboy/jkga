@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.GdWorkerCheckMapper">
+
+    <resultMap type="GdWorkerCheck" id="GdWorkerCheckResult">
+        <result property="id"    column="id"    />
+        <result property="peopleType"    column="people_type"    />
+        <result property="workerName"    column="worker_name"    />
+        <result property="workerLicense"    column="worker_license"    />
+        <result property="phone"    column="phone"    />
+        <result property="checkTime"    column="check_time"    />
+        <result property="buildingId"    column="building_id"    />
+        <result property="temperatureType"    column="temperature_type"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectGdWorkerCheckVo">
+        select id, people_type, worker_name, worker_license, phone, check_time, building_id, temperature_type, data_type from gd_worker_check
+    </sql>
+
+    <select id="selectGdWorkerCheckList" parameterType="GdWorkerCheck" resultMap="GdWorkerCheckResult">
+        <include refid="selectGdWorkerCheckVo"/>
+        <where>
+            <if test="peopleType != null "> and people_type = #{peopleType}</if>
+            <if test="workerName != null  and workerName != ''"> and worker_name like concat('%', #{workerName}, '%')</if>
+            <if test="workerLicense != null  and workerLicense != ''"> and worker_license = #{workerLicense}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="checkTime != null "> and check_time = #{checkTime}</if>
+            <if test="buildingId != null "> and building_id = #{buildingId}</if>
+            <if test="temperatureType != null "> and temperature_type = #{temperatureType}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+
+    <select id="selectGdWorkerCheckById" parameterType="Long" resultMap="GdWorkerCheckResult">
+        <include refid="selectGdWorkerCheckVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertGdWorkerCheck" parameterType="GdWorkerCheck" useGeneratedKeys="true" keyProperty="id">
+        insert into gd_worker_check
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="peopleType != null">people_type,</if>
+            <if test="workerName != null">worker_name,</if>
+            <if test="workerLicense != null">worker_license,</if>
+            <if test="phone != null">phone,</if>
+            <if test="checkTime != null">check_time,</if>
+            <if test="buildingId != null">building_id,</if>
+            <if test="temperatureType != null">temperature_type,</if>
+            <if test="dataType != null">data_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="peopleType != null">#{peopleType},</if>
+            <if test="workerName != null">#{workerName},</if>
+            <if test="workerLicense != null">#{workerLicense},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="checkTime != null">#{checkTime},</if>
+            <if test="buildingId != null">#{buildingId},</if>
+            <if test="temperatureType != null">#{temperatureType},</if>
+            <if test="dataType != null">#{dataType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateGdWorkerCheck" parameterType="GdWorkerCheck">
+        update gd_worker_check
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="peopleType != null">people_type = #{peopleType},</if>
+            <if test="workerName != null">worker_name = #{workerName},</if>
+            <if test="workerLicense != null">worker_license = #{workerLicense},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="checkTime != null">check_time = #{checkTime},</if>
+            <if test="buildingId != null">building_id = #{buildingId},</if>
+            <if test="temperatureType != null">temperature_type = #{temperatureType},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGdWorkerCheckById" parameterType="Long">
+        delete from gd_worker_check where id = #{id}
+    </delete>
+
+    <delete id="deleteGdWorkerCheckByIds" parameterType="String">
+        delete from gd_worker_check where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

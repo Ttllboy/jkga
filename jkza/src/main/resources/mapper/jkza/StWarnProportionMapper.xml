@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.StWarnProportionMapper">
+    
+    <resultMap type="StWarnProportion" id="StWarnProportionResult">
+        <result property="id"    column="id"    />
+        <result property="total"    column="total"    />
+        <result property="illegalFish"    column="illegal_fish"    />
+        <result property="illegalDump"    column="illegal_dump"    />
+        <result property="keyPerson"    column="key_person"    />
+        <result property="keyCar"    column="key_car"    />
+        <result property="illegalFishProportion"    column="illegal_fish_proportion"    />
+        <result property="illegalDumpProportion"    column="illegal_dump_proportion"    />
+        <result property="keyPersonProportion"    column="key_person_proportion"    />
+        <result property="keyCarProportion"    column="key_car_proportion"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectStWarnProportionVo">
+        select id, total, illegal_fish, illegal_dump, key_person, key_car, illegal_fish_proportion, illegal_dump_proportion, key_person_proportion, key_car_proportion, data_type from st_warn_proportion
+    </sql>
+
+    <select id="selectStWarnProportionList" parameterType="StWarnProportion" resultMap="StWarnProportionResult">
+        <include refid="selectStWarnProportionVo"/>
+        <where>  
+            <if test="total != null "> and total = #{total}</if>
+            <if test="illegalFish != null "> and illegal_fish = #{illegalFish}</if>
+            <if test="illegalDump != null "> and illegal_dump = #{illegalDump}</if>
+            <if test="keyPerson != null "> and key_person = #{keyPerson}</if>
+            <if test="keyCar != null "> and key_car = #{keyCar}</if>
+            <if test="illegalFishProportion != null "> and illegal_fish_proportion = #{illegalFishProportion}</if>
+            <if test="illegalDumpProportion != null "> and illegal_dump_proportion = #{illegalDumpProportion}</if>
+            <if test="keyPersonProportion != null "> and key_person_proportion = #{keyPersonProportion}</if>
+            <if test="keyCarProportion != null "> and key_car_proportion = #{keyCarProportion}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectStWarnProportionById" parameterType="Long" resultMap="StWarnProportionResult">
+        <include refid="selectStWarnProportionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStWarnProportion" parameterType="StWarnProportion" useGeneratedKeys="true" keyProperty="id">
+        insert into st_warn_proportion
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="total != null">total,</if>
+            <if test="illegalFish != null">illegal_fish,</if>
+            <if test="illegalDump != null">illegal_dump,</if>
+            <if test="keyPerson != null">key_person,</if>
+            <if test="keyCar != null">key_car,</if>
+            <if test="illegalFishProportion != null">illegal_fish_proportion,</if>
+            <if test="illegalDumpProportion != null">illegal_dump_proportion,</if>
+            <if test="keyPersonProportion != null">key_person_proportion,</if>
+            <if test="keyCarProportion != null">key_car_proportion,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="total != null">#{total},</if>
+            <if test="illegalFish != null">#{illegalFish},</if>
+            <if test="illegalDump != null">#{illegalDump},</if>
+            <if test="keyPerson != null">#{keyPerson},</if>
+            <if test="keyCar != null">#{keyCar},</if>
+            <if test="illegalFishProportion != null">#{illegalFishProportion},</if>
+            <if test="illegalDumpProportion != null">#{illegalDumpProportion},</if>
+            <if test="keyPersonProportion != null">#{keyPersonProportion},</if>
+            <if test="keyCarProportion != null">#{keyCarProportion},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStWarnProportion" parameterType="StWarnProportion">
+        update st_warn_proportion
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="total != null">total = #{total},</if>
+            <if test="illegalFish != null">illegal_fish = #{illegalFish},</if>
+            <if test="illegalDump != null">illegal_dump = #{illegalDump},</if>
+            <if test="keyPerson != null">key_person = #{keyPerson},</if>
+            <if test="keyCar != null">key_car = #{keyCar},</if>
+            <if test="illegalFishProportion != null">illegal_fish_proportion = #{illegalFishProportion},</if>
+            <if test="illegalDumpProportion != null">illegal_dump_proportion = #{illegalDumpProportion},</if>
+            <if test="keyPersonProportion != null">key_person_proportion = #{keyPersonProportion},</if>
+            <if test="keyCarProportion != null">key_car_proportion = #{keyCarProportion},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStWarnProportionById" parameterType="Long">
+        delete from st_warn_proportion where id = #{id}
+    </delete>
+
+    <delete id="deleteStWarnProportionByIds" parameterType="String">
+        delete from st_warn_proportion where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.GdRegisteredMapper">
+    
+    <resultMap type="GdRegistered" id="GdRegisteredResult">
+        <result property="id"    column="id"    />
+        <result property="workerName"    column="worker_name"    />
+        <result property="workerLicense"    column="worker_license"    />
+        <result property="phone"    column="phone"    />
+        <result property="buildingId"    column="building_id"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectGdRegisteredVo">
+        select id, worker_name, worker_license, phone, building_id, data_type from gd_registered
+    </sql>
+
+    <select id="selectGdRegisteredList" parameterType="GdRegistered" resultMap="GdRegisteredResult">
+        <include refid="selectGdRegisteredVo"/>
+        <where>  
+            <if test="workerName != null  and workerName != ''"> and worker_name like concat('%', #{workerName}, '%')</if>
+            <if test="workerLicense != null  and workerLicense != ''"> and worker_license = #{workerLicense}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="buildingId != null "> and building_id = #{buildingId}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectGdRegisteredById" parameterType="Long" resultMap="GdRegisteredResult">
+        <include refid="selectGdRegisteredVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGdRegistered" parameterType="GdRegistered" useGeneratedKeys="true" keyProperty="id">
+        insert into gd_registered
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="workerName != null">worker_name,</if>
+            <if test="workerLicense != null">worker_license,</if>
+            <if test="phone != null">phone,</if>
+            <if test="buildingId != null">building_id,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="workerName != null">#{workerName},</if>
+            <if test="workerLicense != null">#{workerLicense},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="buildingId != null">#{buildingId},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGdRegistered" parameterType="GdRegistered">
+        update gd_registered
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="workerName != null">worker_name = #{workerName},</if>
+            <if test="workerLicense != null">worker_license = #{workerLicense},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="buildingId != null">building_id = #{buildingId},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGdRegisteredById" parameterType="Long">
+        delete from gd_registered where id = #{id}
+    </delete>
+
+    <delete id="deleteGdRegisteredByIds" parameterType="String">
+        delete from gd_registered where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

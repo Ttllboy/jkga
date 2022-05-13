@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.GdKeyPersonMapper">
+    
+    <resultMap type="GdKeyPerson" id="GdKeyPersonResult">
+        <result property="id"    column="id"    />
+        <result property="warnImg"    column="warn_img"    />
+        <result property="warnTime"    column="warn_time"    />
+        <result property="warnSite"    column="warn_site"    />
+        <result property="warnType"    column="warn_type"    />
+        <result property="buildingId"    column="building_id"    />
+        <result property="incidentType"    column="incident_type"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectGdKeyPersonVo">
+        select id, warn_img, warn_time, warn_site, warn_type, incident_type, data_type,building_id from gd_key_person
+    </sql>
+
+    <select id="selectGdKeyPersonList" parameterType="GdKeyPerson" resultMap="GdKeyPersonResult">
+        <include refid="selectGdKeyPersonVo"/>
+        <where>  
+            <if test="warnImg != null  and warnImg != ''"> and warn_img = #{warnImg}</if>
+            <if test="warnTime != null "> and warn_time = #{warnTime}</if>
+            <if test="warnSite != null  and warnSite != ''"> and warn_site = #{warnSite}</if>
+            <if test="buildingId != null "> and building_id = #{buildingId}</if>
+            <if test="warnType != null  and warnType != ''"> and warn_type = #{warnType}</if>
+            <if test="incidentType != null "> and incident_type = #{incidentType}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectGdKeyPersonById" parameterType="Long" resultMap="GdKeyPersonResult">
+        <include refid="selectGdKeyPersonVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGdKeyPerson" parameterType="GdKeyPerson" useGeneratedKeys="true" keyProperty="id">
+        insert into gd_key_person
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warnImg != null">warn_img,</if>
+            <if test="warnTime != null">warn_time,</if>
+            <if test="warnSite != null">warn_site,</if>
+            <if test="buildingId != null">building_id,</if>
+            <if test="warnType != null">warn_type,</if>
+            <if test="incidentType != null">incident_type,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warnImg != null">#{warnImg},</if>
+            <if test="warnTime != null">#{warnTime},</if>
+            <if test="warnSite != null">#{warnSite},</if>
+            <if test="buildingId != null">#{buildingId},</if>
+            <if test="warnType != null">#{warnType},</if>
+            <if test="incidentType != null">#{incidentType},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGdKeyPerson" parameterType="GdKeyPerson">
+        update gd_key_person
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warnImg != null">warn_img = #{warnImg},</if>
+            <if test="warnTime != null">warn_time = #{warnTime},</if>
+            <if test="warnSite != null">warn_site = #{warnSite},</if>
+            <if test="buildingId != null">building_id = #{buildingId},</if>
+            <if test="warnType != null">warn_type = #{warnType},</if>
+            <if test="incidentType != null">incident_type = #{incidentType},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGdKeyPersonById" parameterType="Long">
+        delete from gd_key_person where id = #{id}
+    </delete>
+
+    <delete id="deleteGdKeyPersonByIds" parameterType="String">
+        delete from gd_key_person where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.GdManagerCheckMapper">
+
+    <resultMap type="GdManagerCheck" id="GdManagerCheckResult">
+        <result property="id"    column="id"    />
+        <result property="projectManagerSum"    column="project_manager_sum"    />
+        <result property="projectManagerCheck"    column="project_manager_check"    />
+        <result property="safetyWorkerSum"    column="safety_worker_sum"    />
+        <result property="safetyWorkerCheck"    column="safety_worker_check"    />
+        <result property="registeredSupervisionSum"    column="registered_supervision_sum"    />
+        <result property="registeredSupervisionCheck"    column="registered_supervision_check"    />
+        <result property="professionalSupervisionSum"    column="professional_supervision_sum"    />
+        <result property="professionalSupervisionCheck"    column="professional_supervision_check"    />
+        <result property="buildingId"    column="building_id"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectGdManagerCheckVo">
+        select id, project_manager_sum, project_manager_check, safety_worker_sum, safety_worker_check, registered_supervision_sum, registered_supervision_check, professional_supervision_sum, professional_supervision_check, building_id, data_type from gd_manager_check
+    </sql>
+
+    <select id="selectGdManagerCheckList" parameterType="GdManagerCheck" resultMap="GdManagerCheckResult">
+        <include refid="selectGdManagerCheckVo"/>
+        <where>
+            <if test="projectManagerSum != null "> and project_manager_sum = #{projectManagerSum}</if>
+            <if test="projectManagerCheck != null "> and project_manager_check = #{projectManagerCheck}</if>
+            <if test="safetyWorkerSum != null "> and safety_worker_sum = #{safetyWorkerSum}</if>
+            <if test="safetyWorkerCheck != null "> and safety_worker_check = #{safetyWorkerCheck}</if>
+            <if test="registeredSupervisionSum != null "> and registered_supervision_sum = #{registeredSupervisionSum}</if>
+            <if test="registeredSupervisionCheck != null "> and registered_supervision_check = #{registeredSupervisionCheck}</if>
+            <if test="professionalSupervisionSum != null "> and professional_supervision_sum = #{professionalSupervisionSum}</if>
+            <if test="professionalSupervisionCheck != null "> and professional_supervision_check = #{professionalSupervisionCheck}</if>
+            <if test="buildingId != null "> and building_id = #{buildingId}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+
+    <select id="selectGdManagerCheckById" parameterType="Long" resultMap="GdManagerCheckResult">
+        <include refid="selectGdManagerCheckVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertGdManagerCheck" parameterType="GdManagerCheck" useGeneratedKeys="true" keyProperty="id">
+        insert into gd_manager_check
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectManagerSum != null">project_manager_sum,</if>
+            <if test="projectManagerCheck != null">project_manager_check,</if>
+            <if test="safetyWorkerSum != null">safety_worker_sum,</if>
+            <if test="safetyWorkerCheck != null">safety_worker_check,</if>
+            <if test="registeredSupervisionSum != null">registered_supervision_sum,</if>
+            <if test="registeredSupervisionCheck != null">registered_supervision_check,</if>
+            <if test="professionalSupervisionSum != null">professional_supervision_sum,</if>
+            <if test="professionalSupervisionCheck != null">professional_supervision_check,</if>
+            <if test="buildingId != null">building_id,</if>
+            <if test="dataType != null">data_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectManagerSum != null">#{projectManagerSum},</if>
+            <if test="projectManagerCheck != null">#{projectManagerCheck},</if>
+            <if test="safetyWorkerSum != null">#{safetyWorkerSum},</if>
+            <if test="safetyWorkerCheck != null">#{safetyWorkerCheck},</if>
+            <if test="registeredSupervisionSum != null">#{registeredSupervisionSum},</if>
+            <if test="registeredSupervisionCheck != null">#{registeredSupervisionCheck},</if>
+            <if test="professionalSupervisionSum != null">#{professionalSupervisionSum},</if>
+            <if test="professionalSupervisionCheck != null">#{professionalSupervisionCheck},</if>
+            <if test="buildingId != null">#{buildingId},</if>
+            <if test="dataType != null">#{dataType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateGdManagerCheck" parameterType="GdManagerCheck">
+        update gd_manager_check
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectManagerSum != null">project_manager_sum = #{projectManagerSum},</if>
+            <if test="projectManagerCheck != null">project_manager_check = #{projectManagerCheck},</if>
+            <if test="safetyWorkerSum != null">safety_worker_sum = #{safetyWorkerSum},</if>
+            <if test="safetyWorkerCheck != null">safety_worker_check = #{safetyWorkerCheck},</if>
+            <if test="registeredSupervisionSum != null">registered_supervision_sum = #{registeredSupervisionSum},</if>
+            <if test="registeredSupervisionCheck != null">registered_supervision_check = #{registeredSupervisionCheck},</if>
+            <if test="professionalSupervisionSum != null">professional_supervision_sum = #{professionalSupervisionSum},</if>
+            <if test="professionalSupervisionCheck != null">professional_supervision_check = #{professionalSupervisionCheck},</if>
+            <if test="buildingId != null">building_id = #{buildingId},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGdManagerCheckById" parameterType="Long">
+        delete from gd_manager_check where id = #{id}
+    </delete>
+
+    <delete id="deleteGdManagerCheckByIds" parameterType="String">
+        delete from gd_manager_check where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

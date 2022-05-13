@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YyBaseMapper">
+    
+    <resultMap type="YyBase" id="YyBaseResult">
+        <result property="id"    column="id"    />
+        <result property="hosTotal"    column="hos_total"    />
+        <result property="hosAccess"    column="hos_access"    />
+        <result property="monitor"    column="monitor"    />
+        <result property="monitorOnline"    column="monitor_online"    />
+        <result property="temperature"    column="temperature"    />
+        <result property="temperatureOnline"    column="temperature_online"    />
+        <result property="faceCamera"    column="face_camera"    />
+        <result property="faceCameraOnline"    column="face_camera_online"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectYyBaseVo">
+        select id, hos_total, hos_access, monitor, monitor_online, temperature, temperature_online, face_camera, face_camera_online, data_type from yy_base
+    </sql>
+
+    <select id="selectYyBaseList" parameterType="YyBase" resultMap="YyBaseResult">
+        <include refid="selectYyBaseVo"/>
+        <where>  
+            <if test="hosTotal != null "> and hos_total = #{hosTotal}</if>
+            <if test="hosAccess != null "> and hos_access = #{hosAccess}</if>
+            <if test="monitor != null "> and monitor = #{monitor}</if>
+            <if test="monitorOnline != null "> and monitor_online = #{monitorOnline}</if>
+            <if test="temperature != null "> and temperature = #{temperature}</if>
+            <if test="temperatureOnline != null "> and temperature_online = #{temperatureOnline}</if>
+            <if test="faceCamera != null "> and face_camera = #{faceCamera}</if>
+            <if test="faceCameraOnline != null "> and face_camera_online = #{faceCameraOnline}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectYyBaseById" parameterType="Long" resultMap="YyBaseResult">
+        <include refid="selectYyBaseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertYyBase" parameterType="YyBase" useGeneratedKeys="true" keyProperty="id">
+        insert into yy_base
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="hosTotal != null">hos_total,</if>
+            <if test="hosAccess != null">hos_access,</if>
+            <if test="monitor != null">monitor,</if>
+            <if test="monitorOnline != null">monitor_online,</if>
+            <if test="temperature != null">temperature,</if>
+            <if test="temperatureOnline != null">temperature_online,</if>
+            <if test="faceCamera != null">face_camera,</if>
+            <if test="faceCameraOnline != null">face_camera_online,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="hosTotal != null">#{hosTotal},</if>
+            <if test="hosAccess != null">#{hosAccess},</if>
+            <if test="monitor != null">#{monitor},</if>
+            <if test="monitorOnline != null">#{monitorOnline},</if>
+            <if test="temperature != null">#{temperature},</if>
+            <if test="temperatureOnline != null">#{temperatureOnline},</if>
+            <if test="faceCamera != null">#{faceCamera},</if>
+            <if test="faceCameraOnline != null">#{faceCameraOnline},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYyBase" parameterType="YyBase">
+        update yy_base
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="hosTotal != null">hos_total = #{hosTotal},</if>
+            <if test="hosAccess != null">hos_access = #{hosAccess},</if>
+            <if test="monitor != null">monitor = #{monitor},</if>
+            <if test="monitorOnline != null">monitor_online = #{monitorOnline},</if>
+            <if test="temperature != null">temperature = #{temperature},</if>
+            <if test="temperatureOnline != null">temperature_online = #{temperatureOnline},</if>
+            <if test="faceCamera != null">face_camera = #{faceCamera},</if>
+            <if test="faceCameraOnline != null">face_camera_online = #{faceCameraOnline},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYyBaseById" parameterType="Long">
+        delete from yy_base where id = #{id}
+    </delete>
+
+    <delete id="deleteYyBaseByIds" parameterType="String">
+        delete from yy_base where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

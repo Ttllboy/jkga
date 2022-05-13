@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.GdBuildingMapper">
+
+    <resultMap type="GdBuilding" id="GdBuildingResult">
+        <result property="id"    column="id"    />
+        <result property="buildingSiteName"    column="building_site_name"    />
+        <result property="buildingSiteNum"    column="building_site_num"    />
+        <result property="projectNum"    column="project_num"    />
+        <result property="projectInfoNum"    column="project_info_num"    />
+        <result property="buildingLicense"    column="building_license"    />
+        <result property="workerNum"    column="worker_num"    />
+        <result property="buildingSiteLocation"    column="building_site_location"    />
+        <result property="space"    column="space"    />
+        <result property="price"    column="price"    />
+        <result property="streetId"    column="street_id"    />
+        <result property="coordinate"    column="coordinate"    />
+        <result property="streetName"    column="street_name"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectGdBuildingVo">
+        select id, building_site_name, building_site_num, street_name,project_num, project_info_num, building_license, worker_num, building_site_location, space, price, street_id, coordinate, data_type from gd_building
+    </sql>
+
+    <sql id="selectStreetId">
+        SELECT t1.id,t1.street_name,t2.GUID,t2.ProjectName,t2.SegmentID,t2.ProjectAddress,t2.ProjectArea,t2.BuildArea,t2.ProjectPrice,t2.Coordinate
+        FROM gd_street t1 left join st_project t2 on t1.street_name = t2.ProjectArea
+    </sql>
+
+    <select id="selectGdBuildingList" parameterType="GdBuilding" resultMap="GdBuildingResult">
+        <include refid="selectGdBuildingVo"/>
+        <where>
+            <if test="buildingSiteName != null  and buildingSiteName != ''"> and building_site_name like concat('%', #{buildingSiteName}, '%')</if>
+            <if test="buildingSiteNum != null  and buildingSiteNum != ''"> and building_site_num = #{buildingSiteNum}</if>
+            <if test="projectNum != null  and projectNum != ''"> and project_num = #{projectNum}</if>
+            <if test="projectInfoNum != null  and projectInfoNum != ''"> and project_info_num = #{projectInfoNum}</if>
+            <if test="buildingLicense != null  and buildingLicense != ''"> and building_license = #{buildingLicense}</if>
+            <if test="workerNum != null "> and worker_num = #{workerNum}</if>
+            <if test="buildingSiteLocation != null  and buildingSiteLocation != ''"> and building_site_location = #{buildingSiteLocation}</if>
+            <if test="space != null "> and space = #{space}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="streetId != null "> and street_id = #{streetId}</if>
+            <if test="coordinate != null  and coordinate != ''"> and coordinate = #{coordinate}</if>
+            <if test="streetName != null  and streetName != ''"> and street_name = #{streetName}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+
+    <select id="selectGdBuildingByGuid" parameterType="string" resultMap="GdBuildingResult">
+        <include refid="selectGdBuildingVo"/>
+        <if test="value != null and value !=''">
+            where project_info_num = #{value}
+        </if>
+    </select>
+
+    <select id="selectGdBuildingById" parameterType="Long" resultMap="GdBuildingResult">
+        <include refid="selectGdBuildingVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertGdBuilding" parameterType="GdBuilding" useGeneratedKeys="true" keyProperty="id">
+        insert into gd_building
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="buildingSiteName != null">building_site_name,</if>
+            <if test="buildingSiteNum != null">building_site_num,</if>
+            <if test="projectNum != null">project_num,</if>
+            <if test="projectInfoNum != null">project_info_num,</if>
+            <if test="buildingLicense != null">building_license,</if>
+            <if test="workerNum != null">worker_num,</if>
+            <if test="buildingSiteLocation != null">building_site_location,</if>
+            <if test="space != null">space,</if>
+            <if test="price != null">price,</if>
+            <if test="streetId != null">street_id,</if>
+            <if test="coordinate != null">coordinate,</if>
+            <if test="streetName != null">street_name,</if>
+            <if test="dataType != null">data_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="buildingSiteName != null">#{buildingSiteName},</if>
+            <if test="buildingSiteNum != null">#{buildingSiteNum},</if>
+            <if test="projectNum != null">#{projectNum},</if>
+            <if test="projectInfoNum != null">#{projectInfoNum},</if>
+            <if test="buildingLicense != null">#{buildingLicense},</if>
+            <if test="workerNum != null">#{workerNum},</if>
+            <if test="buildingSiteLocation != null">#{buildingSiteLocation},</if>
+            <if test="space != null">#{space},</if>
+            <if test="price != null">#{price},</if>
+            <if test="streetId != null">#{streetId},</if>
+            <if test="coordinate != null">#{coordinate},</if>
+            <if test="streetName != null">#{streetName},</if>
+            <if test="dataType != null">#{dataType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateGdBuilding" parameterType="GdBuilding">
+        update gd_building
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="buildingSiteName != null">building_site_name = #{buildingSiteName},</if>
+            <if test="buildingSiteNum != null">building_site_num = #{buildingSiteNum},</if>
+            <if test="projectNum != null">project_num = #{projectNum},</if>
+            <if test="projectInfoNum != null">project_info_num = #{projectInfoNum},</if>
+            <if test="buildingLicense != null">building_license = #{buildingLicense},</if>
+            <if test="workerNum != null">worker_num = #{workerNum},</if>
+            <if test="buildingSiteLocation != null">building_site_location = #{buildingSiteLocation},</if>
+            <if test="space != null">space = #{space},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="streetId != null">street_id = #{streetId},</if>
+            <if test="coordinate != null">coordinate = #{coordinate},</if>
+            <if test="streetName != null">street_name = #{streetName},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGdBuildingById" parameterType="Long">
+        delete from gd_building where id = #{id}
+    </delete>
+
+    <update id="truncateGdBuilding">
+        TRUNCATE TABLE gd_building
+    </update>
+    <insert id="copyToGdBuilding">
+        INSERT INTO gd_building(project_info_num,building_site_name,building_license,building_site_location,street_id,space,price,coordinate)
+        SELECT t2.GUID,t2.ProjectName,t2.SegmentID,t2.ProjectAddress,t1.id,t2.BuildArea,t2.ProjectPrice,t2.Coordinate FROM
+        gd_street t1 left join st_project t2 on t1.street_name = t2.ProjectArea
+    </insert>
+
+    <delete id="deleteGdBuildingByIds" parameterType="String">
+        delete from gd_building where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
