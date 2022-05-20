@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.DtRectificationnoticeMapper">
+    
+    <resultMap type="DtRectificationnotice" id="DtRectificationnoticeResult">
+        <result property="projectguid"    column="ProjectGUID"    />
+        <result property="noticenum"    column="NoticeNum"    />
+        <result property="checkposition"    column="CheckPosition"    />
+        <result property="noticetype"    column="NoticeType"    />
+        <result property="checkdatet"    column="CheckDatet"    />
+        <result property="isreply"    column="IsReply"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="projectName"    column="ProjectName"    />
+    </resultMap>
+
+    <sql id="selectDtRectificationnoticeVo">
+        select ProjectGUID, NoticeNum, CheckPosition, NoticeType, CheckDatet, IsReply, create_time from dt_rectificationnotice
+    </sql>
+
+    <select id="selectDtRectificationnoticeList" parameterType="DtRectificationnotice" resultMap="DtRectificationnoticeResult">
+        <include refid="selectDtRectificationnoticeVo"/>
+        <where>  
+            <if test="projectguid != null  and projectguid != ''"> and ProjectGUID = #{projectguid}</if>
+            <if test="noticenum != null  and noticenum != ''"> and NoticeNum = #{noticenum}</if>
+            <if test="checkposition != null  and checkposition != ''"> and CheckPosition = #{checkposition}</if>
+            <if test="noticetype != null  and noticetype != ''"> and NoticeType = #{noticetype}</if>
+            <if test="checkdatet != null "> and CheckDatet = #{checkdatet}</if>
+            <if test="isreply != null  and isreply != ''"> and IsReply = #{isreply}</if>
+        </where>
+    </select>
+
+    <select id="selectList" parameterType="DtRectificationnotice" resultMap="DtRectificationnoticeResult">
+        select t1.ProjectGUID, t1.NoticeNum, t1.CheckPosition, t1.NoticeType, t1.CheckDatet,
+               t1.IsReply, t1.create_time,t2.ProjectName
+        from dt_rectificationnotice t1
+        left join st_project t2 on t1.ProjectGUID = t2.GUID
+        <where>
+            <if test="projectguid != null  and projectguid != ''"> and t1.ProjectGUID = #{projectguid}</if>
+        </where>
+    </select>
+    
+    <select id="selectDtRectificationnoticeByProjectguid" parameterType="String" resultMap="DtRectificationnoticeResult">
+        <include refid="selectDtRectificationnoticeVo"/>
+        where ProjectGUID = #{projectguid}
+    </select>
+        
+    <insert id="insertDtRectificationnotice" parameterType="DtRectificationnotice">
+        insert into dt_rectificationnotice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectguid != null">ProjectGUID,</if>
+            <if test="noticenum != null">NoticeNum,</if>
+            <if test="checkposition != null">CheckPosition,</if>
+            <if test="noticetype != null">NoticeType,</if>
+            <if test="checkdatet != null">CheckDatet,</if>
+            <if test="isreply != null">IsReply,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectguid != null">#{projectguid},</if>
+            <if test="noticenum != null">#{noticenum},</if>
+            <if test="checkposition != null">#{checkposition},</if>
+            <if test="noticetype != null">#{noticetype},</if>
+            <if test="checkdatet != null">#{checkdatet},</if>
+            <if test="isreply != null">#{isreply},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDtRectificationnotice" parameterType="DtRectificationnotice">
+        update dt_rectificationnotice
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="noticenum != null">NoticeNum = #{noticenum},</if>
+            <if test="checkposition != null">CheckPosition = #{checkposition},</if>
+            <if test="noticetype != null">NoticeType = #{noticetype},</if>
+            <if test="checkdatet != null">CheckDatet = #{checkdatet},</if>
+            <if test="isreply != null">IsReply = #{isreply},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where ProjectGUID = #{projectguid}
+    </update>
+
+    <delete id="deleteDtRectificationnoticeByProjectguid" parameterType="String">
+        delete from dt_rectificationnotice where ProjectGUID = #{projectguid}
+    </delete>
+
+    <delete id="deleteDtRectificationnoticeByProjectguids" parameterType="String">
+        delete from dt_rectificationnotice where ProjectGUID in 
+        <foreach item="projectguid" collection="array" open="(" separator="," close=")">
+            #{projectguid}
+        </foreach>
+    </delete>
+</mapper>

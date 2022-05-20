@@ -45,8 +45,6 @@ public class TestData {
                 gdStreet = gdStreets.get(0);
                 gdBuilding.setStreetId(gdStreet.getId());
             }
-            gdBuilding.setSpace(stProject.getBuildarea());
-            gdBuilding.setPrice(stProject.getProjectprice());
             gdBuilding.setCoordinate(stProject.getCoordinate());
             gdBuildingService.insertGdBuilding(gdBuilding);
         }

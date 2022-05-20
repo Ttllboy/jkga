@@ -39,6 +39,10 @@ public class VideoLive {
         }
         return null;
     }
+
+
+
+
     //根据请求参数、url以及视频账号密码调取接口
     public static String getVideoData(JSONObject jsonObject, String url, String name, String password){
         String ip = "https://133.1.3.14:8320/zhcs/apiserve/";

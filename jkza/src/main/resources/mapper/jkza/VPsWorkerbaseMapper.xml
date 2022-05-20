@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.VPsWorkerbaseMapper">
+    
+    <resultMap type="VPsWorkerbase" id="VPsWorkerbaseResult">
+        <result property="personname"    column="PersonName"    />
+        <result property="idcard"    column="IDCard"    />
+        <result property="imgurl"    column="imgUrl"    />
+        <result property="persontypes"    column="PersonTypes"    />
+        <result property="projectguid"    column="ProjectGUID"    />
+        <result property="projectname"    column="ProjectName"    />
+        <result property="jiguan"    column="JIGUAN"    />
+        <result property="address"    column="Address"    />
+        <result property="personnation"    column="PERSONNATION"    />
+        <result property="personphone"    column="PERSONPHONE"    />
+        <result property="jpgbuffer"    column="JPGBUFFER"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectVPsWorkerbaseVo">
+        select PersonName, IDCard, imgUrl, PersonTypes, ProjectGUID, ProjectName, JIGUAN, Address, PERSONNATION, PERSONPHONE, JPGBUFFER, create_time from v_ps_workerbase
+    </sql>
+
+    <select id="selectVPsWorkerbaseList" parameterType="VPsWorkerbase" resultMap="VPsWorkerbaseResult">
+        <include refid="selectVPsWorkerbaseVo"/>
+        <where>  
+            <if test="personname != null  and personname != ''"> and PersonName like concat('%', #{personname}, '%')</if>
+            <if test="idcard != null  and idcard != ''"> and IDCard = #{idcard}</if>
+            <if test="imgurl != null  and imgurl != ''"> and imgUrl = #{imgurl}</if>
+            <if test="persontypes != null  and persontypes != ''"> and PersonTypes = #{persontypes}</if>
+            <if test="projectguid != null  and projectguid != ''"> and ProjectGUID = #{projectguid}</if>
+            <if test="projectname != null  and projectname != ''"> and ProjectName like concat('%', #{projectname}, '%')</if>
+            <if test="jiguan != null  and jiguan != ''"> and JIGUAN = #{jiguan}</if>
+            <if test="address != null  and address != ''"> and Address = #{address}</if>
+            <if test="personnation != null  and personnation != ''"> and PERSONNATION = #{personnation}</if>
+            <if test="personphone != null  and personphone != ''"> and PERSONPHONE = #{personphone}</if>
+            <if test="jpgbuffer != null  and jpgbuffer != ''"> and JPGBUFFER = #{jpgbuffer}</if>
+        </where>
+    </select>
+    
+    <select id="selectVPsWorkerbaseByPersonname" parameterType="String" resultMap="VPsWorkerbaseResult">
+        <include refid="selectVPsWorkerbaseVo"/>
+        where PersonName = #{personname}
+    </select>
+        
+    <insert id="insertVPsWorkerbase" parameterType="VPsWorkerbase">
+        insert into v_ps_workerbase
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="personname != null">PersonName,</if>
+            <if test="idcard != null">IDCard,</if>
+            <if test="imgurl != null">imgUrl,</if>
+            <if test="persontypes != null">PersonTypes,</if>
+            <if test="projectguid != null">ProjectGUID,</if>
+            <if test="projectname != null">ProjectName,</if>
+            <if test="jiguan != null">JIGUAN,</if>
+            <if test="address != null">Address,</if>
+            <if test="personnation != null">PERSONNATION,</if>
+            <if test="personphone != null">PERSONPHONE,</if>
+            <if test="jpgbuffer != null">JPGBUFFER,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="personname != null">#{personname},</if>
+            <if test="idcard != null">#{idcard},</if>
+            <if test="imgurl != null">#{imgurl},</if>
+            <if test="persontypes != null">#{persontypes},</if>
+            <if test="projectguid != null">#{projectguid},</if>
+            <if test="projectname != null">#{projectname},</if>
+            <if test="jiguan != null">#{jiguan},</if>
+            <if test="address != null">#{address},</if>
+            <if test="personnation != null">#{personnation},</if>
+            <if test="personphone != null">#{personphone},</if>
+            <if test="jpgbuffer != null">#{jpgbuffer},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateVPsWorkerbase" parameterType="VPsWorkerbase">
+        update v_ps_workerbase
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="idcard != null">IDCard = #{idcard},</if>
+            <if test="imgurl != null">imgUrl = #{imgurl},</if>
+            <if test="persontypes != null">PersonTypes = #{persontypes},</if>
+            <if test="projectguid != null">ProjectGUID = #{projectguid},</if>
+            <if test="projectname != null">ProjectName = #{projectname},</if>
+            <if test="jiguan != null">JIGUAN = #{jiguan},</if>
+            <if test="address != null">Address = #{address},</if>
+            <if test="personnation != null">PERSONNATION = #{personnation},</if>
+            <if test="personphone != null">PERSONPHONE = #{personphone},</if>
+            <if test="jpgbuffer != null">JPGBUFFER = #{jpgbuffer},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where PersonName = #{personname}
+    </update>
+
+    <delete id="deleteVPsWorkerbaseByPersonname" parameterType="String">
+        delete from v_ps_workerbase where PersonName = #{personname}
+    </delete>
+
+    <delete id="deleteVPsWorkerbaseByPersonnames" parameterType="String">
+        delete from v_ps_workerbase where PersonName in 
+        <foreach item="personname" collection="array" open="(" separator="," close=")">
+            #{personname}
+        </foreach>
+    </delete>
+</mapper>

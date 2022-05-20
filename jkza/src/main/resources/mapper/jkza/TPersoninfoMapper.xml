@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.TPersoninfoMapper">
+    
+    <resultMap type="TPersoninfo" id="TPersoninfoResult">
+        <result property="projectguid"    column="ProjectGUID"    />
+        <result property="personname"    column="PersonName"    />
+        <result property="idcard"    column="IDCard"    />
+        <result property="checkoint"    column="CheckoInt"    />
+        <result property="checkoutt"    column="CheckOutt"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="personphone"    column="PERSONPHONE"    />
+    </resultMap>
+
+    <sql id="selectTPersoninfoVo">
+        select ProjectGUID, PersonName, IDCard, CheckoInt, CheckOutt, create_time from t_personinfo
+    </sql>
+
+    <select id="selectTPersoninfoList" parameterType="TPersoninfo" resultMap="TPersoninfoResult">
+        <include refid="selectTPersoninfoVo"/>
+        <where>  
+            <if test="projectguid != null  and projectguid != ''"> and ProjectGUID = #{projectguid}</if>
+            <if test="personname != null  and personname != ''"> and PersonName like concat('%', #{personname}, '%')</if>
+            <if test="idcard != null  and idcard != ''"> and IDCard = #{idcard}</if>
+            <if test="checkoint != null  and checkoint != ''"> and CheckoInt = #{checkoint}</if>
+            <if test="checkoutt != null  and checkoutt != ''"> and CheckOutt = #{checkoutt}</if>
+        </where>
+    </select>
+    <select id="selectList" parameterType="TPersoninfo" resultMap="TPersoninfoResult">
+        select t1.ProjectGUID,t1.PersonName,t1.IDCard,t1.CheckoInt,t1.CheckOutt,t2.IDCard,t2.PERSONPHONE
+        from t_personinfo t1
+        left join v_ps_workerbase t2
+            on t1.IDCard = t2.IDCard
+        <if test="projectguid != null  and projectguid != ''"> and t1.ProjectGUID = #{projectguid}</if>
+    </select>
+    <select id="selectTPersoninfoListSize" parameterType="TPersoninfo" resultMap="TPersoninfoResult">
+        SELECT
+        any_value ( ProjectGUID ),
+        any_value ( PersonName ),
+        IDCard,
+        any_value ( CheckoInt ),
+        any_value ( CheckOutt ),
+        any_value ( create_time )
+        FROM
+        t_personinfo
+        <where>
+        <if test="projectguid != null  and projectguid != ''"> and any_value (ProjectGUID) = #{projectguid}</if>
+        </where>
+        GROUP BY IDCard
+    </select>
+    
+    <select id="selectTPersoninfoByProjectguid" parameterType="String" resultMap="TPersoninfoResult">
+        <include refid="selectTPersoninfoVo"/>
+        where ProjectGUID = #{projectguid}
+    </select>
+        
+    <insert id="insertTPersoninfo" parameterType="TPersoninfo">
+        insert into t_personinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectguid != null">ProjectGUID,</if>
+            <if test="personname != null">PersonName,</if>
+            <if test="idcard != null">IDCard,</if>
+            <if test="checkoint != null">CheckoInt,</if>
+            <if test="checkoutt != null">CheckOutt,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectguid != null">#{projectguid},</if>
+            <if test="personname != null">#{personname},</if>
+            <if test="idcard != null">#{idcard},</if>
+            <if test="checkoint != null">#{checkoint},</if>
+            <if test="checkoutt != null">#{checkoutt},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTPersoninfo" parameterType="TPersoninfo">
+        update t_personinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="personname != null">PersonName = #{personname},</if>
+            <if test="idcard != null">IDCard = #{idcard},</if>
+            <if test="checkoint != null">CheckoInt = #{checkoint},</if>
+            <if test="checkoutt != null">CheckOutt = #{checkoutt},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where ProjectGUID = #{projectguid}
+    </update>
+
+    <delete id="deleteTPersoninfoByProjectguid" parameterType="String">
+        delete from t_personinfo where ProjectGUID = #{projectguid}
+    </delete>
+
+    <delete id="deleteTPersoninfoByProjectguids" parameterType="String">
+        delete from t_personinfo where ProjectGUID in 
+        <foreach item="projectguid" collection="array" open="(" separator="," close=")">
+            #{projectguid}
+        </foreach>
+    </delete>
+</mapper>

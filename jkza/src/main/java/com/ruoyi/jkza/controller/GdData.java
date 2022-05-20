@@ -1,5 +1,6 @@
 package com.ruoyi.jkza.controller;
 
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -9,10 +10,11 @@ import com.ruoyi.common.core.page.PageDomain;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.page.TableSupport;
 import com.ruoyi.jkza.domain.*;
-import com.ruoyi.jkza.mapper.GdBuildingMapper;
-import com.ruoyi.jkza.mapper.TAttAttendancemonthstatMapper;
+import com.ruoyi.jkza.mapper.*;
 import com.ruoyi.jkza.service.*;
+import com.ruoyi.jkza.util.HttpClientUtils;
 import com.ruoyi.jkza.util.VideoLive;
+import io.lettuce.core.ScriptOutputType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
@@ -70,15 +72,38 @@ public class GdData {
         List<GdBuilding> gdBuildings = gdBuildingService.selectGdBuildingList(gdBuilding);
         return gdBuildings;
     }
+
+    @Autowired
+    private IVPsWorkerbaseService vPsWorkerbaseService;
+    @Autowired
+    private IDtMachineService dtMachineService;
     //基础数据处理
     @PostMapping("/base")
     public Object getBase(){
-        //HashMap map = new HashMap();
-        GdBase gdBase = new GdBase();
-        List<GdBase> gdBaseslist = gdBaseService.selectGdBaseList(gdBase);
-        //map = singleData(map,"base",gdBase,gdBaseslist);
-        gdBase = gdBaseslist.get(0);
-        return gdBase;
+        JSONObject jsonObject = new JSONObject();
+        List<GdBuilding> list = gdBuildingService.selectGdBuildingList(new GdBuilding());
+        List<VPsWorkerbase> list2 = vPsWorkerbaseService.selectVPsWorkerbaseList(new VPsWorkerbase());
+        List<DtMachine> list3 = dtMachineService.selectDtMachineList(new DtMachine());
+        Double price = 0.00;
+        Long liftingEquipment = 0L;
+        Long liftingEquipmentFiling = 0L;
+        for(int i = 0; i < list.size(); i++){
+            price = price + list.get(i).getPrice();
+        }
+        for(int j = 0; j <list3.size(); j++){
+            liftingEquipment = liftingEquipment + list3.get(j).getInstall();
+            liftingEquipmentFiling = liftingEquipmentFiling + list3.get(j).getDetection();
+        }
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        price = Double.valueOf(df.format(price));
+        jsonObject.put("buildingSite",list.size());
+        jsonObject.put("buildingSitePrice",price);
+        jsonObject.put("buildingSiteWorker",list2.size());
+        jsonObject.put("buildingSiteDuty",9865);
+        jsonObject.put("liftingEquipment",liftingEquipment);
+        jsonObject.put("liftingEquipmentFiling",liftingEquipmentFiling);
+        return jsonObject;
     }
     //管理人员考勤
     @PostMapping("/managerCheck")
@@ -135,12 +160,10 @@ public class GdData {
         jsonObject.put("safetyPer",safetyPer.divide(safety,4,BigDecimal.ROUND_HALF_UP));
         jsonObject.put("professinoal",professinoal);
         jsonObject.put("professinoalPer",professinoalPer.divide(professinoal,4,BigDecimal.ROUND_HALF_UP));
-        System.out.println(jsonObject);
         return jsonObject;
-
     }
 
-    //单个工地页面考勤
+    //单个工地管理人员考勤
     @GetMapping("/buildingManagerCheck/{id}")
     public Object buildingManagerCheck(@PathVariable("id") Long id){
         Calendar cal = Calendar.getInstance();
@@ -190,14 +213,29 @@ public class GdData {
             }
         }
         jsonObject.put("manager",manager);
-        jsonObject.put("managerPer",(managerPer.divide(manager,4,BigDecimal.ROUND_HALF_UP)));
+        if(manager.equals(BigDecimal.ZERO)){
+            jsonObject.put("managerPer",0);
+        }else{
+            jsonObject.put("managerPer",(managerPer.divide(manager,4,BigDecimal.ROUND_HALF_UP)));
+        }
         jsonObject.put("register",register);
-        jsonObject.put("registerPer",registerPer.divide(register,4,BigDecimal.ROUND_HALF_UP));
+        if(register.equals(BigDecimal.ZERO)){
+            jsonObject.put("registerPer",0);
+        }else {
+            jsonObject.put("registerPer",registerPer.divide(register,4,BigDecimal.ROUND_HALF_UP));
+        }
         jsonObject.put("safety",safety);
-        jsonObject.put("safetyPer",safetyPer.divide(safety,4,BigDecimal.ROUND_HALF_UP));
+        if(safety.equals(BigDecimal.ZERO)){
+            jsonObject.put("safetyPer",0);
+        }else {
+            jsonObject.put("safetyPer",safetyPer.divide(safety,4,BigDecimal.ROUND_HALF_UP));
+        }
         jsonObject.put("professinoal",professinoal);
-        jsonObject.put("professinoalPer",professinoalPer.divide(professinoal,4,BigDecimal.ROUND_HALF_UP));
-        System.out.println(jsonObject);
+        if(professinoal.equals(BigDecimal.ZERO)){
+            jsonObject.put("professinoalPer",0);
+        }else {
+            jsonObject.put("professinoalPer",professinoalPer.divide(professinoal,4,BigDecimal.ROUND_HALF_UP));
+        }
         return jsonObject;
     }
     //街道信息
@@ -231,14 +269,14 @@ public class GdData {
         }
         return jsonArrayNew;
     }
+
+    @Autowired
+    private DtRectificationnoticeMapper dtRectificationnoticeMapper;
     //整改通知
     @PostMapping("/synergy")
     public List<?> getSynergy(){
-        //HashMap map = new HashMap();
-        GdSynergy gdSynergy =new GdSynergy();
-        List<GdSynergy> gdSynergies = gdSynergyService.selectGdSynergyList(gdSynergy);
-        //map = listData(map,"synergy", gdSynergies);
-        return gdSynergies;
+        List<DtRectificationnotice> list = dtRectificationnoticeMapper.selectList(new DtRectificationnotice());
+        return list;
     }
     //重点人员预警
     @PostMapping("/keyPerson")
@@ -249,6 +287,9 @@ public class GdData {
         //map = listData(map,"keyPerson", gdKeyPeople);
         return gdKeyPeople;
     }
+
+    @Autowired
+    private ILtdqExcessivestatisticaldataService ltdqExcessivestatisticaldataService;
     //扬尘设备数据
     @PostMapping("/dustData")
     public JSONArray getDustData() throws Exception{
@@ -257,8 +298,9 @@ public class GdData {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         date = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
-        GdDustData gdDustData = new GdDustData();
-        List<GdDustData> gdDustData1 = gdDustDataService.selectGdDustDataList(gdDustData);
+
+        //List<LtdqExcessivestatisticaldata> list = ltdqExcessivestatisticaldataService.selectLtdqExcessivestatisticaldataList(new LtdqExcessivestatisticaldata());
+        List<GdDustData> list = gdDustDataMapper.selectGdDustDataList(new GdDustData());
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_MONTH,-8);
@@ -266,8 +308,7 @@ public class GdData {
             //averageDust(date,gdDustData1);
             calendar.add(Calendar.DAY_OF_MONTH,+1);
             date = calendar.getTime();
-            jsonArray.add(averageDust(date,gdDustData1));
-
+            jsonArray.add(averageDust(calendar,list));
         }
         //map = listData(map,"dustData", gdDustData1);
         return jsonArray;
@@ -289,6 +330,8 @@ public class GdData {
         //map = listData(map,"videoBase", gdVideoBases);
         return gdVideoBases;
     }
+
+
     //视频设备信息
     @PostMapping("/video")
     public JSONArray getVideo(){
@@ -302,7 +345,8 @@ public class GdData {
         jsonObject1.put("keyword","");
         jsonObject.put("param",jsonObject1);
         String body = VideoLive.getVideoData(jsonObject,url,"jsjtj001","jsjtj12345");
-        //System.out.println(body);
+        //String body = VideoLive.getVideoData(jsonObject,url,"cnjd001","cnjd12345");
+        System.out.println(body);
         JSONObject videoList = JSONObject.parseObject(body);
         String records = videoList.getString("records");
         JSONArray jsonArray = JSONArray.parseArray(records);
@@ -314,6 +358,21 @@ public class GdData {
                 i--;
             }
         }
+        int videoTotal = jsonArray.size();
+        int videoOnline = 0;
+        for(int q = 0; q < videoTotal; q++){
+            JSONObject recordOnline = jsonArray.getJSONObject(q);
+            if(recordOnline.getString("networkStatus").equals("1")){
+                videoOnline++;
+            }
+        }
+        GdVideoBase gdVideoBase = new GdVideoBase();
+        gdVideoBase.setId(1L);
+        gdVideoBase.setVideoSum((long) videoTotal);
+        gdVideoBase.setVideoDuty((long) videoOnline);
+        gdVideoBaseService.updateGdVideoBase(gdVideoBase);
+
+
         HashSet hashSet = new HashSet();
         for(int i = 0; i < jsonArray.size(); i++){
             hashSet.add(jsonArray.getJSONObject(i).getString("installAddr"));
@@ -348,68 +407,98 @@ public class GdData {
     @Autowired
     private TAttAttendancemonthstatMapper tAttAttendancemonthstatMapper;
 
+    @Autowired
+    private TPersoninfoMapper tPersoninfoMapper;
+    @Autowired
+    private GdDustDataMapper gdDustDataMapper;
+
     @PostMapping("/test")
     public void test(){
 
-        //处理管理人员考勤数据
-        Calendar cal = Calendar.getInstance();
-        DateCal dateCal = new DateCal();
-        dateCal.setYear(cal.get(Calendar.YEAR));
-        dateCal.setMonth(cal.get(Calendar.MONTH));
-        Integer degree = (cal.getActualMaximum(Calendar.DATE)-1)*2;
-        BigDecimal total = new BigDecimal(degree);
-        List<TAttAttendancemonthstat> list = tAttAttendancemonthstatMapper.selectList(dateCal);
-        JSONObject jsonObject = new JSONObject();
-        BigDecimal manager = new BigDecimal(0);
-        BigDecimal managerPer = new BigDecimal(0);
-        BigDecimal safety = new BigDecimal(0);
-        BigDecimal safetyPer = new BigDecimal(0);
-        BigDecimal register = new BigDecimal(0);
-        BigDecimal registerPer = new BigDecimal(0);
-        BigDecimal professinoal = new BigDecimal(0);
-        BigDecimal professinoalPer = new BigDecimal(0);
-        BigDecimal tip = new BigDecimal(1);
-
+        List<LtdqExcessivestatisticaldata> list = ltdqExcessivestatisticaldataMapper.selectLtdqExcessivestatisticaldataList(new LtdqExcessivestatisticaldata());
         for(int i = 0; i < list.size(); i++){
-            if(list.get(i).getPostName().equals("项目负责人")){
-                BigDecimal a = new BigDecimal(list.get(i).getDegree());
-                BigDecimal checkPer = a.divide(total,4,BigDecimal.ROUND_HALF_UP);
-                manager = manager.add(tip);
-                managerPer = managerPer.add(checkPer);
+            LtdqExcessivestatisticaldata ltdqExcessivestatisticaldata = list.get(i);
+            GdDustData gdDustData = new GdDustData();
+            GdBuilding gdBuilding = gdBuildingMapper.selectGdBuildingByGuid(ltdqExcessivestatisticaldata.getProjectguid());
+            if(!(gdBuilding == null)){
+                gdDustData.setBuildingId(gdBuilding.getId());
             }
-            if(list.get(i).getPostName().equals("项目总监理工程师")){
-                BigDecimal a = new BigDecimal(list.get(i).getDegree());
-                BigDecimal checkPer = a.divide(total,4,BigDecimal.ROUND_HALF_UP);
-                register = register.add(tip);
-                registerPer = registerPer.add(checkPer);
-            }
-            if(list.get(i).getPostName().equals("安全员")){
-                BigDecimal a = new BigDecimal(list.get(i).getDegree());
-                BigDecimal checkPer = a.divide(total,4,BigDecimal.ROUND_HALF_UP);
-                safety = safety.add(tip);
-                safetyPer = safetyPer.add(checkPer);
-            }
-            if(list.get(i).getPostName().equals("专业监理工程师")){
-                BigDecimal a = new BigDecimal(list.get(i).getDegree());
-                BigDecimal checkPer = a.divide(total,4,BigDecimal.ROUND_HALF_UP);
-                professinoal = professinoal.add(tip);
-                professinoalPer = professinoalPer.add(checkPer);
-            }
+            gdDustData.setEquipmentNum(ltdqExcessivestatisticaldata.getDevicesn());
+            gdDustData.setDate(ltdqExcessivestatisticaldata.getCreatedatet());
+            gdDustData.setPm25(ltdqExcessivestatisticaldata.getPm25());
+            gdDustData.setPm10(ltdqExcessivestatisticaldata.getPm10());
+            gdDustData.setTemperature(ltdqExcessivestatisticaldata.getPd04());
+            gdDustData.setHumidity(ltdqExcessivestatisticaldata.getPd05());
+            gdDustData.setNoise(ltdqExcessivestatisticaldata.getPd09());
+            gdDustDataMapper.insertGdDustData(gdDustData);
+        }
+        //List<TPersoninfo> list = tPersoninfoMapper.selectList(new TPersoninfo());
+        //
+        //HashSet hashSet = new HashSet();
+        //for(int i = 0; i < list.size(); i++){
+        //    TPersoninfo tPersoninfo = new TPersoninfo();
+        //}
+
+
+        //处理管理人员考勤数据
+        //Calendar cal = Calendar.getInstance();
+        //DateCal dateCal = new DateCal();
+        //dateCal.setYear(cal.get(Calendar.YEAR));
+        //dateCal.setMonth(cal.get(Calendar.MONTH));
+        //Integer degree = (cal.getActualMaximum(Calendar.DATE)-1)*2;
+        //BigDecimal total = new BigDecimal(degree);
+        //List<TAttAttendancemonthstat> list = tAttAttendancemonthstatMapper.selectList(dateCal);
+        //JSONObject jsonObject = new JSONObject();
+        //BigDecimal manager = new BigDecimal(0);
+        //BigDecimal managerPer = new BigDecimal(0);
+        //BigDecimal safety = new BigDecimal(0);
+        //BigDecimal safetyPer = new BigDecimal(0);
+        //BigDecimal register = new BigDecimal(0);
+        //BigDecimal registerPer = new BigDecimal(0);
+        //BigDecimal professinoal = new BigDecimal(0);
+        //BigDecimal professinoalPer = new BigDecimal(0);
+        //BigDecimal tip = new BigDecimal(1);
+        //
+        //for(int i = 0; i < list.size(); i++){
+        //    if(list.get(i).getPostName().equals("项目负责人")){
+        //        BigDecimal a = new BigDecimal(list.get(i).getDegree());
+        //        BigDecimal checkPer = a.divide(total,4,BigDecimal.ROUND_HALF_UP);
+        //        manager = manager.add(tip);
+        //        managerPer = managerPer.add(checkPer);
+        //    }
+        //    if(list.get(i).getPostName().equals("项目总监理工程师")){
+        //        BigDecimal a = new BigDecimal(list.get(i).getDegree());
+        //        BigDecimal checkPer = a.divide(total,4,BigDecimal.ROUND_HALF_UP);
+        //        register = register.add(tip);
+        //        registerPer = registerPer.add(checkPer);
+        //    }
+        //    if(list.get(i).getPostName().equals("安全员")){
+        //        BigDecimal a = new BigDecimal(list.get(i).getDegree());
+        //        BigDecimal checkPer = a.divide(total,4,BigDecimal.ROUND_HALF_UP);
+        //        safety = safety.add(tip);
+        //        safetyPer = safetyPer.add(checkPer);
+        //    }
+        //    if(list.get(i).getPostName().equals("专业监理工程师")){
+        //        BigDecimal a = new BigDecimal(list.get(i).getDegree());
+        //        BigDecimal checkPer = a.divide(total,4,BigDecimal.ROUND_HALF_UP);
+        //        professinoal = professinoal.add(tip);
+        //        professinoalPer = professinoalPer.add(checkPer);
+        //    }
         //
         //    System.out.println(list.get(i).getPostName());
         //    BigDecimal a = new BigDecimal(list.get(i).getDegree());
         //    BigDecimal checkPer = a.divide(total,4,BigDecimal.ROUND_HALF_UP);
         //    System.out.println(list.get(i).getDegree());
         //    System.out.println(checkPer);
-        }
-        jsonObject.put("项目负责人",manager);
-        jsonObject.put("项目负责人百分比",(managerPer.divide(manager,4,BigDecimal.ROUND_HALF_UP)));
-        jsonObject.put("项目总监理工程师",register);
-        jsonObject.put("项目总监理工程师百分比",registerPer.divide(register,4,BigDecimal.ROUND_HALF_UP));
-        jsonObject.put("安全员",safety);
-        jsonObject.put("安全员百分比",safetyPer.divide(safety,4,BigDecimal.ROUND_HALF_UP));
-        jsonObject.put("专业监理工程师",professinoal);
-        jsonObject.put("专业监理工程师百分比",professinoalPer.divide(professinoal,4,BigDecimal.ROUND_HALF_UP));
+        //}
+        //jsonObject.put("项目负责人",manager);
+        //jsonObject.put("项目负责人百分比",(managerPer.divide(manager,4,BigDecimal.ROUND_HALF_UP)));
+        //jsonObject.put("项目总监理工程师",register);
+        //jsonObject.put("项目总监理工程师百分比",registerPer.divide(register,4,BigDecimal.ROUND_HALF_UP));
+        //jsonObject.put("安全员",safety);
+        //jsonObject.put("安全员百分比",safetyPer.divide(safety,4,BigDecimal.ROUND_HALF_UP));
+        //jsonObject.put("专业监理工程师",professinoal);
+        //jsonObject.put("专业监理工程师百分比",professinoalPer.divide(professinoal,4,BigDecimal.ROUND_HALF_UP));
 
 
 
@@ -470,32 +559,33 @@ public class GdData {
     }
     //单个工地页面基础数据
     @GetMapping("/buildingBase/{id}")
-    public HashMap getBuildingBase(@PathVariable("id") Long id){
+    public Object getBuildingBase(@PathVariable("id") Long id){
         GdBuilding gdBuilding = new GdBuilding();
         gdBuilding = gdBuildingService.selectGdBuildingById(id);
-        HashMap map = new HashMap();
-        map.put("totalPrice",gdBuilding.getPrice());
-        map.put("people",gdBuilding.getWorkerNum());
-        GdWorker gdWorker = new GdWorker();
-        List<GdWorker> gdWorkers = gdWorkerService.selectGdWorkerList(gdWorker);
-        int dutyPeople = 0;
-        for(int i = 0; i < gdWorkers.size(); i++){
-            if(gdWorkers.get(i).getBuildingId() == id && gdWorkers.get(i).getType() == 0){
-                dutyPeople++;
-            }
+        VPsWorkerbase vPsWorkerbase = new VPsWorkerbase();
+        vPsWorkerbase.setProjectguid(gdBuilding.getProjectInfoNum());
+        JSONObject jsonObject = new JSONObject();
+        List<GdBuilding> list = gdBuildingService.selectGdBuildingList(gdBuilding);
+        List<VPsWorkerbase> list2 = vPsWorkerbaseService.selectVPsWorkerbaseList(vPsWorkerbase);
+        Double price = 0.00;
+        for(int i = 0; i < list.size(); i++){
+            price = price + list.get(i).getPrice();
         }
-        map.put("dutyPeople",dutyPeople);
-        return map;
+        DecimalFormat df = new DecimalFormat("#.##");
+        price = Double.valueOf(df.format(price));
+        jsonObject.put("totalPrice",price);
+        jsonObject.put("people",list2.size());
+        jsonObject.put("buildingSiteDuty",0);
+        return jsonObject;
     }
     //单个工地页面整改通知
     @GetMapping("/buildingSynergy/{id}")
     public List<?> getBuildingSynergy(@PathVariable("id") Long id){
-        //HashMap map = new HashMap();
-        GdSynergy gdSynergy =new GdSynergy();
-        gdSynergy.setBuildingId(id);
-        List<GdSynergy> gdSynergies = gdSynergyService.selectGdSynergyList(gdSynergy);
-        //map = listData(map,"synergy", gdSynergies);
-        return gdSynergies;
+        GdBuilding gdBuilding = gdBuildingService.selectGdBuildingById(id);
+        DtRectificationnotice dtRectificationnotice = new DtRectificationnotice();
+        dtRectificationnotice.setProjectguid(gdBuilding.getProjectInfoNum());
+        List<DtRectificationnotice> list = dtRectificationnoticeMapper.selectList(dtRectificationnotice);
+        return list;
     }
     //单个工地页面预警信息
     @GetMapping("/buildingKeyPerson/{id}")
@@ -507,6 +597,8 @@ public class GdData {
         //map = listData(map,"keyPerson", gdKeyPeople);
         return gdKeyPeople;
     }
+    @Autowired
+    private LtdqExcessivestatisticaldataMapper ltdqExcessivestatisticaldataMapper;
     //单个工地页面扬尘设备
     @GetMapping("/buildingDustData/{id}")
     public JSONArray getBuildingDustData(@PathVariable("id") Long id) throws Exception{
@@ -514,16 +606,21 @@ public class GdData {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         date = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+
+        //LtdqExcessivestatisticaldata ltdqExcessivestatisticaldata = new LtdqExcessivestatisticaldata();
+        //GdBuilding gdBuilding = gdBuildingService.selectGdBuildingById(id);
+        //ltdqExcessivestatisticaldata.setProjectguid(gdBuilding.getProjectInfoNum());
+        //List<LtdqExcessivestatisticaldata> list = ltdqExcessivestatisticaldataMapper.selectList(ltdqExcessivestatisticaldata);
         GdDustData gdDustData = new GdDustData();
         gdDustData.setBuildingId(id);
-        List<GdDustData> gdDustData1 = gdDustDataService.selectGdDustDataList(gdDustData);
+        List<GdDustData> list = gdDustDataMapper.selectGdDustDataList(gdDustData);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_MONTH,-8);
         for(int i = 0; i < 7; i++){
             calendar.add(Calendar.DAY_OF_MONTH,+1);
             date = calendar.getTime();
-            jsonArray.add(averageDust(date,gdDustData1));
+            jsonArray.add(averageDust(calendar,list));
         }
         //map = listData(map,"dustData", gdDustData1);
         return jsonArray;
@@ -570,28 +667,31 @@ public class GdData {
     //总页面考勤缺失人员
     @PostMapping("/checkLose")
     public TableDataInfo getCheckLose(@RequestBody JSONObject jsonObject)throws Exception{
-        GdCheckLose gdCheckLose = new GdCheckLose();
+        //GdCheckLose gdCheckLose = new GdCheckLose();
         Integer pageNum = (Integer) jsonObject.get("pageNum");
         Integer pageSize = (Integer) jsonObject.get("pageSize");
-        List<GdCheckLose> list = gdCheckLoseService.selectGdCheckLoseList(gdCheckLose);
+        //List<GdCheckLose> list = gdCheckLoseService.selectGdCheckLoseList(gdCheckLose);
+        List<VPsWorkerbase> list = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        date = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH,-8);
-        date = calendar.getTime();
-        for(int i = 0;i < list.size(); i++){
-            if(list.get(i).getCheckTime().before(date)){
-                list.remove(i);
-                i--;
-            }
-        }
+        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        //Date date = null;
+        //date = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+        //Calendar calendar = Calendar.getInstance();
+        //calendar.setTime(date);
+        //calendar.add(Calendar.DAY_OF_MONTH,-8);
+        //date = calendar.getTime();
+        //for(int i = 0;i < list.size(); i++){
+        //    if(list.get(i).getCheckTime().before(date)){
+        //        list.remove(i);
+        //        i--;
+        //    }
+        //}
         TableDataInfo rspData = new TableDataInfo();
         rspData.setCode(HttpStatus.SUCCESS);
         rspData.setMsg("查询成功");
-        rspData.setRows(PageByList.starPage(list,pageNum,pageSize));
+        //rspData.setRows(PageByList.starPage(list,pageNum,pageSize));
+        rspData.setRows(jsonArray);
         rspData.setTotal(new PageInfo(list).getTotal());
         return rspData;
     }
@@ -599,31 +699,34 @@ public class GdData {
     //分工地页面考勤缺失人员
     @PostMapping("/buildingCheckLose")
     public TableDataInfo getBuildingCheckLose(@RequestBody JSONObject jsonObject)throws Exception{
-        GdCheckLose gdCheckLose = new GdCheckLose();
+        //GdCheckLose gdCheckLose = new GdCheckLose();
         Long id = Long.valueOf(jsonObject.get("id").toString());
         Integer pageNum = (Integer) jsonObject.get("pageNum");
         Integer pageSize = (Integer) jsonObject.get("pageSize");
-        gdCheckLose.setId(id);
-        List<GdCheckLose> list = gdCheckLoseService.selectGdCheckLoseList(gdCheckLose);
+        //gdCheckLose.setId(id);
+        //List<GdCheckLose> list = gdCheckLoseService.selectGdCheckLoseList(gdCheckLose);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        date = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH,-8);
-        date = calendar.getTime();
-        for(int i = 0;i < list.size(); i++){
-            if(list.get(i).getCheckTime().before(date)){
-                list.remove(i);
-                i--;
-            }
-        }
+        List<VPsWorkerbase> list = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray();
+        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        //Date date = null;
+        //date = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+        //Calendar calendar = Calendar.getInstance();
+        //calendar.setTime(date);
+        //calendar.add(Calendar.DAY_OF_MONTH,-8);
+        //date = calendar.getTime();
+        //for(int i = 0;i < list.size(); i++){
+        //    if(list.get(i).getCheckTime().before(date)){
+        //        list.remove(i);
+        //        i--;
+        //    }
+        //}
 
         TableDataInfo rspData = new TableDataInfo();
         rspData.setCode(HttpStatus.SUCCESS);
         rspData.setMsg("查询成功");
-        rspData.setRows(PageByList.starPage(list,pageNum,pageSize));
+        //rspData.setRows(PageByList.starPage(list,pageNum,pageSize));
+        rspData.setRows(jsonArray);
         rspData.setTotal(new PageInfo(list).getTotal());
         return rspData;
     }
@@ -631,11 +734,12 @@ public class GdData {
     //总工地页面未登记小程序人员
     @PostMapping("/noRegister")
     public TableDataInfo getNoRegister(@RequestBody JSONObject jsonObject)throws Exception{
-        GdWorker gdWorker = new GdWorker();
+        //GdWorker gdWorker = new GdWorker();
         Integer pageNum = (Integer) jsonObject.get("pageNum");
         Integer pageSize = (Integer) jsonObject.get("pageSize");
-        gdWorker.setPeopleType(1);
-        List<GdWorker> list = gdWorkerService.selectGdWorkerList(gdWorker);
+        //gdWorker.setPeopleType(1);
+        //List<GdWorker> list = gdWorkerService.selectGdWorkerList(gdWorker);
+        List<VPsWorkerbase> list = vPsWorkerbaseService.selectVPsWorkerbaseList(new VPsWorkerbase());
 
         TableDataInfo rspData = new TableDataInfo();
         rspData.setCode(HttpStatus.SUCCESS);
@@ -648,13 +752,17 @@ public class GdData {
     //分工地页面未登记小程序人员
     @PostMapping("/buildingNoRegister")
     public TableDataInfo getBuildingNoRegister(@RequestBody JSONObject jsonObject){
-        GdWorker gdWorker = new GdWorker();
+        //GdWorker gdWorker = new GdWorker();
         Long id = Long.valueOf(jsonObject.get("id").toString());
         Integer pageNum = (Integer) jsonObject.get("pageNum");
         Integer pageSize = (Integer) jsonObject.get("pageSize");
-        gdWorker.setBuildingId(id);
-        gdWorker.setPeopleType(1);
-        List<GdWorker> list = gdWorkerService.selectGdWorkerList(gdWorker);
+        //gdWorker.setBuildingId(id);
+        //gdWorker.setPeopleType(1);
+        //List<GdWorker> list = gdWorkerService.selectGdWorkerList(gdWorker);
+        GdBuilding gdBuilding = gdBuildingService.selectGdBuildingById(id);
+        VPsWorkerbase vPsWorkerbase = new VPsWorkerbase();
+        vPsWorkerbase.setProjectguid(gdBuilding.getProjectInfoNum());
+        List<VPsWorkerbase> list = vPsWorkerbaseService.selectVPsWorkerbaseList(vPsWorkerbase);
         TableDataInfo rspData = new TableDataInfo();
         rspData.setCode(HttpStatus.SUCCESS);
         rspData.setMsg("查询成功");
@@ -673,22 +781,22 @@ public class GdData {
         Integer pageNum = (Integer) jsonObject.get("pageNum");
         Integer pageSize = (Integer) jsonObject.get("pageSize");
         gdWorkerCheck.setTemperatureType(1);
-        List<GdWorkerCheck> list =gdWorkerCheckService.selectGdWorkerCheckList(gdWorkerCheck);
+        //List<GdWorkerCheck> list =gdWorkerCheckService.selectGdWorkerCheckList(gdWorkerCheck);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        date = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH,-8);
-        date = calendar.getTime();
-        for(int i = 0;i < list.size(); i++){
-            if(list.get(i).getCheckTime().before(date)){
-                list.remove(i);
-                i--;
-            }
-        }
-
+        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        //Date date = null;
+        //date = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+        //Calendar calendar = Calendar.getInstance();
+        //calendar.setTime(date);
+        //calendar.add(Calendar.DAY_OF_MONTH,-8);
+        //date = calendar.getTime();
+        //for(int i = 0;i < list.size(); i++){
+        //    if(list.get(i).getCheckTime().before(date)){
+        //        list.remove(i);
+        //        i--;
+        //    }
+        //}
+        List<TPersoninfo> list = tPersoninfoMapper.selectList(new TPersoninfo());
         TableDataInfo rspData = new TableDataInfo();
         rspData.setCode(HttpStatus.SUCCESS);
         rspData.setMsg("查询成功");
@@ -706,21 +814,26 @@ public class GdData {
         Integer pageSize = (Integer) jsonObject.get("pageSize");
         gdWorkerCheck.setBuildingId(id);
         gdWorkerCheck.setTemperatureType(1);
-        List<GdWorkerCheck> list =gdWorkerCheckService.selectGdWorkerCheckList(gdWorkerCheck);
+        //List<GdWorkerCheck> list =gdWorkerCheckService.selectGdWorkerCheckList(gdWorkerCheck);
+        //
+        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        //Date date = null;
+        //date = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+        //Calendar calendar = Calendar.getInstance();
+        //calendar.setTime(date);
+        //calendar.add(Calendar.DAY_OF_MONTH,-8);
+        //date = calendar.getTime();
+        //for(int i = 0;i < list.size(); i++){
+        //    if(list.get(i).getCheckTime().before(date)){
+        //        list.remove(i);
+        //        i--;
+        //    }
+        //}
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        date = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH,-8);
-        date = calendar.getTime();
-        for(int i = 0;i < list.size(); i++){
-            if(list.get(i).getCheckTime().before(date)){
-                list.remove(i);
-                i--;
-            }
-        }
+        GdBuilding gdBuilding = gdBuildingService.selectGdBuildingById(id);
+        TPersoninfo tPersoninfo = new TPersoninfo();
+        tPersoninfo.setProjectguid(gdBuilding.getProjectInfoNum());
+        List<TPersoninfo> list = tPersoninfoMapper.selectList(tPersoninfo);
 
         TableDataInfo rspData = new TableDataInfo();
         rspData.setCode(HttpStatus.SUCCESS);
@@ -733,7 +846,7 @@ public class GdData {
     //总工地页面考勤预警数据
     @PostMapping("/checkWarn")
     public HashMap getCheckWarn() throws Exception{
-        DecimalFormat df = new DecimalFormat("#0.00");
+        DecimalFormat df = new DecimalFormat("#.##");
         HashMap map = new HashMap();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
@@ -746,8 +859,9 @@ public class GdData {
         GdWorkerCheck gdWorkerCheck = new GdWorkerCheck();
         GdCheckLose gdCheckLose = new GdCheckLose();
         //gdCheckLose.setCheckTime(date);
-        List<GdWorker> gdWorkers = gdWorkerService.selectGdWorkerList(gdWorker);
-        Integer gdWorkerSize = gdWorkers.size();
+        //List<GdWorker> gdWorkers = gdWorkerService.selectGdWorkerList(gdWorker);
+        List<VPsWorkerbase> vPsWorkerbases = vPsWorkerbaseService.selectVPsWorkerbaseList(new VPsWorkerbase());
+        Integer gdWorkerSize = vPsWorkerbases.size();
 
         List<GdCheckLose> gdCheckLoses = gdCheckLoseService.selectGdCheckLoseList(gdCheckLose);
 
@@ -758,37 +872,41 @@ public class GdData {
         calendar2.setTime(date);
         calendar2.add(Calendar.DAY_OF_MONTH,-8);
         date2 = calendar2.getTime();
-        for(int i = 0;i < gdCheckLoses.size(); i++){
-            if(gdCheckLoses.get(i).getCheckTime().before(date2)){
-                gdCheckLoses.remove(i);
-                i--;
-            }
-        }
+        //for(int i = 0;i < gdCheckLoses.size(); i++){
+        //    if(gdCheckLoses.get(i).getCheckTime().before(date2)){
+        //        gdCheckLoses.remove(i);
+        //        i--;
+        //    }
+        //}
 
-        Double checkLosePercentage = Double.valueOf(gdCheckLoses.size()) / (Double.valueOf(gdWorkerSize)*7);
-        map.put("checkLose",gdCheckLoses.size());
+        List<TPersoninfo> tPersoninfolist = tPersoninfoMapper.selectTPersoninfoListSize(new TPersoninfo());
+
+        Double checkLosePercentage = Double.valueOf(gdWorkerSize - tPersoninfolist.size()) / (Double.valueOf(gdWorkerSize));
+        map.put("checkLose",gdWorkerSize - tPersoninfolist.size());
         map.put("checkLosePercentage",df.format(checkLosePercentage));
 
         gdWorker.setPeopleType(1);
 
-        List<GdWorker> gdWorkers2 = gdWorkerService.selectGdWorkerList(gdWorker);
-        Double noRegisterPercentage = Double.valueOf(gdWorkers2.size()) / Double.valueOf(gdWorkerSize);
-        map.put("noRegister",gdWorkers2.size());
-        map.put("noRegisterPercentage",df.format(noRegisterPercentage));
+        //List<GdWorker> gdWorkers2 = gdWorkerService.selectGdWorkerList(gdWorker);
+
+        //Double noRegisterPercentage = Double.valueOf(gdWorkers2.size()) / Double.valueOf(gdWorkerSize);
+        map.put("noRegister",vPsWorkerbases.size());
+        //map.put("noRegisterPercentage",df.format(noRegisterPercentage));
+        map.put("noRegisterPercentage","1");
 
         //gdWorkerCheck.setCheckTime(date);
         gdWorkerCheck.setTemperatureType(1);
-        List<GdWorkerCheck> gdWorkerChecks =gdWorkerCheckService.selectGdWorkerCheckList(gdWorkerCheck);
+        //List<GdWorkerCheck> gdWorkerChecks =gdWorkerCheckService.selectGdWorkerCheckList(gdWorkerCheck);
 
-        for(int i = 0;i < gdWorkerChecks.size(); i++){
-            if(gdWorkerChecks.get(i).getCheckTime().before(date2)){
-                gdWorkerChecks.remove(i);
-                i--;
-            }
-        }
+        //for(int i = 0;i < gdWorkerChecks.size(); i++){
+        //    if(gdWorkerChecks.get(i).getCheckTime().before(date2)){
+        //        gdWorkerChecks.remove(i);
+        //        i--;
+        //    }
+        //}
 
-        Double workerCheckPercentage = Double.valueOf(gdWorkerChecks.size()) / (Double.valueOf(gdWorkerSize)*7);
-        map.put("workerCheck",gdWorkerChecks.size());
+        Double workerCheckPercentage = Double.valueOf(tPersoninfolist.size()) / (Double.valueOf(gdWorkerSize));
+        map.put("workerCheck",tPersoninfolist.size());
         map.put("workerCheckPercentage",df.format(workerCheckPercentage));
         System.out.println(map);
         return map;
@@ -797,6 +915,7 @@ public class GdData {
     //分工地页面考勤预警数据
     @GetMapping("/buildingCheckWarn/{id}")
     public HashMap buildingCheckWarn(@PathVariable("id") Long id) throws Exception{
+        DecimalFormat df = new DecimalFormat("#.##");
         HashMap map = new HashMap();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
@@ -811,9 +930,15 @@ public class GdData {
         gdWorkerCheck.setBuildingId(id);
         GdCheckLose gdCheckLose = new GdCheckLose();
         gdCheckLose.setBuildingId(id);
+
+        GdBuilding gdBuilding = gdBuildingService.selectGdBuildingById(id);
+        VPsWorkerbase vPsWorkerbase = new VPsWorkerbase();
+        vPsWorkerbase.setProjectguid(gdBuilding.getProjectInfoNum());
+
         //gdCheckLose.setCheckTime(date);
-        List<GdWorker> gdWorkers = gdWorkerService.selectGdWorkerList(gdWorker);
-        Integer gdWorkerSize = gdWorkers.size();
+        //List<GdWorker> gdWorkers = gdWorkerService.selectGdWorkerList(gdWorker);
+        List<VPsWorkerbase> vPsWorkerbases = vPsWorkerbaseService.selectVPsWorkerbaseList(vPsWorkerbase);
+        Integer gdWorkerSize = vPsWorkerbases.size();
 
         List<GdCheckLose> gdCheckLoses = gdCheckLoseService.selectGdCheckLoseList(gdCheckLose);
 
@@ -824,37 +949,51 @@ public class GdData {
         calendar2.setTime(date);
         calendar2.add(Calendar.DAY_OF_MONTH,-8);
         date2 = calendar2.getTime();
-        for(int i = 0;i < gdCheckLoses.size(); i++){
-            if(gdCheckLoses.get(i).getCheckTime().before(date2)){
-                gdCheckLoses.remove(i);
-                i--;
-            }
+        //for(int i = 0;i < gdCheckLoses.size(); i++){
+        //    if(gdCheckLoses.get(i).getCheckTime().before(date2)){
+        //        gdCheckLoses.remove(i);
+        //        i--;
+        //    }
+        //}
+        TPersoninfo tPersoninfo = new TPersoninfo();
+        tPersoninfo.setProjectguid(gdBuilding.getProjectInfoNum());
+        List<TPersoninfo> tPersoninfolist = tPersoninfoMapper.selectTPersoninfoListSize(tPersoninfo);
+        Double checkLosePercentage = Double.valueOf(gdWorkerSize - tPersoninfolist.size()) / (Double.valueOf(gdWorkerSize));
+        map.put("checkLose",gdWorkerSize - tPersoninfolist.size());
+        if(checkLosePercentage.isNaN()){
+            map.put("checkLosePercentage","0");
+        }else{
+            map.put("checkLosePercentage",df.format(checkLosePercentage));
         }
 
-        Double checkLosePercentage = Double.valueOf(gdCheckLoses.size()) / (Double.valueOf(gdWorkerSize)*7);
-        map.put("checkLose",gdCheckLoses.size());
-        map.put("checkLosePercentage",checkLosePercentage);
 
-        gdWorker.setPeopleType(1);
-        List<GdWorker> gdWorkers2 = gdWorkerService.selectGdWorkerList(gdWorker);
-        Double noRegisterPercentage = Double.valueOf(gdWorkers2.size()) / Double.valueOf(gdWorkerSize);
-        map.put("noRegister",gdWorkers2.size());
-        map.put("noRegisterPercentage",noRegisterPercentage);
+        //gdWorker.setPeopleType(1);
+        //List<GdWorker> gdWorkers2 = gdWorkerService.selectGdWorkerList(gdWorker);
+        //Double noRegisterPercentage = Double.valueOf(gdWorkers2.size()) / Double.valueOf(gdWorkerSize);
+        map.put("noRegister",vPsWorkerbases.size());
+        //map.put("noRegisterPercentage",noRegisterPercentage);
+        map.put("noRegisterPercentage","1");
+
 
         //gdWorkerCheck.setCheckTime(date);
         gdWorkerCheck.setTemperatureType(1);
         List<GdWorkerCheck> gdWorkerChecks =gdWorkerCheckService.selectGdWorkerCheckList(gdWorkerCheck);
 
-        for(int i = 0;i < gdWorkerChecks.size(); i++){
-            if(gdWorkerChecks.get(i).getCheckTime().before(date2)){
-                gdWorkerChecks.remove(i);
-                i--;
-            }
+        //for(int i = 0;i < gdWorkerChecks.size(); i++){
+        //    if(gdWorkerChecks.get(i).getCheckTime().before(date2)){
+        //        gdWorkerChecks.remove(i);
+        //        i--;
+        //    }
+        //}
+
+        Double workerCheckPercentage = Double.valueOf(tPersoninfolist.size()) / (Double.valueOf(gdWorkerSize));
+        map.put("workerCheck",tPersoninfolist.size());
+        if(workerCheckPercentage.isNaN()){
+            map.put("workerCheckPercentage","0");
+        }else {
+            map.put("workerCheckPercentage",df.format(workerCheckPercentage));
         }
 
-        Double workerCheckPercentage = Double.valueOf(gdWorkerChecks.size()) / (Double.valueOf(gdWorkerSize)*7);
-        map.put("workerCheck",gdWorkerChecks.size());
-        map.put("workerCheckPercentage",workerCheckPercentage);
         System.out.println(map);
         return map;
     }
@@ -950,6 +1089,54 @@ public class GdData {
         return videoUrl;
     }
 
+    //视频设备名称搜索
+    @GetMapping("/videoNameSerch/{videoName}")
+    public JSONArray videoNameSerch(@PathVariable("videoName") String videoName)throws Exception{
+        String url = "resource-catalog/tripartite/authority/channel/page";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("pageNo",1);
+        jsonObject.put("pageSize",200);
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("keyword",videoName);
+        jsonObject.put("param",jsonObject1);
+        System.out.println(jsonObject);
+        String body = VideoLive.getVideoData(jsonObject,url,"jsjtj001","jsjtj12345");
+        //String body = VideoLive.getVideoData(jsonObject,url,"cnjd001","cnjd12345");
+        //System.out.println(body);
+        JSONObject videoList = JSONObject.parseObject(body);
+        String records = videoList.getString("records");
+        JSONArray jsonArray = JSONArray.parseArray(records);
+        //遍历出拥有工地编号的视频
+        for(int i = 0; i < jsonArray.size();i++){
+            JSONObject gdRecord = jsonArray.getJSONObject(i);
+            if(!gdRecord.containsKey("installAddr")){
+                jsonArray.remove(i);
+                i--;
+            }
+        }
+        System.out.println(jsonArray);
+        int i = 0;
+        return jsonArray;
+    }
+
+    //总工地健康码接口
+    @PostMapping("/healthCode")
+    public JSONArray healthCode()throws Exception{
+        List<VPsWorkerbase> vPsWorkerbases = vPsWorkerbaseService.selectVPsWorkerbaseList(new VPsWorkerbase());
+        JSONArray jsonArray = new JSONArray();
+        System.out.println(new Date());
+        for(int i = 0; i < vPsWorkerbases.size(); i++){
+            JSONObject jsonObject = new JSONObject();
+            VPsWorkerbase vPsWorkerbase = vPsWorkerbases.get(i);
+            jsonObject.put("idNumber",vPsWorkerbase.getIdcard());
+            JSONObject warn = healthApi(jsonObject);
+            if(!(warn == null)){
+                jsonArray.add(warn);
+            }
+        }
+        System.out.println(new Date());
+        return jsonArray;
+    }
 
 
 
@@ -963,6 +1150,28 @@ public class GdData {
 
 
 
+
+    //调用健康码接口方法
+    public JSONObject healthApi(JSONObject jsonObject)throws Exception{
+        String url = "http://133.1.254.22:18093/provinceImportant/findNewHealthCodeResultByIdNumber";
+        JSONObject data = HttpClientUtils.doPost(url,jsonObject);
+        System.out.println(data);
+        JSONObject jsonObject1 = data.getJSONObject("data");
+        JSONObject jsonObject2 = jsonObject1.getJSONObject("datas");
+        JSONArray jsonArray = jsonObject2.getJSONArray("data");
+        for(int i = 0; i < jsonArray.size(); i++){
+            JSONObject ifwarn = jsonArray.getJSONObject(i);
+            if(ifwarn.getString("mzt").equals("黄码") && ifwarn.getString("mffd").equals("嘉兴市")){
+                System.out.println(ifwarn);
+                return ifwarn;
+            }
+            if(ifwarn.getString("mzt").equals("红码") && ifwarn.getString("mffd").equals("嘉兴市") ){
+                System.out.println(ifwarn);
+                return ifwarn;
+            }
+        }
+        return null;
+    }
 
     //
     //列表数据处理
@@ -987,29 +1196,60 @@ public class GdData {
         return map;
     }
     //获取当前天的扬尘设备的平均值
-    public HashMap averageDust(Date date,List<GdDustData> gdDustData1){
+    public HashMap averageDust(Calendar calendar,List<GdDustData> list){
         HashMap map = new HashMap();
-        Double pm25 = 0.0;
-        int tip25 = 0;
-        for(int i = 0; i < gdDustData1.size(); i++){
-            if(date.equals(gdDustData1.get(i).getDate())){
-                tip25++;
-                pm25 = pm25 + gdDustData1.get(i).getPm25();
+
+        Double pm25T = 0.00;
+        Long tip25T =0L;
+        Long tip10T = 0L;
+        BigDecimal tip = new BigDecimal(1);
+        for(int i = 0; i < list.size(); i++){
+            Date date1 = list.get(i).getDate();
+            Calendar call = Calendar.getInstance();
+            call.setTime(date1);
+            call.set(Calendar.HOUR_OF_DAY, 0);
+            call.set(Calendar.MINUTE, 0);
+            call.set(Calendar.SECOND, 0);
+            call.set(Calendar.MILLISECOND, 0);
+            if(calendar.equals(call)){
+                tip25T++;
+                //BigDecimal listPm25 = new BigDecimal(list.get(i).getPm25());
+                pm25T = pm25T+list.get(i).getPm25() ;
             }
         }
-        pm25 = pm25/tip25;
-        map.put("pm25",pm25);
-        Double pm10 = 0.0;
-        int tip10 = 0;
-        for(int i = 0; i < gdDustData1.size(); i++){
-            if(date.equals(gdDustData1.get(i).getDate())){
-                tip10++;
-                pm10 = pm10 + gdDustData1.get(i).getPm10();
+        BigDecimal pm25 = new BigDecimal(pm25T);
+        BigDecimal tip25 = new BigDecimal(tip25T);
+        if(tip25T.equals(0L)){
+            map.put("pm25",0);
+        }else {
+            System.out.println(pm25);
+            System.out.println(tip25T);
+            System.out.println(pm25.divide(tip25,2,BigDecimal.ROUND_HALF_UP));
+            map.put("pm25",pm25.divide(tip25,2,BigDecimal.ROUND_HALF_UP));
+        }
+
+        Double pm10T = 0.00;
+        for(int i = 0; i < list.size(); i++){
+            Date date1 = list.get(i).getDate();
+            Calendar call = Calendar.getInstance();
+            call.setTime(date1);
+            call.set(Calendar.HOUR_OF_DAY, 0);
+            call.set(Calendar.MINUTE, 0);
+            call.set(Calendar.SECOND, 0);
+            call.set(Calendar.MILLISECOND, 0);
+            if(calendar.equals(call)){
+                tip10T++;
+                pm10T = pm10T+ list.get(i).getPm10();
             }
         }
-        pm10 = pm10/tip10;
-        map.put("pm10",pm10);
-        map.put("date",date);
+        BigDecimal pm10 = new BigDecimal(pm10T);
+        BigDecimal tip10 = new BigDecimal(tip10T);
+        if(tip10T.equals(0L)){
+            map.put("pm10",0);
+        }else {
+            map.put("pm10",pm10.divide(tip10,2,BigDecimal.ROUND_HALF_UP));
+        }
+        map.put("date",calendar.getTime());
         return map;
     }
 

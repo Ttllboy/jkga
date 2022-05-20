@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.LtdqExcessivestatisticaldataMapper">
+    
+    <resultMap type="LtdqExcessivestatisticaldata" id="LtdqExcessivestatisticaldataResult">
+        <result property="projectguid"    column="ProjectGUID"    />
+        <result property="devicesn"    column="DeviceSN"    />
+        <result property="createdatet"    column="CreateDatet"    />
+        <result property="pm25"    column="pm25"    />
+        <result property="pm10"    column="pm10"    />
+        <result property="pd04"    column="pd04"    />
+        <result property="pd05"    column="pd05"    />
+        <result property="pd09"    column="pd09"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="projectName"    column="ProjectName"    />
+    </resultMap>
+
+    <sql id="selectLtdqExcessivestatisticaldataVo">
+        select ProjectGUID, DeviceSN, CreateDatet, pm25, pm10, pd04, pd05, pd09, create_time from ltdq_excessivestatisticaldata
+    </sql>
+
+    <select id="selectLtdqExcessivestatisticaldataList" parameterType="LtdqExcessivestatisticaldata" resultMap="LtdqExcessivestatisticaldataResult">
+        <include refid="selectLtdqExcessivestatisticaldataVo"/>
+        <where>  
+            <if test="projectguid != null  and projectguid != ''"> and ProjectGUID = #{projectguid}</if>
+            <if test="devicesn != null  and devicesn != ''"> and DeviceSN = #{devicesn}</if>
+            <if test="createdatet != null "> and CreateDatet = #{createdatet}</if>
+            <if test="pm25 != null "> and pm25 = #{pm25}</if>
+            <if test="pm10 != null "> and pm10 = #{pm10}</if>
+            <if test="pd04 != null "> and pd04 = #{pd04}</if>
+            <if test="pd05 != null "> and pd05 = #{pd05}</if>
+            <if test="pd09 != null "> and pd09 = #{pd09}</if>
+        </where>
+    </select>
+
+    <select id="selectList" parameterType="LtdqExcessivestatisticaldata" resultMap="LtdqExcessivestatisticaldataResult">
+        select t1.ProjectGUID, t1.DeviceSN, t1.CreateDatet,
+        t1.pm25, t1.pm10, t1.pd04, t1.pd05,
+        t1.pd09, t1.create_time
+        from ltdq_excessivestatisticaldata t1
+        left join st_project t2 on t1.ProjectGUID = t2.GUID
+        <where>
+            <if test="projectguid != null  and projectguid != ''"> and t1.ProjectGUID = #{projectguid}</if>
+        </where>
+    </select>
+    
+    <select id="selectLtdqExcessivestatisticaldataByProjectguid" parameterType="String" resultMap="LtdqExcessivestatisticaldataResult">
+        <include refid="selectLtdqExcessivestatisticaldataVo"/>
+        where ProjectGUID = #{projectguid}
+    </select>
+        
+    <insert id="insertLtdqExcessivestatisticaldata" parameterType="LtdqExcessivestatisticaldata">
+        insert into ltdq_excessivestatisticaldata
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectguid != null">ProjectGUID,</if>
+            <if test="devicesn != null">DeviceSN,</if>
+            <if test="createdatet != null">CreateDatet,</if>
+            <if test="pm25 != null">pm25,</if>
+            <if test="pm10 != null">pm10,</if>
+            <if test="pd04 != null">pd04,</if>
+            <if test="pd05 != null">pd05,</if>
+            <if test="pd09 != null">pd09,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectguid != null">#{projectguid},</if>
+            <if test="devicesn != null">#{devicesn},</if>
+            <if test="createdatet != null">#{createdatet},</if>
+            <if test="pm25 != null">#{pm25},</if>
+            <if test="pm10 != null">#{pm10},</if>
+            <if test="pd04 != null">#{pd04},</if>
+            <if test="pd05 != null">#{pd05},</if>
+            <if test="pd09 != null">#{pd09},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLtdqExcessivestatisticaldata" parameterType="LtdqExcessivestatisticaldata">
+        update ltdq_excessivestatisticaldata
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="devicesn != null">DeviceSN = #{devicesn},</if>
+            <if test="createdatet != null">CreateDatet = #{createdatet},</if>
+            <if test="pm25 != null">pm25 = #{pm25},</if>
+            <if test="pm10 != null">pm10 = #{pm10},</if>
+            <if test="pd04 != null">pd04 = #{pd04},</if>
+            <if test="pd05 != null">pd05 = #{pd05},</if>
+            <if test="pd09 != null">pd09 = #{pd09},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where ProjectGUID = #{projectguid}
+    </update>
+
+    <delete id="deleteLtdqExcessivestatisticaldataByProjectguid" parameterType="String">
+        delete from ltdq_excessivestatisticaldata where ProjectGUID = #{projectguid}
+    </delete>
+
+    <delete id="deleteLtdqExcessivestatisticaldataByProjectguids" parameterType="String">
+        delete from ltdq_excessivestatisticaldata where ProjectGUID in 
+        <foreach item="projectguid" collection="array" open="(" separator="," close=")">
+            #{projectguid}
+        </foreach>
+    </delete>
+</mapper>

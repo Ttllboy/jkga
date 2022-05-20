@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.DtMachineMapper">
+    
+    <resultMap type="DtMachine" id="DtMachineResult">
+        <result property="install"    column="Install"    />
+        <result property="detection"    column="Detection"    />
+        <result property="uninstall"    column="UnInstall"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectDtMachineVo">
+        select Install, Detection, UnInstall, create_time from dt_machine
+    </sql>
+
+    <select id="selectDtMachineList" parameterType="DtMachine" resultMap="DtMachineResult">
+        <include refid="selectDtMachineVo"/>
+        <where>  
+            <if test="install != null "> and Install = #{install}</if>
+            <if test="detection != null "> and Detection = #{detection}</if>
+            <if test="uninstall != null "> and UnInstall = #{uninstall}</if>
+        </where>
+    </select>
+    
+    <select id="selectDtMachineByInstall" parameterType="Long" resultMap="DtMachineResult">
+        <include refid="selectDtMachineVo"/>
+        where Install = #{install}
+    </select>
+        
+    <insert id="insertDtMachine" parameterType="DtMachine">
+        insert into dt_machine
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="install != null">Install,</if>
+            <if test="detection != null">Detection,</if>
+            <if test="uninstall != null">UnInstall,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="install != null">#{install},</if>
+            <if test="detection != null">#{detection},</if>
+            <if test="uninstall != null">#{uninstall},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDtMachine" parameterType="DtMachine">
+        update dt_machine
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="detection != null">Detection = #{detection},</if>
+            <if test="uninstall != null">UnInstall = #{uninstall},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where Install = #{install}
+    </update>
+
+    <delete id="deleteDtMachineByInstall" parameterType="Long">
+        delete from dt_machine where Install = #{install}
+    </delete>
+
+    <delete id="deleteDtMachineByInstalls" parameterType="String">
+        delete from dt_machine where Install in 
+        <foreach item="install" collection="array" open="(" separator="," close=")">
+            #{install}
+        </foreach>
+    </delete>
+</mapper>

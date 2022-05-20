@@ -53,11 +53,11 @@ public class GdBuilding extends BaseEntity
 
     /** 面积 */
     @Excel(name = "面积")
-    private BigDecimal space;
+    private Double space;
 
     /** 造价 */
     @Excel(name = "造价")
-    private BigDecimal price;
+    private Double price;
 
     /** 所属街道 */
     @Excel(name = "所属街道")
@@ -151,24 +151,23 @@ public class GdBuilding extends BaseEntity
     {
         return buildingSiteLocation;
     }
-    public void setSpace(BigDecimal space)
-    {
+
+    public Double getSpace() {
+        return space;
+    }
+
+    public void setSpace(Double space) {
         this.space = space;
     }
 
-    public BigDecimal getSpace()
-    {
-        return space;
+    public Double getPrice() {
+        return price;
     }
-    public void setPrice(BigDecimal price)
-    {
+
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public BigDecimal getPrice()
-    {
-        return price;
-    }
     public void setStreetId(Long streetId)
     {
         this.streetId = streetId;
