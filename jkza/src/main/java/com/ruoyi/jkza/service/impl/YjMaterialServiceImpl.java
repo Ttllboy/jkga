@@ -11,7 +11,7 @@ import com.ruoyi.jkza.service.IYjMaterialService;
  * 物资信息Service业务层处理
  * 
  * @author ruoyi
- * @date 2022-04-17
+ * @date 2022-05-27
  */
 @Service
 public class YjMaterialServiceImpl implements IYjMaterialService 

@@ -2,6 +2,7 @@ package com.ruoyi.jkza.mapper;
 
 import java.util.List;
 import com.ruoyi.jkza.domain.TPersoninfo;
+import io.lettuce.core.dynamic.annotation.Param;
 
 /**
  * 工人考勤Mapper接口
@@ -27,6 +28,7 @@ public interface TPersoninfoMapper
      */
     public List<TPersoninfo> selectTPersoninfoList(TPersoninfo tPersoninfo);
     public List<TPersoninfo> selectList(TPersoninfo tPersoninfo);
+    public List<TPersoninfo> selectIndex();
     public List<TPersoninfo> selectTPersoninfoListSize(TPersoninfo tPersoninfo);
 
     /**

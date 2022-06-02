@@ -7,7 +7,7 @@ import com.ruoyi.jkza.domain.YjMaterial;
  * 物资信息Mapper接口
  * 
  * @author ruoyi
- * @date 2022-04-17
+ * @date 2022-05-27
  */
 public interface YjMaterialMapper 
 {
@@ -58,4 +58,5 @@ public interface YjMaterialMapper
      * @return 结果
      */
     public int deleteYjMaterialByIds(Long[] ids);
+    public int batchYjMaterial(List<YjMaterial> list);
 }

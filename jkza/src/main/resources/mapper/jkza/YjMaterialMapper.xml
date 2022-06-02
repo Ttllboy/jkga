@@ -1,66 +1,144 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.jkza.mapper.YjMaterialMapper">
-    
+
     <resultMap type="YjMaterial" id="YjMaterialResult">
-        <result property="id"    column="id"    />
-        <result property="emergencyMaterialName"    column="emergency_material_name"    />
-        <result property="emergencyMaterialNum"    column="emergency_material_num"    />
-        <result property="dataType"    column="data_type"    />
+        <result property="id" column="id"/>
+        <result property="materialStoreName" column="material_store_name"/>
+        <result property="materialLv" column="material_lv"/>
+        <result property="detailAddress" column="detail_address"/>
+        <result property="affiliatedUnit" column="affiliated_unit"/>
+        <result property="contactName" column="contact_name"/>
+        <result property="contactPhone" column="contact_phone"/>
+        <result property="emergencyMaterialName" column="emergency_material_name"/>
+        <result property="specification" column="specification"/>
+        <result property="emergencyMaterialNum" column="emergency_material_num"/>
+        <result property="measuringUnit" column="measuring_unit"/>
+        <result property="dataType" column="data_type"/>
     </resultMap>
 
     <sql id="selectYjMaterialVo">
-        select id, emergency_material_name, emergency_material_num, data_type from yj_material
+        select id,
+               material_store_name,
+               material_lv,
+               detail_address,
+               affiliated_unit,
+               contact_name,
+               contact_phone,
+               emergency_material_name,
+               specification,
+               emergency_material_num,
+               measuring_unit,
+               data_type
+        from yj_material
     </sql>
 
     <select id="selectYjMaterialList" parameterType="YjMaterial" resultMap="YjMaterialResult">
         <include refid="selectYjMaterialVo"/>
-        <where>  
-            <if test="emergencyMaterialName != null  and emergencyMaterialName != ''"> and emergency_material_name like concat('%', #{emergencyMaterialName}, '%')</if>
-            <if test="emergencyMaterialNum != null "> and emergency_material_num = #{emergencyMaterialNum}</if>
-            <if test="dataType != null "> and data_type = #{dataType}</if>
+        <where>
+            <if test="materialStoreName != null  and materialStoreName != ''">and material_store_name like concat('%',
+                #{materialStoreName}, '%')
+            </if>
+            <if test="materialLv != null  and materialLv != ''">and material_lv = #{materialLv}</if>
+            <if test="detailAddress != null  and detailAddress != ''">and detail_address = #{detailAddress}</if>
+            <if test="affiliatedUnit != null  and affiliatedUnit != ''">and affiliated_unit = #{affiliatedUnit}</if>
+            <if test="contactName != null  and contactName != ''">and contact_name like concat('%', #{contactName},
+                '%')
+            </if>
+            <if test="contactPhone != null  and contactPhone != ''">and contact_phone = #{contactPhone}</if>
+            <if test="emergencyMaterialName != null  and emergencyMaterialName != ''">and emergency_material_name like
+                concat('%', #{emergencyMaterialName}, '%')
+            </if>
+            <if test="specification != null  and specification != ''">and specification = #{specification}</if>
+            <if test="emergencyMaterialNum != null ">and emergency_material_num = #{emergencyMaterialNum}</if>
+            <if test="measuringUnit != null  and measuringUnit != ''">and measuring_unit = #{measuringUnit}</if>
+            <if test="dataType != null ">and data_type = #{dataType}</if>
         </where>
     </select>
-    
+
     <select id="selectYjMaterialById" parameterType="Long" resultMap="YjMaterialResult">
         <include refid="selectYjMaterialVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertYjMaterial" parameterType="YjMaterial" useGeneratedKeys="true" keyProperty="id">
         insert into yj_material
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="materialStoreName != null">material_store_name,</if>
+            <if test="materialLv != null">material_lv,</if>
+            <if test="detailAddress != null">detail_address,</if>
+            <if test="affiliatedUnit != null">affiliated_unit,</if>
+            <if test="contactName != null">contact_name,</if>
+            <if test="contactPhone != null">contact_phone,</if>
             <if test="emergencyMaterialName != null">emergency_material_name,</if>
+            <if test="specification != null">specification,</if>
             <if test="emergencyMaterialNum != null">emergency_material_num,</if>
+            <if test="measuringUnit != null">measuring_unit,</if>
             <if test="dataType != null">data_type,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="materialStoreName != null">#{materialStoreName},</if>
+            <if test="materialLv != null">#{materialLv},</if>
+            <if test="detailAddress != null">#{detailAddress},</if>
+            <if test="affiliatedUnit != null">#{affiliatedUnit},</if>
+            <if test="contactName != null">#{contactName},</if>
+            <if test="contactPhone != null">#{contactPhone},</if>
             <if test="emergencyMaterialName != null">#{emergencyMaterialName},</if>
+            <if test="specification != null">#{specification},</if>
             <if test="emergencyMaterialNum != null">#{emergencyMaterialNum},</if>
+            <if test="measuringUnit != null">#{measuringUnit},</if>
             <if test="dataType != null">#{dataType},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateYjMaterial" parameterType="YjMaterial">
         update yj_material
         <trim prefix="SET" suffixOverrides=",">
+            <if test="materialStoreName != null">material_store_name = #{materialStoreName},</if>
+            <if test="materialLv != null">material_lv = #{materialLv},</if>
+            <if test="detailAddress != null">detail_address = #{detailAddress},</if>
+            <if test="affiliatedUnit != null">affiliated_unit = #{affiliatedUnit},</if>
+            <if test="contactName != null">contact_name = #{contactName},</if>
+            <if test="contactPhone != null">contact_phone = #{contactPhone},</if>
             <if test="emergencyMaterialName != null">emergency_material_name = #{emergencyMaterialName},</if>
+            <if test="specification != null">specification = #{specification},</if>
             <if test="emergencyMaterialNum != null">emergency_material_num = #{emergencyMaterialNum},</if>
+            <if test="measuringUnit != null">measuring_unit = #{measuringUnit},</if>
             <if test="dataType != null">data_type = #{dataType},</if>
         </trim>
         where id = #{id}
     </update>
 
     <delete id="deleteYjMaterialById" parameterType="Long">
-        delete from yj_material where id = #{id}
+        delete
+        from yj_material
+        where id = #{id}
     </delete>
 
     <delete id="deleteYjMaterialByIds" parameterType="String">
-        delete from yj_material where id in 
+        delete from yj_material where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
+    <insert id="batchYjMaterial">
+        insert into yj_material(material_store_name, material_lv, detail_address, affiliated_unit, contact_name,
+                                contact_phone, emergency_material_name, specification, emergency_material_num,
+                                measuring_unit) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.materialStoreName},
+            #{item.materialLv},
+            #{item.detailAddress},
+            #{item.affiliatedUnit},
+            #{item.contactName},
+            #{item.contactPhone},
+            #{item.emergencyMaterialName},
+            #{item.specification},
+            #{item.emergencyMaterialNum},
+            #{item.measuringUnit}
+            )
+        </foreach>
+    </insert>
 </mapper>

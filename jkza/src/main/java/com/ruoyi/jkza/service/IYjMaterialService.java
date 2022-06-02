@@ -7,7 +7,7 @@ import com.ruoyi.jkza.domain.YjMaterial;
  * 物资信息Service接口
  * 
  * @author ruoyi
- * @date 2022-04-17
+ * @date 2022-05-27
  */
 public interface IYjMaterialService 
 {

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.jkza.domain.*;
 import com.ruoyi.jkza.service.*;
+import com.ruoyi.jkza.util.VideoLive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -108,32 +109,58 @@ public class YyData {
     //视频设备
     @PostMapping("/video")
     public JSONArray video(){
-        List<YyVideo> yyVideos = yyVideoService.selectYyVideoListAndName(new YyVideo());
-        //归类到以医院为中心
-        JSONArray jsonArrayNew = new JSONArray();
-        HashMap mapNew = new HashMap();
-        HashSet hashSet = new HashSet();
-        for(int i = 0; i < yyVideos.size(); i++){
-            hashSet.add(yyVideos.get(i).getHosId());
-        }
-        List<Long> list = new ArrayList<Long>(hashSet);
-        for(int j = 0; j < hashSet.size(); j++){
-            Long hosId = list.get(j);
-            String hosName = null;
-            JSONArray jsonArray = new JSONArray();
-            HashMap mapChildren = new HashMap();
-            for(int k = 0; k < yyVideos.size(); k++){
-                if(hosId.equals(yyVideos.get(k).getHosId())){
-                    JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(yyVideos.get(k)));
-                    jsonArray.add(jsonObject);
-                    hosName = jsonObject.getString("hosName");
-                }
+        //下面是从大华调取视频设备接口的方法
+        //分页查询个人有权限视频通道资源
+        String url = "resource-catalog/tripartite/authority/channel/page";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("pageNo",1);
+        jsonObject.put("pageSize",200);
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("keyword","");
+        jsonObject.put("param",jsonObject1);
+        String body = VideoLive.getVideoData(jsonObject,url,"shfzj001","shfzj12345");
+        JSONObject videoList = JSONObject.parseObject(body);
+        JSONArray jsonArray = videoList.getJSONArray("records");
+        YyVideoBase yyVideoBase = new YyVideoBase();
+        yyVideoBase.setId(1L);
+        yyVideoBase.setVideoSum((long) jsonArray.size());
+        long videoOnline = 0;
+        for (int q = 0; q < jsonArray.size(); q++) {
+            JSONObject recordOnline = jsonArray.getJSONObject(q);
+            if (recordOnline.getString("networkStatus").equals("1")) {
+                videoOnline++;
             }
-            mapChildren.put("name",hosName);
-            mapChildren.put("children",jsonArray);
-            jsonArrayNew.add(mapChildren);
         }
-        return jsonArrayNew;
+        yyVideoBase.setVideoDuty(videoOnline);
+        yyVideoBaseService.updateYyVideoBase(yyVideoBase);
+        return jsonArray;
+
+//        List<YyVideo> yyVideos = yyVideoService.selectYyVideoListAndName(new YyVideo());
+//        //归类到以医院为中心
+//        JSONArray jsonArrayNew = new JSONArray();
+//        HashMap mapNew = new HashMap();
+//        HashSet hashSet = new HashSet();
+//        for(int i = 0; i < yyVideos.size(); i++){
+//            hashSet.add(yyVideos.get(i).getHosId());
+//        }
+//        List<Long> list = new ArrayList<Long>(hashSet);
+//        for(int j = 0; j < hashSet.size(); j++){
+//            Long hosId = list.get(j);
+//            String hosName = null;
+//            JSONArray jsonArray = new JSONArray();
+//            HashMap mapChildren = new HashMap();
+//            for(int k = 0; k < yyVideos.size(); k++){
+//                if(hosId.equals(yyVideos.get(k).getHosId())){
+//                    JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(yyVideos.get(k)));
+//                    jsonArray.add(jsonObject);
+//                    hosName = jsonObject.getString("hosName");
+//                }
+//            }
+//            mapChildren.put("name",hosName);
+//            mapChildren.put("children",jsonArray);
+//            jsonArrayNew.add(mapChildren);
+//        }
+//        return jsonArrayNew;
     }
 
 

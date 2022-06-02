@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YjZbdrMapper">
+
+    <resultMap type="YjZbdr" id="YjZbdrResult">
+        <result property="id" column="id"/>
+        <result property="zbDate" column="zb_date"/>
+        <result property="weekDate" column="week_date"/>
+        <result property="leaderName" column="leader_name"/>
+        <result property="leaderPhone" column="leader_phone"/>
+        <result property="chiefName" column="chief_name"/>
+        <result property="chiefPhone" column="chief_phone"/>
+        <result property="dayNameOne" column="day_name_one"/>
+        <result property="dayNameTwo" column="day_name_two"/>
+        <result property="nightNameOne" column="night_name_one"/>
+        <result property="nightNameTwo" column="night_name_two"/>
+    </resultMap>
+
+    <sql id="selectYjZbdrVo">
+        select id,
+               zb_date,
+               week_date,
+               leader_name,
+               leader_phone,
+               chief_name,
+               chief_phone,
+               day_name_one,
+               day_name_two,
+               night_name_one,
+               night_name_two
+        from yj_zbdr
+    </sql>
+
+    <select id="selectYjZbdrList" parameterType="YjZbdr" resultMap="YjZbdrResult">
+        <include refid="selectYjZbdrVo"/>
+        <where>
+            <if test="zbDate != null  and zbDate != ''">and zb_date = #{zbDate}</if>
+            <if test="weekDate != null  and weekDate != ''">and week_date = #{weekDate}</if>
+            <if test="leaderName != null  and leaderName != ''">and leader_name like concat('%', #{leaderName}, '%')
+            </if>
+            <if test="leaderPhone != null  and leaderPhone != ''">and leader_phone = #{leaderPhone}</if>
+            <if test="chiefName != null  and chiefName != ''">and chief_name like concat('%', #{chiefName}, '%')</if>
+            <if test="chiefPhone != null  and chiefPhone != ''">and chief_phone = #{chiefPhone}</if>
+            <if test="dayNameOne != null  and dayNameOne != ''">and day_name_one = #{dayNameOne}</if>
+            <if test="dayNameTwo != null  and dayNameTwo != ''">and day_name_two = #{dayNameTwo}</if>
+            <if test="nightNameOne != null  and nightNameOne != ''">and night_name_one = #{nightNameOne}</if>
+            <if test="nightNameTwo != null  and nightNameTwo != ''">and night_name_two = #{nightNameTwo}</if>
+        </where>
+    </select>
+
+    <select id="selectYjZbdrById" parameterType="Long" resultMap="YjZbdrResult">
+        <include refid="selectYjZbdrVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertYjZbdr" parameterType="YjZbdr" useGeneratedKeys="true" keyProperty="id">
+        insert into yj_zbdr
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="zbDate != null">zb_date,</if>
+            <if test="weekDate != null">week_date,</if>
+            <if test="leaderName != null">leader_name,</if>
+            <if test="leaderPhone != null">leader_phone,</if>
+            <if test="chiefName != null">chief_name,</if>
+            <if test="chiefPhone != null">chief_phone,</if>
+            <if test="dayNameOne != null">day_name_one,</if>
+            <if test="dayNameTwo != null">day_name_two,</if>
+            <if test="nightNameOne != null">night_name_one,</if>
+            <if test="nightNameTwo != null">night_name_two,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="zbDate != null">#{zbDate},</if>
+            <if test="weekDate != null">#{weekDate},</if>
+            <if test="leaderName != null">#{leaderName},</if>
+            <if test="leaderPhone != null">#{leaderPhone},</if>
+            <if test="chiefName != null">#{chiefName},</if>
+            <if test="chiefPhone != null">#{chiefPhone},</if>
+            <if test="dayNameOne != null">#{dayNameOne},</if>
+            <if test="dayNameTwo != null">#{dayNameTwo},</if>
+            <if test="nightNameOne != null">#{nightNameOne},</if>
+            <if test="nightNameTwo != null">#{nightNameTwo},</if>
+        </trim>
+    </insert>
+
+    <update id="updateYjZbdr" parameterType="YjZbdr">
+        update yj_zbdr
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="zbDate != null">zb_date = #{zbDate},</if>
+            <if test="weekDate != null">week_date = #{weekDate},</if>
+            <if test="leaderName != null">leader_name = #{leaderName},</if>
+            <if test="leaderPhone != null">leader_phone = #{leaderPhone},</if>
+            <if test="chiefName != null">chief_name = #{chiefName},</if>
+            <if test="chiefPhone != null">chief_phone = #{chiefPhone},</if>
+            <if test="dayNameOne != null">day_name_one = #{dayNameOne},</if>
+            <if test="dayNameTwo != null">day_name_two = #{dayNameTwo},</if>
+            <if test="nightNameOne != null">night_name_one = #{nightNameOne},</if>
+            <if test="nightNameTwo != null">night_name_two = #{nightNameTwo},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYjZbdrById" parameterType="Long">
+        delete
+        from yj_zbdr
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteYjZbdrByIds" parameterType="String">
+        delete from yj_zbdr where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="batchYjZbdr">
+        insert into yj_zbdr(zb_date, week_date, leader_name, leader_phone, chief_name, chief_phone, day_name_one,
+        day_name_two, night_name_one, night_name_two) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.zbDate},
+            #{item.weekDate},
+            #{item.leaderName},
+            #{item.leaderPhone},
+            #{item.chiefName},
+            #{item.chiefPhone},
+            #{item.dayNameOne},
+            #{item.dayNameTwo},
+            #{item.nightNameOne},
+            #{item.nightNameTwo}
+            )
+        </foreach>
+    </insert>
+</mapper>

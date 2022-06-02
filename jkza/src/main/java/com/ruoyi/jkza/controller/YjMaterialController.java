@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 物资信息Controller
  * 
  * @author ruoyi
- * @date 2022-04-17
+ * @date 2022-05-27
  */
 @RestController
 @RequestMapping("/jkza/yjMaterial")
@@ -77,7 +77,6 @@ public class YjMaterialController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody YjMaterial yjMaterial)
     {
-        yjMaterial.setDataType(1);
         return toAjax(yjMaterialService.insertYjMaterial(yjMaterial));
     }
 
