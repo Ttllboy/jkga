@@ -35,9 +35,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             on t1.IDCard = t2.IDCard
         <if test="projectguid != null  and projectguid != ''"> and t1.ProjectGUID = #{projectguid}</if>
     </select>
-    <select id="selectIndex" resultMap="TPersoninfoResult">
-        <include refid="selectTPersoninfoVo"/>
-
+    <select id="selectIndex" parameterType="TPersoninfo" resultMap="TPersoninfoResult">
+        select * from t_personinfo
     </select>
     <select id="selectTPersoninfoListSize" parameterType="TPersoninfo" resultMap="TPersoninfoResult">
         SELECT

@@ -125,7 +125,7 @@ public class YjData {
         //分页查询个人有权限视频通道资源
         String url = "resource-catalog/tripartite/authority/channel/page";
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("pageNo",1);
+        jsonObject.put("pageNo",2);
         jsonObject.put("pageSize",200);
         JSONObject jsonObject1 = new JSONObject();
         jsonObject1.put("keyword","");

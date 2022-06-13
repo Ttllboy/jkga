@@ -83,6 +83,12 @@ spring:
         max-active: 8
         # #连接池最大阻塞等待时间（使用负值表示没有限制）
         max-wait: -1ms
+  rabbitmq:
+    host: 133.1.3.119
+    port: 5672
+    username: admin
+    password: 123456
+
 
 # token配置
 token:

@@ -1,7 +1,9 @@
 package com.ruoyi.jkza.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -423,9 +425,21 @@ public class GdData {
 
 
     @PostMapping("/test")
-    public List<TPersoninfo> test() throws InterruptedException {
-        List<TPersoninfo> list = tPersoninfoMapper.selectIndex();
-        return list;
+    public void test() {
+
+//        PageHelper.startPage(1,5);
+//        List<TPersoninfo> list = tPersoninfoMapper.selectIndex(new TPersoninfo());
+//        List<VPsWorkerbase> vPsWorkerbases = vPsWorkerbaseService.selectVPsWorkerbaseList(new VPsWorkerbase());
+//        JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(list));
+//        for (int i = 0; i < list.size(); i++) {
+//            String idCard = list.get(i).getIdcard();
+//            for (int i1 = 0; i1 < vPsWorkerbases.size(); i1++) {
+//                if(idCard.equals(vPsWorkerbases.get(i1).getIdcard())){
+//                    jsonArray.getJSONObject(i).put("personphone",vPsWorkerbases.get(i1).getPersonphone());
+//                }
+//            }
+//        }
+//        return jsonArray;
 //        List<TPersoninfo> list = tPersoninfoMapper.selectList(new TPersoninfo());
 //
 //        Integer pageSize = list.size()/10;
@@ -437,7 +451,7 @@ public class GdData {
 
 
     @Async("threadPoolTaskExecutor")
-    public void test2(List<TPersoninfo> list,Integer pageNum,Integer pageSize) {
+    public void test2() {
 
     }
 
@@ -688,6 +702,19 @@ public class GdData {
         Integer pageNum = (Integer) jsonObject.get("pageNum");
         Integer pageSize = (Integer) jsonObject.get("pageSize");
         gdWorkerCheck.setTemperatureType(1);
+
+        PageHelper.startPage(pageNum,pageSize);
+        List<TPersoninfo> list = tPersoninfoMapper.selectTPersoninfoList(new TPersoninfo());
+        List<VPsWorkerbase> vPsWorkerbases = vPsWorkerbaseService.selectVPsWorkerbaseList(new VPsWorkerbase());
+        JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(list));
+        for (int i = 0; i < list.size(); i++) {
+            String idCard = list.get(i).getIdcard();
+            for (int i1 = 0; i1 < vPsWorkerbases.size(); i1++) {
+                if(idCard.equals(vPsWorkerbases.get(i1).getIdcard())){
+                    jsonArray.getJSONObject(i).put("personphone",vPsWorkerbases.get(i1).getPersonphone());
+                }
+            }
+        }
         //List<GdWorkerCheck> list =gdWorkerCheckService.selectGdWorkerCheckList(gdWorkerCheck);
 
         //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -703,12 +730,10 @@ public class GdData {
         //        i--;
         //    }
         //}
-        System.out.println(Calendar.getInstance());
-        List<TPersoninfo> list = tPersoninfoMapper.selectList(new TPersoninfo());
         TableDataInfo rspData = new TableDataInfo();
         rspData.setCode(HttpStatus.SUCCESS);
         rspData.setMsg("查询成功");
-        rspData.setRows(PageByList.starPage(list, pageNum, pageSize));
+        rspData.setRows(jsonArray);
         rspData.setTotal(new PageInfo(list).getTotal());
         return rspData;
     }
@@ -722,6 +747,22 @@ public class GdData {
         Integer pageSize = (Integer) jsonObject.get("pageSize");
         gdWorkerCheck.setBuildingId(id);
         gdWorkerCheck.setTemperatureType(1);
+
+        GdBuilding gdBuilding = gdBuildingService.selectGdBuildingById(id);
+        TPersoninfo tPersoninfo = new TPersoninfo();
+        tPersoninfo.setProjectguid(gdBuilding.getProjectInfoNum());
+        PageHelper.startPage(pageNum,pageSize);
+        List<TPersoninfo> list = tPersoninfoMapper.selectTPersoninfoList(tPersoninfo);
+        List<VPsWorkerbase> vPsWorkerbases = vPsWorkerbaseService.selectVPsWorkerbaseList(new VPsWorkerbase());
+        JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(list));
+        for (int i = 0; i < list.size(); i++) {
+            String idCard = list.get(i).getIdcard();
+            for (int i1 = 0; i1 < vPsWorkerbases.size(); i1++) {
+                if(idCard.equals(vPsWorkerbases.get(i1).getIdcard())){
+                    jsonArray.getJSONObject(i).put("personphone",vPsWorkerbases.get(i1).getPersonphone());
+                }
+            }
+        }
         //List<GdWorkerCheck> list =gdWorkerCheckService.selectGdWorkerCheckList(gdWorkerCheck);
         //
         //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -738,15 +779,12 @@ public class GdData {
         //    }
         //}
 
-        GdBuilding gdBuilding = gdBuildingService.selectGdBuildingById(id);
-        TPersoninfo tPersoninfo = new TPersoninfo();
-        tPersoninfo.setProjectguid(gdBuilding.getProjectInfoNum());
-        List<TPersoninfo> list = tPersoninfoMapper.selectList(tPersoninfo);
+
 
         TableDataInfo rspData = new TableDataInfo();
         rspData.setCode(HttpStatus.SUCCESS);
         rspData.setMsg("查询成功");
-        rspData.setRows(PageByList.starPage(list, pageNum, pageSize));
+        rspData.setRows(jsonArray);
         rspData.setTotal(new PageInfo(list).getTotal());
         return rspData;
     }
