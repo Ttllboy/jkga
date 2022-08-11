@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="100px">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="所属工地" prop="buildingId">
-        <!--<el-input-->
-        <!--  v-model="queryParams.buildingId"-->
-        <!--  placeholder="请输入所属工地"-->
-        <!--  clearable-->
-        <!--  @keyup.enter.native="handleQuery"-->
-        <!--/>-->
+<!--        <el-input-->
+<!--          v-model="queryParams.buildingId"-->
+<!--          placeholder="请输入所属工地"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
         <el-select v-model="queryParams.buildingId" placeholder="请选择所属工地" @change="changeBuildingId" clearable>
           <el-option
             v-for="item in buildingNames"
@@ -18,72 +18,72 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <!--<el-form-item label="设备编号" prop="equipmentNum">-->
-      <!--  <el-input-->
-      <!--    v-model="queryParams.equipmentNum"-->
-      <!--    placeholder="请输入设备编号"-->
-      <!--    clearable-->
-      <!--    @keyup.enter.native="handleQuery"-->
-      <!--  />-->
-      <!--</el-form-item>-->
-      <!--<el-form-item label="统计时间" prop="date">-->
-      <!--  <el-date-picker clearable-->
-      <!--    v-model="queryParams.date"-->
-      <!--    type="date"-->
-      <!--    value-format="yyyy-MM-dd"-->
-      <!--    placeholder="请选择统计时间">-->
-      <!--  </el-date-picker>-->
-      <!--</el-form-item>-->
-      <!--<el-form-item label="PM2.5值" prop="pm25">-->
-      <!--  <el-input-->
-      <!--    v-model="queryParams.pm25"-->
-      <!--    placeholder="请输入PM2.5值"-->
-      <!--    clearable-->
-      <!--    @keyup.enter.native="handleQuery"-->
-      <!--  />-->
-      <!--</el-form-item>-->
-      <!--<el-form-item label="PM10值" prop="pm10">-->
-      <!--  <el-input-->
-      <!--    v-model="queryParams.pm10"-->
-      <!--    placeholder="请输入PM10值"-->
-      <!--    clearable-->
-      <!--    @keyup.enter.native="handleQuery"-->
-      <!--  />-->
-      <!--</el-form-item>-->
-      <!--<el-form-item label="温度" prop="temperature">-->
-      <!--  <el-input-->
-      <!--    v-model="queryParams.temperature"-->
-      <!--    placeholder="请输入温度"-->
-      <!--    clearable-->
-      <!--    @keyup.enter.native="handleQuery"-->
-      <!--  />-->
-      <!--</el-form-item>-->
-      <!--<el-form-item label="湿度" prop="humidity">-->
-      <!--  <el-input-->
-      <!--    v-model="queryParams.humidity"-->
-      <!--    placeholder="请输入湿度"-->
-      <!--    clearable-->
-      <!--    @keyup.enter.native="handleQuery"-->
-      <!--  />-->
-      <!--</el-form-item>-->
-      <!--<el-form-item label="噪音" prop="noise">-->
-      <!--  <el-input-->
-      <!--    v-model="queryParams.noise"-->
-      <!--    placeholder="请输入噪音"-->
-      <!--    clearable-->
-      <!--    @keyup.enter.native="handleQuery"-->
-      <!--  />-->
-      <!--</el-form-item>-->
-      <el-form-item label="数据类型" prop="dataType">
-        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
-          <el-option
-            v-for="dict in dict.type.data_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="设备编号" prop="equipmentNum">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.equipmentNum"-->
+<!--          placeholder="请输入设备编号"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="统计时间" prop="date">-->
+<!--        <el-date-picker clearable-->
+<!--          v-model="queryParams.date"-->
+<!--          type="date"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          placeholder="请选择统计时间">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="PM2.5值" prop="pm25">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.pm25"-->
+<!--          placeholder="请输入PM2.5值"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="PM10值" prop="pm10">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.pm10"-->
+<!--          placeholder="请输入PM10值"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="温度" prop="temperature">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.temperature"-->
+<!--          placeholder="请输入温度"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="湿度" prop="humidity">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.humidity"-->
+<!--          placeholder="请输入湿度"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="噪音" prop="noise">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.noise"-->
+<!--          placeholder="请输入噪音"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="数据类型" prop="dataType">-->
+<!--        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.data_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -138,15 +138,14 @@
 
     <el-table v-loading="loading" :data="dustDataList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <!--<el-table-column label="ID" align="center" prop="id" />-->
       <el-table-column label="序号" align="center" prop="id" >
         <template slot-scope="scope">
           <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
         </template>
       </el-table-column>
       <el-table-column label="所属工地" align="center" prop="buildingId" >
-        <template slot-scope="scope" v-if="scope.row.buildingId">
-          <BuildingNames :buildingNames="buildingNames" :buildingId="scope.row.buildingId"></BuildingNames>
+        <template slot-scope="scope">
+          {{buildingNames[(scope.row.buildingId)-1].label}}
         </template>
       </el-table-column>
       <el-table-column label="设备编号" align="center" prop="equipmentNum" />
@@ -157,14 +156,14 @@
       </el-table-column>
       <el-table-column label="PM2.5值" align="center" prop="pm25" />
       <el-table-column label="PM10值" align="center" prop="pm10" />
-      <el-table-column label="温度" align="center" prop="temperature" />
-      <el-table-column label="湿度" align="center" prop="humidity" />
-      <el-table-column label="噪音" align="center" prop="noise" />
-      <el-table-column label="数据类型" align="center" prop="dataType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="温度" align="center" prop="temperature" />-->
+<!--      <el-table-column label="湿度" align="center" prop="humidity" />-->
+<!--      <el-table-column label="噪音" align="center" prop="noise" />-->
+<!--      <el-table-column label="数据类型" align="center" prop="dataType">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -193,11 +192,11 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改扬尘设备数据对话框 -->
+    <!-- 添加或修改扬尘数据bd对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="所属工地" prop="buildingId">
-          <!--<el-input v-model="form.buildingId" placeholder="请输入所属工地" />-->
+<!--          <el-input v-model="form.buildingId" placeholder="请输入所属工地" />-->
           <el-select v-model="form.buildingId" placeholder="请选择所属工地" @change="changeFormBuildingId" clearable>
             <el-option
               v-for="item in buildingNames"
@@ -225,15 +224,15 @@
         <el-form-item label="PM10值" prop="pm10">
           <el-input v-model="form.pm10" placeholder="请输入PM10值" />
         </el-form-item>
-        <el-form-item label="温度" prop="temperature">
-          <el-input v-model="form.temperature" placeholder="请输入温度" />
-        </el-form-item>
-        <el-form-item label="湿度" prop="humidity">
-          <el-input v-model="form.humidity" placeholder="请输入湿度" />
-        </el-form-item>
-        <el-form-item label="噪音" prop="noise">
-          <el-input v-model="form.noise" placeholder="请输入噪音" />
-        </el-form-item>
+<!--        <el-form-item label="温度" prop="temperature">-->
+<!--          <el-input v-model="form.temperature" placeholder="请输入温度" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="湿度" prop="humidity">-->
+<!--          <el-input v-model="form.humidity" placeholder="请输入湿度" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="噪音" prop="noise">-->
+<!--          <el-input v-model="form.noise" placeholder="请输入噪音" />-->
+<!--        </el-form-item>-->
 <!--        <el-form-item label="数据类型" prop="dataType">-->
 <!--          <el-select v-model="form.dataType" placeholder="请选择数据类型">-->
 <!--            <el-option-->
@@ -256,12 +255,10 @@
 <script>
 import { listDustData, getDustData, delDustData, addDustData, updateDustData } from "@/api/jkza/dustData";
 import {listBuildingNames} from "@/api/jkza/synergy";
-import StreetNames from "@/views/components/streetName";
-import BuildingNames from "@/views/components/buildingName";
+
 export default {
   name: "DustData",
   dicts: ['data_type'],
-  components:{BuildingNames},
   data() {
     return {
       // 遮罩层
@@ -276,14 +273,14 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 扬尘设备数据表格数据
+      // 扬尘数据bd表格数据
       dustDataList: [],
+      //所有工地名称
+      buildingNames: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
-      //所有工地名称
-      buildingNames: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -309,7 +306,7 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询扬尘设备数据列表 */
+    /** 查询扬尘数据bd列表 */
     getList() {
       this.loading = true;
       listDustData(this.queryParams).then(response => {
@@ -318,6 +315,7 @@ export default {
         this.loading = false;
       });
       listBuildingNames().then(response => {
+        console.log(response);
           this.buildingNames = response;
         }
       );
@@ -363,7 +361,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加扬尘设备数据";
+      this.title = "添加扬尘数据bd";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -372,7 +370,7 @@ export default {
       getDustData(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改扬尘设备数据";
+        this.title = "修改扬尘数据bd";
       });
     },
     /** 提交按钮 */
@@ -398,7 +396,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除扬尘设备数据编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除扬尘数据bd编号为"' + ids + '"的数据项？').then(function() {
         return delDustData(ids);
       }).then(() => {
         this.getList();

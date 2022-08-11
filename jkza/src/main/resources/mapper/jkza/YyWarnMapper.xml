@@ -24,12 +24,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="warnImg != null  and warnImg != ''"> and warn_img = #{warnImg}</if>
             <if test="warnTime != null "> and warn_time = #{warnTime}</if>
-            <if test="warnPlace != null  and warnPlace != ''"> and warn_place = #{warnPlace}</if>
+            <if test="warnPlace != null  and warnPlace != ''"> and warn_place like concat('%', #{warnPlace}, '%')</if>
             <if test="warnType != null "> and warn_type = #{warnType}</if>
             <if test="replyCheck != null "> and reply_check = #{replyCheck}</if>
             <if test="replyInfo != null  and replyInfo != ''"> and reply_info = #{replyInfo}</if>
             <if test="dataType != null "> and data_type = #{dataType}</if>
         </where>
+        order by warn_time desc
+        limit 50
     </select>
     
     <select id="selectYyWarnById" parameterType="Long" resultMap="YyWarnResult">

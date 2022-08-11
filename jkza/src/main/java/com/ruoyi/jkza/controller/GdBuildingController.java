@@ -121,4 +121,16 @@ public class GdBuildingController extends BaseController
         }
         return data;
     }
+    @PostMapping("/listProjectId")
+    public JSONArray listProjectId(){
+        List<GdBuilding> gdBuildings = gdBuildingService.selectGdBuildingList(new GdBuilding());
+        JSONArray data = new JSONArray();
+        for(int i = 0; i < gdBuildings.size(); i++){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.set("value",gdBuildings.get(i).getId());
+            jsonObject.set("label",gdBuildings.get(i).getProjectInfoNum());
+            data.add(i,jsonObject);
+        }
+        return data;
+    }
 }

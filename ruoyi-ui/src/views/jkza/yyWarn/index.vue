@@ -35,34 +35,34 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="事件状态" prop="replyCheck">
-        <el-select v-model="queryParams.replyCheck" placeholder="请选择事件状态" clearable>
-          <el-option
-            v-for="dict in dict.type.yj_check"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="回复信息" prop="replyInfo">
-        <el-input
-          v-model="queryParams.replyInfo"
-          placeholder="请输入回复信息"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="数据类型" prop="dataType">
-        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
-          <el-option
-            v-for="dict in dict.type.data_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="事件状态" prop="replyCheck">-->
+<!--        <el-select v-model="queryParams.replyCheck" placeholder="请选择事件状态" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.yj_check"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="回复信息" prop="replyInfo">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.replyInfo"-->
+<!--          placeholder="请输入回复信息"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="数据类型" prop="dataType">-->
+<!--        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.data_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -123,7 +123,11 @@
           <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="预警照片" align="center" prop="warnImg" />
+      <el-table-column label="预警照片" align="center" prop="warnImg" >
+        <template slot-scope="scope">
+          <img :src="scope.row.warnImg" width="100px" height="100px" />
+        </template>
+      </el-table-column>
       <el-table-column label="预警时间" align="center" prop="warnTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.warnTime, '{y}-{m}-{d}') }}</span>
@@ -135,17 +139,17 @@
           <dict-tag :options="dict.type.yy_warn" :value="scope.row.warnType"/>
         </template>
       </el-table-column>
-      <el-table-column label="事件状态" align="center" prop="replyCheck">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.yj_check" :value="scope.row.replyCheck"/>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="事件状态" align="center" prop="replyCheck">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.yj_check" :value="scope.row.replyCheck"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <!--<el-table-column label="回复信息" align="center" prop="replyInfo" />-->
-      <el-table-column label="数据类型" align="center" prop="dataType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="数据类型" align="center" prop="dataType">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -201,16 +205,16 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="事件状态" prop="replyCheck">
-          <el-select v-model="form.replyCheck" placeholder="请选择事件状态">
-            <el-option
-              v-for="dict in dict.type.yj_check"
-              :key="dict.value"
-              :label="dict.label"
-:value="parseInt(dict.value)"
-            ></el-option>
-          </el-select>
-        </el-form-item>
+<!--        <el-form-item label="事件状态" prop="replyCheck">-->
+<!--          <el-select v-model="form.replyCheck" placeholder="请选择事件状态">-->
+<!--            <el-option-->
+<!--              v-for="dict in dict.type.yj_check"-->
+<!--              :key="dict.value"-->
+<!--              :label="dict.label"-->
+<!--:value="parseInt(dict.value)"-->
+<!--            ></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
         <!--<el-form-item label="回复信息" prop="replyInfo">-->
         <!--  <el-input v-model="form.replyInfo" placeholder="请输入回复信息" />-->
         <!--</el-form-item>-->

@@ -11,12 +11,16 @@
         <result property="car"    column="car"    />
         <result property="securityStaff"    column="security_staff"    />
         <result property="securityStaffOnline"    column="security_staff_online"    />
+        <result property="securityCar"    column="security_car"    />
+        <result property="securityCarOnline"    column="security_car_online"    />
+        <result property="disappearRoom"    column="disappear_room"    />
+        <result property="dangerSource"    column="danger_source"    />
         <result property="coordinate"    column="coordinate"    />
         <result property="dataType"    column="data_type"    />
     </resultMap>
 
     <sql id="selectYyYyVo">
-        select id, hos_name, bed, car, security_staff, security_staff_online, coordinate, data_type from yy_yy
+        select id, hos_name, bed, car, security_staff, security_staff_online, security_car, security_car_online, disappear_room, danger_source, coordinate, data_type from yy_yy
     </sql>
 
     <select id="selectYyYyList" parameterType="YyYy" resultMap="YyYyResult">
@@ -27,6 +31,10 @@
             <if test="car != null "> and car = #{car}</if>
             <if test="securityStaff != null "> and security_staff = #{securityStaff}</if>
             <if test="securityStaffOnline != null "> and security_staff_online = #{securityStaffOnline}</if>
+            <if test="securityCar != null "> and security_car = #{securityCar}</if>
+            <if test="securityCarOnline != null "> and security_car_online = #{securityCarOnline}</if>
+            <if test="disappearRoom != null "> and disappear_room = #{disappearRoom}</if>
+            <if test="dangerSource != null "> and danger_source = #{dangerSource}</if>
             <if test="coordinate != null  and coordinate != ''"> and coordinate = #{coordinate}</if>
             <if test="dataType != null "> and data_type = #{dataType}</if>
         </where>
@@ -45,6 +53,10 @@
             <if test="car != null">car,</if>
             <if test="securityStaff != null">security_staff,</if>
             <if test="securityStaffOnline != null">security_staff_online,</if>
+            <if test="securityCar != null">security_car,</if>
+            <if test="securityCarOnline != null">security_car_online,</if>
+            <if test="disappearRoom != null">disappear_room,</if>
+            <if test="dangerSource != null">danger_source,</if>
             <if test="coordinate != null">coordinate,</if>
             <if test="dataType != null">data_type,</if>
         </trim>
@@ -54,6 +66,10 @@
             <if test="car != null">#{car},</if>
             <if test="securityStaff != null">#{securityStaff},</if>
             <if test="securityStaffOnline != null">#{securityStaffOnline},</if>
+            <if test="securityCar != null">#{securityCar},</if>
+            <if test="securityCarOnline != null">#{securityCarOnline},</if>
+            <if test="disappearRoom != null">#{disappearRoom},</if>
+            <if test="dangerSource != null">#{dangerSource},</if>
             <if test="coordinate != null">#{coordinate},</if>
             <if test="dataType != null">#{dataType},</if>
         </trim>
@@ -67,6 +83,10 @@
             <if test="car != null">car = #{car},</if>
             <if test="securityStaff != null">security_staff = #{securityStaff},</if>
             <if test="securityStaffOnline != null">security_staff_online = #{securityStaffOnline},</if>
+            <if test="securityCar != null">security_car = #{securityCar},</if>
+            <if test="securityCarOnline != null">security_car_online = #{securityCarOnline},</if>
+            <if test="disappearRoom != null">disappear_room = #{disappearRoom},</if>
+            <if test="dangerSource != null">danger_source = #{dangerSource},</if>
             <if test="coordinate != null">coordinate = #{coordinate},</if>
             <if test="dataType != null">data_type = #{dataType},</if>
         </trim>

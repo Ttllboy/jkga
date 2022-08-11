@@ -7,7 +7,7 @@ import com.ruoyi.jkza.domain.GdVideo;
  * 视频设备Mapper接口
  * 
  * @author ruoyi
- * @date 2022-04-12
+ * @date 2022-06-18
  */
 public interface GdVideoMapper 
 {
@@ -26,9 +26,6 @@ public interface GdVideoMapper
      * @return 视频设备集合
      */
     public List<GdVideo> selectGdVideoList(GdVideo gdVideo);
-
-    //查询视频设备列表与工地表链接查询
-    public List<GdVideo> selectGdVideoListAndBuilding(GdVideo gdVideo);
 
     /**
      * 新增视频设备
@@ -53,6 +50,7 @@ public interface GdVideoMapper
      * @return 结果
      */
     public int deleteGdVideoById(Long id);
+    public int truncateGdVideo();
 
     /**
      * 批量删除视频设备

@@ -11,7 +11,7 @@ import com.ruoyi.jkza.service.IStVideoService;
  * 视频设备Service业务层处理
  * 
  * @author ruoyi
- * @date 2022-04-19
+ * @date 2022-06-18
  */
 @Service
 public class StVideoServiceImpl implements IStVideoService 
@@ -41,10 +41,6 @@ public class StVideoServiceImpl implements IStVideoService
     public List<StVideo> selectStVideoList(StVideo stVideo)
     {
         return stVideoMapper.selectStVideoList(stVideo);
-    }
-public List<StVideo> selectStVideoListAndName(StVideo stVideo)
-    {
-        return stVideoMapper.selectStVideoListAndName(stVideo);
     }
 
     /**
@@ -78,7 +74,7 @@ public List<StVideo> selectStVideoListAndName(StVideo stVideo)
      * @return 结果
      */
     @Override
-    public int deleteStVideoByIds(Integer[] ids)
+    public int deleteStVideoByIds(Long[] ids)
     {
         return stVideoMapper.deleteStVideoByIds(ids);
     }

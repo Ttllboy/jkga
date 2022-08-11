@@ -11,7 +11,7 @@ import com.ruoyi.jkza.service.IYjSynergyService;
  * 多跨协同Service业务层处理
  * 
  * @author ruoyi
- * @date 2022-04-18
+ * @date 2022-06-24
  */
 @Service
 public class YjSynergyServiceImpl implements IYjSynergyService 

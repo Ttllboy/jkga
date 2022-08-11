@@ -7,9 +7,9 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 视频设备对象 gd_video
- *
+ * 
  * @author ruoyi
- * @date 2022-04-12
+ * @date 2022-06-18
  */
 public class GdVideo extends BaseEntity
 {
@@ -22,17 +22,21 @@ public class GdVideo extends BaseEntity
     @Excel(name = "工地ID")
     private Long buildingSiteId;
 
+    /** 驾驶舱ID */
+    @Excel(name = "驾驶舱ID")
+    private Integer jscId;
+
     /** 视频设备名称 */
     @Excel(name = "视频设备名称")
-    private String videoName;
+    private String channelName;
 
-    /** 设备类型 */
-    @Excel(name = "设备类型")
-    private Integer equipmentType;
+    /** 摄像机类型 */
+    @Excel(name = "摄像机类型")
+    private Integer cameraType;
 
     /** 在线状态 */
     @Excel(name = "在线状态")
-    private Integer onlineType;
+    private Integer networkStatus;
 
     /** 通道编码 */
     @Excel(name = "通道编码")
@@ -40,106 +44,103 @@ public class GdVideo extends BaseEntity
 
     /** 经度 */
     @Excel(name = "经度")
-    private String gpsx;
+    private Double gpsX;
 
     /** 纬度 */
     @Excel(name = "纬度")
-    private String gpsy;
+    private Double gpsY;
 
     /** 数据类型 */
     @Excel(name = "数据类型")
     private Integer dataType;
 
-    /** 工地名称 */
-    @Excel(name = "工地名称")
-    private String buildingSiteName;
-
-    public String getBuildingSiteName() {
-        return buildingSiteName;
-    }
-
-    public void setBuildingSiteName(String buildingSiteName) {
-        this.buildingSiteName = buildingSiteName;
-    }
-
-    public void setId(Long id)
+    public void setId(Long id) 
     {
         this.id = id;
     }
 
-    public Long getId()
+    public Long getId() 
     {
         return id;
     }
-    public void setBuildingSiteId(Long buildingSiteId)
+    public void setBuildingSiteId(Long buildingSiteId) 
     {
         this.buildingSiteId = buildingSiteId;
     }
 
-    public Long getBuildingSiteId()
+    public Long getBuildingSiteId() 
     {
         return buildingSiteId;
     }
-    public void setVideoName(String videoName)
+    public void setJscId(Integer jscId) 
     {
-        this.videoName = videoName;
+        this.jscId = jscId;
     }
 
-    public String getVideoName()
+    public Integer getJscId() 
     {
-        return videoName;
+        return jscId;
     }
-    public void setEquipmentType(Integer equipmentType)
+    public void setChannelName(String channelName) 
     {
-        this.equipmentType = equipmentType;
-    }
-
-    public Integer getEquipmentType()
-    {
-        return equipmentType;
-    }
-    public void setOnlineType(Integer onlineType)
-    {
-        this.onlineType = onlineType;
+        this.channelName = channelName;
     }
 
-    public Integer getOnlineType()
+    public String getChannelName() 
     {
-        return onlineType;
+        return channelName;
     }
-    public void setChannelCode(String channelCode)
+    public void setCameraType(Integer cameraType) 
+    {
+        this.cameraType = cameraType;
+    }
+
+    public Integer getCameraType() 
+    {
+        return cameraType;
+    }
+    public void setNetworkStatus(Integer networkStatus) 
+    {
+        this.networkStatus = networkStatus;
+    }
+
+    public Integer getNetworkStatus() 
+    {
+        return networkStatus;
+    }
+    public void setChannelCode(String channelCode) 
     {
         this.channelCode = channelCode;
     }
 
-    public String getChannelCode()
+    public String getChannelCode() 
     {
         return channelCode;
     }
-    public void setGpsx(String gpsx)
+    public void setGpsX(Double gpsX)
     {
-        this.gpsx = gpsx;
+        this.gpsX = gpsX;
     }
 
-    public String getGpsx()
+    public Double getGpsX()
     {
-        return gpsx;
+        return gpsX;
     }
-    public void setGpsy(String gpsy)
+    public void setGpsY(Double gpsY)
     {
-        this.gpsy = gpsy;
+        this.gpsY = gpsY;
     }
 
-    public String getGpsy()
+    public Double getGpsY()
     {
-        return gpsy;
+        return gpsY;
     }
-    public void setDataType(Integer dataType)
+    public void setDataType(Integer dataType) 
     {
         this.dataType = dataType;
     }
 
-    public Integer getDataType()
+    public Integer getDataType() 
     {
         return dataType;
     }
@@ -147,15 +148,16 @@ public class GdVideo extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("buildingSiteId", getBuildingSiteId())
-                .append("videoName", getVideoName())
-                .append("equipmentType", getEquipmentType())
-                .append("onlineType", getOnlineType())
-                .append("channelCode", getChannelCode())
-                .append("gpsx", getGpsx())
-                .append("gpsy", getGpsy())
-                .append("dataType", getDataType())
-                .toString();
+            .append("id", getId())
+            .append("buildingSiteId", getBuildingSiteId())
+            .append("jscId", getJscId())
+            .append("channelName", getChannelName())
+            .append("cameraType", getCameraType())
+            .append("networkStatus", getNetworkStatus())
+            .append("channelCode", getChannelCode())
+            .append("gpsX", getGpsX())
+            .append("gpsY", getGpsY())
+            .append("dataType", getDataType())
+            .toString();
     }
 }

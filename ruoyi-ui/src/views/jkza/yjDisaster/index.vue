@@ -19,56 +19,56 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="当前转入人数" prop="intoNum">
-        <el-input
-          v-model="queryParams.intoNum"
-          placeholder="请输入当前转入人数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="当前转出人数" prop="outNum">
-        <el-input
-          v-model="queryParams.outNum"
-          placeholder="请输入当前转出人数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="当前场内人数" prop="innerNum">
-        <el-input
-          v-model="queryParams.innerNum"
-          placeholder="请输入当前场内人数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="还可容纳人数" prop="remainNum">
-        <el-input
-          v-model="queryParams.remainNum"
-          placeholder="请输入还可容纳人数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="坐标" prop="coordinate">
-        <el-input
-          v-model="queryParams.coordinate"
-          placeholder="请输入坐标"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="数据类型" prop="dataType">
-        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
-          <el-option
-            v-for="dict in dict.type.data_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="当前转入人数" prop="intoNum">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.intoNum"-->
+<!--          placeholder="请输入当前转入人数"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="当前转出人数" prop="outNum">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.outNum"-->
+<!--          placeholder="请输入当前转出人数"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="当前场内人数" prop="innerNum">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.innerNum"-->
+<!--          placeholder="请输入当前场内人数"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="还可容纳人数" prop="remainNum">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.remainNum"-->
+<!--          placeholder="请输入还可容纳人数"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="坐标" prop="coordinate">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.coordinate"-->
+<!--          placeholder="请输入坐标"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="数据类型" prop="dataType">-->
+<!--        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.data_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -140,11 +140,11 @@
       <el-table-column label="当前场内人数" align="center" prop="innerNum" />
       <el-table-column label="还可容纳人数" align="center" prop="remainNum" />
       <el-table-column label="坐标" align="center" prop="coordinate" />
-      <el-table-column label="数据类型" align="center" prop="dataType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="数据类型" align="center" prop="dataType">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button

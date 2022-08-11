@@ -25,10 +25,10 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 视频设备Controller
  * 
  * @author ruoyi
- * @date 2022-04-12
+ * @date 2022-06-18
  */
 @RestController
-@RequestMapping("/jkza/videoEquipment")
+@RequestMapping("/jkza/gdVideo")
 public class GdVideoController extends BaseController
 {
     @Autowired
@@ -37,7 +37,7 @@ public class GdVideoController extends BaseController
     /**
      * 查询视频设备列表
      */
-    @PreAuthorize("@ss.hasPermi('jkza:videoEquipment:list')")
+    @PreAuthorize("@ss.hasPermi('jkza:gdVideo:list')")
     @GetMapping("/list")
     public TableDataInfo list(GdVideo gdVideo)
     {
@@ -49,7 +49,7 @@ public class GdVideoController extends BaseController
     /**
      * 导出视频设备列表
      */
-    @PreAuthorize("@ss.hasPermi('jkza:videoEquipment:export')")
+    @PreAuthorize("@ss.hasPermi('jkza:gdVideo:export')")
     @Log(title = "视频设备", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, GdVideo gdVideo)
@@ -62,7 +62,7 @@ public class GdVideoController extends BaseController
     /**
      * 获取视频设备详细信息
      */
-    @PreAuthorize("@ss.hasPermi('jkza:videoEquipment:query')")
+    @PreAuthorize("@ss.hasPermi('jkza:gdVideo:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -72,19 +72,18 @@ public class GdVideoController extends BaseController
     /**
      * 新增视频设备
      */
-    @PreAuthorize("@ss.hasPermi('jkza:videoEquipment:add')")
+    @PreAuthorize("@ss.hasPermi('jkza:gdVideo:add')")
     @Log(title = "视频设备", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody GdVideo gdVideo)
     {
-        gdVideo.setDataType(1);
         return toAjax(gdVideoService.insertGdVideo(gdVideo));
     }
 
     /**
      * 修改视频设备
      */
-    @PreAuthorize("@ss.hasPermi('jkza:videoEquipment:edit')")
+    @PreAuthorize("@ss.hasPermi('jkza:gdVideo:edit')")
     @Log(title = "视频设备", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody GdVideo gdVideo)
@@ -95,7 +94,7 @@ public class GdVideoController extends BaseController
     /**
      * 删除视频设备
      */
-    @PreAuthorize("@ss.hasPermi('jkza:videoEquipment:remove')")
+    @PreAuthorize("@ss.hasPermi('jkza:gdVideo:remove')")
     @Log(title = "视频设备", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

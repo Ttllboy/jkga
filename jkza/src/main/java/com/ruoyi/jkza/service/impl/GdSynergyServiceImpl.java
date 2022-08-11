@@ -1,6 +1,7 @@
 package com.ruoyi.jkza.service.impl;
 
 import java.util.List;
+import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.jkza.mapper.GdSynergyMapper;
@@ -11,7 +12,7 @@ import com.ruoyi.jkza.service.IGdSynergyService;
  * 整改通知Service业务层处理
  * 
  * @author ruoyi
- * @date 2022-04-11
+ * @date 2022-06-26
  */
 @Service
 public class GdSynergyServiceImpl implements IGdSynergyService 
@@ -52,6 +53,7 @@ public class GdSynergyServiceImpl implements IGdSynergyService
     @Override
     public int insertGdSynergy(GdSynergy gdSynergy)
     {
+        gdSynergy.setCreateTime(DateUtils.getNowDate());
         return gdSynergyMapper.insertGdSynergy(gdSynergy);
     }
 

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YyPsychopathControlMapper">
+
+    <resultMap type="YyPsychopathControl" id="YyPsychopathControlResult">
+        <result property="id"    column="id"    />
+        <result property="streetId"    column="street_id"    />
+        <result property="patientCount"    column="patient_count"    />
+        <result property="addPatientCount"    column="add_patient_count"    />
+        <result property="year"    column="year"    />
+        <result property="month"    column="month"    />
+        <result property="streetName"    column="street_name"    />
+    </resultMap>
+
+    <sql id="selectYyPsychopathControlVo">
+        select id, street_id, patient_count, add_patient_count, year, month, street_name from yy_psychopath_control
+    </sql>
+    <sql id="selectYyPsychopathControlVo2">
+        select id, street_id, patient_count, add_patient_count, year, month, street_name from yy_psychopath_control
+
+    </sql>
+
+    <select id="selectYyPsychopathControlList" parameterType="YyPsychopathControl" resultMap="YyPsychopathControlResult">
+        <include refid="selectYyPsychopathControlVo"/>
+        <where>
+            <if test="streetId != null "> and street_id = #{streetId}</if>
+            <if test="patientCount != null "> and patient_count = #{patientCount}</if>
+            <if test="addPatientCount != null "> and add_patient_count = #{addPatientCount}</if>
+            <if test="year != null "> and year = #{year}</if>
+            <if test="month != null "> and month = #{month}</if>
+            <if test="streetName != null  and streetName != ''"> and street_name like concat('%', #{streetName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectTotal" parameterType="YyPsychopathControl" resultMap="YyPsychopathControlResult">
+        <include refid="selectYyPsychopathControlVo2"/>
+        <where>
+            year != '' and month != ''
+            <if test="streetId != null "> and street_id = #{streetId}</if>
+            <if test="patientCount != null "> and patient_count = #{patientCount}</if>
+            <if test="addPatientCount != null "> and add_patient_count = #{addPatientCount}</if>
+            <if test="month != null "> and month &lt;= #{month}</if>
+            <if test="year != null "> and year &lt;= #{year}</if>
+            <if test="streetName != null  and streetName != ''"> and street_name like concat('%', #{streetName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectYyPsychopathControlById" parameterType="Long" resultMap="YyPsychopathControlResult">
+        <include refid="selectYyPsychopathControlVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertYyPsychopathControl" parameterType="YyPsychopathControl" useGeneratedKeys="true" keyProperty="id">
+        insert into yy_psychopath_control
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="streetId != null">street_id,</if>
+            <if test="patientCount != null">patient_count,</if>
+            <if test="addPatientCount != null">add_patient_count,</if>
+            <if test="year != null">year,</if>
+            <if test="month != null">month,</if>
+            <if test="streetName != null">street_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="streetId != null">#{streetId},</if>
+            <if test="patientCount != null">#{patientCount},</if>
+            <if test="addPatientCount != null">#{addPatientCount},</if>
+            <if test="year != null">#{year},</if>
+            <if test="month != null">#{month},</if>
+            <if test="streetName != null">#{streetName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateYyPsychopathControl" parameterType="YyPsychopathControl">
+        update yy_psychopath_control
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="streetId != null">street_id = #{streetId},</if>
+            <if test="patientCount != null">patient_count = #{patientCount},</if>
+            <if test="addPatientCount != null">add_patient_count = #{addPatientCount},</if>
+            <if test="year != null">year = #{year},</if>
+            <if test="month != null">month = #{month},</if>
+            <if test="streetName != null">street_name = #{streetName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYyPsychopathControlById" parameterType="Long">
+        delete from yy_psychopath_control where id = #{id}
+    </delete>
+
+    <delete id="deleteYyPsychopathControlByIds" parameterType="String">
+        delete from yy_psychopath_control where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

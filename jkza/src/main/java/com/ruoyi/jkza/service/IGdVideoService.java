@@ -7,7 +7,7 @@ import com.ruoyi.jkza.domain.GdVideo;
  * 视频设备Service接口
  * 
  * @author ruoyi
- * @date 2022-04-12
+ * @date 2022-06-18
  */
 public interface IGdVideoService 
 {
@@ -26,9 +26,6 @@ public interface IGdVideoService
      * @return 视频设备集合
      */
     public List<GdVideo> selectGdVideoList(GdVideo gdVideo);
-
-    //查询视频设备列表与工地表链接查询
-    public List<GdVideo> selectGdVideoListAndBuilding(GdVideo gdVideo);
 
     /**
      * 新增视频设备

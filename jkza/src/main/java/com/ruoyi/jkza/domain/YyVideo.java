@@ -1,5 +1,6 @@
 package com.ruoyi.jkza.domain;
 
+import java.math.BigDecimal;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -9,7 +10,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 视频设备对象 yy_video
  *
  * @author ruoyi
- * @date 2022-04-27
+ * @date 2022-06-21
  */
 public class YyVideo extends BaseEntity
 {
@@ -22,25 +23,37 @@ public class YyVideo extends BaseEntity
     @Excel(name = "医院ID")
     private Long hosId;
 
-    /** 视频设备名称 */
-    @Excel(name = "视频设备名称")
-    private String videoName;
-
-    /** 坐标 */
-    @Excel(name = "坐标")
-    private String coordinate;
-
     /** 医院名称 */
     @Excel(name = "医院名称")
     private String hosName;
 
-    /** 设备类型 */
-    @Excel(name = "设备类型")
-    private Integer equipmentType;
+    /** 驾驶舱ID */
+    @Excel(name = "驾驶舱ID")
+    private Integer jscId;
+
+    /** 视频设备名称 */
+    @Excel(name = "视频设备名称")
+    private String channelName;
+
+    /** 摄像机类型 */
+    @Excel(name = "摄像机类型")
+    private Integer cameraType;
 
     /** 在线状态 */
     @Excel(name = "在线状态")
-    private Integer onlineType;
+    private Integer networkStatus;
+
+    /** 通道编码 */
+    @Excel(name = "通道编码")
+    private String channelCode;
+
+    /** 经度 */
+    @Excel(name = "经度")
+    private Double gpsX;
+
+    /** 纬度 */
+    @Excel(name = "纬度")
+    private Double gpsY;
 
     /** 数据类型 */
     @Excel(name = "数据类型")
@@ -60,53 +73,81 @@ public class YyVideo extends BaseEntity
         this.hosId = hosId;
     }
 
-    public String getHosName() {
-        return hosName;
-    }
-
-    public void setHosName(String hosName) {
-        this.hosName = hosName;
-    }
-
     public Long getHosId()
     {
         return hosId;
     }
-    public void setVideoName(String videoName)
+    public void setHosName(String hosName)
     {
-        this.videoName = videoName;
+        this.hosName = hosName;
     }
 
-    public String getVideoName()
+    public String getHosName()
     {
-        return videoName;
+        return hosName;
     }
-    public void setCoordinate(String coordinate)
+    public void setJscId(Integer jscId)
     {
-        this.coordinate = coordinate;
-    }
-
-    public String getCoordinate()
-    {
-        return coordinate;
-    }
-    public void setEquipmentType(Integer equipmentType)
-    {
-        this.equipmentType = equipmentType;
+        this.jscId = jscId;
     }
 
-    public Integer getEquipmentType()
+    public Integer getJscId()
     {
-        return equipmentType;
+        return jscId;
     }
-    public void setOnlineType(Integer onlineType)
+    public void setChannelName(String channelName)
     {
-        this.onlineType = onlineType;
+        this.channelName = channelName;
     }
 
-    public Integer getOnlineType()
+    public String getChannelName()
     {
-        return onlineType;
+        return channelName;
+    }
+    public void setCameraType(Integer cameraType)
+    {
+        this.cameraType = cameraType;
+    }
+
+    public Integer getCameraType()
+    {
+        return cameraType;
+    }
+    public void setNetworkStatus(Integer networkStatus)
+    {
+        this.networkStatus = networkStatus;
+    }
+
+    public Integer getNetworkStatus()
+    {
+        return networkStatus;
+    }
+    public void setChannelCode(String channelCode)
+    {
+        this.channelCode = channelCode;
+    }
+
+    public String getChannelCode()
+    {
+        return channelCode;
+    }
+    public void setGpsX(Double gpsX)
+    {
+        this.gpsX = gpsX;
+    }
+
+    public Double getGpsX()
+    {
+        return gpsX;
+    }
+    public void setGpsY(Double gpsY)
+    {
+        this.gpsY = gpsY;
+    }
+
+    public Double getGpsY()
+    {
+        return gpsY;
     }
     public void setDataType(Integer dataType)
     {
@@ -123,10 +164,14 @@ public class YyVideo extends BaseEntity
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
                 .append("id", getId())
                 .append("hosId", getHosId())
-                .append("videoName", getVideoName())
-                .append("coordinate", getCoordinate())
-                .append("equipmentType", getEquipmentType())
-                .append("onlineType", getOnlineType())
+                .append("hosName", getHosName())
+                .append("jscId", getJscId())
+                .append("channelName", getChannelName())
+                .append("cameraType", getCameraType())
+                .append("networkStatus", getNetworkStatus())
+                .append("channelCode", getChannelCode())
+                .append("gpsX", getGpsX())
+                .append("gpsY", getGpsY())
                 .append("dataType", getDataType())
                 .toString();
     }

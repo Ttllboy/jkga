@@ -7,7 +7,7 @@ import com.ruoyi.jkza.domain.YjSynergy;
  * 多跨协同Service接口
  * 
  * @author ruoyi
- * @date 2022-04-18
+ * @date 2022-06-24
  */
 public interface IYjSynergyService 
 {

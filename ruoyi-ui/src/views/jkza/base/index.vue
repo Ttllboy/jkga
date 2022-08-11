@@ -49,16 +49,16 @@
       <!--    @keyup.enter.native="handleQuery"-->
       <!--  />-->
       <!--</el-form-item>-->
-      <el-form-item label="数据类型" prop="dataType">
-        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
-          <el-option
-            v-for="dict in dict.type.data_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="数据类型" prop="dataType">-->
+<!--        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.data_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -66,16 +66,16 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['jkza:base:add']"
-        >新增</el-button>
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="primary"-->
+<!--          plain-->
+<!--          icon="el-icon-plus"-->
+<!--          size="mini"-->
+<!--          @click="handleAdd"-->
+<!--          v-hasPermi="['jkza:base:add']"-->
+<!--        >新增</el-button>-->
+<!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="success"
@@ -88,15 +88,15 @@
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['jkza:base:remove']"
-        >删除</el-button>
+<!--        <el-button-->
+<!--          type="danger"-->
+<!--          plain-->
+<!--          icon="el-icon-delete"-->
+<!--          size="mini"-->
+<!--          :disabled="multiple"-->
+<!--          @click="handleDelete"-->
+<!--          v-hasPermi="['jkza:base:remove']"-->
+<!--        >删除</el-button>-->
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -114,22 +114,22 @@
     <el-table v-loading="loading" :data="baseList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <!--<el-table-column label="ID" align="center" prop="id" />-->
-      <el-table-column label="序号" align="center" prop="id" >
-        <template slot-scope="scope">
-          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="序号" align="center" prop="id" >-->
+<!--        <template slot-scope="scope">-->
+<!--          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="接入工地数" align="center" prop="buildingSite" />
       <el-table-column label="工地总造价" align="center" prop="buildingSitePrice" />
       <el-table-column label="工地人员总数" align="center" prop="buildingSiteWorker" />
       <el-table-column label="在岗人员总数" align="center" prop="buildingSiteWorkerDuty" />
       <el-table-column label="起重设备数" align="center" prop="liftingEquipment" />
       <el-table-column label="起重设备备案数" align="center" prop="liftingEquipmentFiling" />
-      <el-table-column label="数据类型" align="center" prop="dataType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="数据类型" align="center" prop="dataType">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button

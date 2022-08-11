@@ -7,7 +7,7 @@ import com.ruoyi.jkza.domain.StVideo;
  * 视频设备Mapper接口
  * 
  * @author ruoyi
- * @date 2022-04-19
+ * @date 2022-06-18
  */
 public interface StVideoMapper 
 {
@@ -26,7 +26,6 @@ public interface StVideoMapper
      * @return 视频设备集合
      */
     public List<StVideo> selectStVideoList(StVideo stVideo);
-    public List<StVideo> selectStVideoListAndName(StVideo stVideo);
 
     /**
      * 新增视频设备
@@ -51,6 +50,7 @@ public interface StVideoMapper
      * @return 结果
      */
     public int deleteStVideoById(Long id);
+    public int truncateStVideo();
 
     /**
      * 批量删除视频设备
@@ -58,5 +58,5 @@ public interface StVideoMapper
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteStVideoByIds(Integer[] ids);
+    public int deleteStVideoByIds(Long[] ids);
 }

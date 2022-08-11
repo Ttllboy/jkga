@@ -44,6 +44,7 @@ public class DtRectificationnotice extends BaseEntity
 
     private String projectName;
 
+
     public String getProjectName() {
         return projectName;
     }

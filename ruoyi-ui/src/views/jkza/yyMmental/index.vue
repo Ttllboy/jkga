@@ -34,16 +34,16 @@
       <!--    @keyup.enter.native="handleQuery"-->
       <!--  />-->
       <!--</el-form-item>-->
-      <el-form-item label="数据类型" prop="dataType">
-        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
-          <el-option
-            v-for="dict in dict.type.data_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="数据类型" prop="dataType">-->
+<!--        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.data_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="110px">
-      <el-form-item label="低洼点名称" prop="lowPointName">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="90px">
+      <el-form-item label="低洼点名称" prop="lowPointName" label-width="100">
         <el-input
           v-model="queryParams.lowPointName"
           placeholder="请输入低洼点名称"
@@ -9,40 +9,56 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <!--<el-form-item label="当前水位" prop="nowWaterLevel">-->
-      <!--  <el-input-->
-      <!--    v-model="queryParams.nowWaterLevel"-->
-      <!--    placeholder="请输入当前水位"-->
-      <!--    clearable-->
-      <!--    @keyup.enter.native="handleQuery"-->
-      <!--  />-->
-      <!--</el-form-item>-->
-      <!--<el-form-item label="水位预警线" prop="waterLevelWarn">-->
-      <!--  <el-input-->
-      <!--    v-model="queryParams.waterLevelWarn"-->
-      <!--    placeholder="请输入水位预警线"-->
-      <!--    clearable-->
-      <!--    @keyup.enter.native="handleQuery"-->
-      <!--  />-->
-      <!--</el-form-item>-->
-      <el-form-item label="坐标" prop="coordinate">
-        <el-input
-          v-model="queryParams.coordinate"
-          placeholder="请输入坐标"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="数据类型" prop="dataType">
-        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
-          <el-option
-            v-for="dict in dict.type.data_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="当前水位" prop="nowWaterLevel">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.nowWaterLevel"-->
+<!--          placeholder="请输入当前水位"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="水位预警线" prop="waterLevelWarn">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.waterLevelWarn"-->
+<!--          placeholder="请输入水位预警线"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="通道编码" prop="channelCode">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.channelCode"-->
+<!--          placeholder="请输入通道编码"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="经度" prop="gpsX">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.gpsX"-->
+<!--          placeholder="请输入经度"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="纬度" prop="gpsY">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.gpsY"-->
+<!--          placeholder="请输入纬度"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="数据类型" prop="dataType">-->
+<!--        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.data_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -97,7 +113,6 @@
 
     <el-table v-loading="loading" :data="yjLowPointList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <!--<el-table-column label="ID" align="center" prop="id" />-->
       <el-table-column label="序号" align="center" prop="id" >
         <template slot-scope="scope">
           <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
@@ -106,12 +121,14 @@
       <el-table-column label="低洼点名称" align="center" prop="lowPointName" />
       <el-table-column label="当前水位" align="center" prop="nowWaterLevel" />
       <el-table-column label="水位预警线" align="center" prop="waterLevelWarn" />
-      <el-table-column label="坐标" align="center" prop="coordinate" />
-      <el-table-column label="数据类型" align="center" prop="dataType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>
-        </template>
-      </el-table-column>
+      <el-table-column label="通道编码" align="center" prop="channelCode" />
+      <el-table-column label="经度" align="center" prop="gpsX" />
+      <el-table-column label="纬度" align="center" prop="gpsY" />
+<!--      <el-table-column label="数据类型" align="center" prop="dataType">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -142,7 +159,7 @@
 
     <!-- 添加或修改低洼点对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="110px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="低洼点名称" prop="lowPointName">
           <el-input v-model="form.lowPointName" placeholder="请输入低洼点名称" />
         </el-form-item>
@@ -152,19 +169,25 @@
         <el-form-item label="水位预警线" prop="waterLevelWarn">
           <el-input v-model="form.waterLevelWarn" placeholder="请输入水位预警线" />
         </el-form-item>
-        <el-form-item label="坐标" prop="coordinate">
-          <el-input v-model="form.coordinate" placeholder="请输入坐标" />
+        <el-form-item label="通道编码" prop="channelCode">
+          <el-input v-model="form.channelCode" placeholder="请输入通道编码" />
         </el-form-item>
-        <!--        <el-form-item label="数据类型" prop="dataType">-->
-        <!--          <el-select v-model="form.dataType" placeholder="请选择数据类型">-->
-        <!--            <el-option-->
-        <!--              v-for="dict in dict.type.data_type"-->
-        <!--              :key="dict.value"-->
-        <!--              :label="dict.label"-->
-        <!--:value="parseInt(dict.value)"-->
-        <!--            ></el-option>-->
-        <!--          </el-select>-->
-        <!--        </el-form-item>-->
+        <el-form-item label="经度" prop="gpsX">
+          <el-input v-model="form.gpsX" placeholder="请输入经度" />
+        </el-form-item>
+        <el-form-item label="纬度" prop="gpsY">
+          <el-input v-model="form.gpsY" placeholder="请输入纬度" />
+        </el-form-item>
+<!--        <el-form-item label="数据类型" prop="dataType">-->
+<!--          <el-select v-model="form.dataType" placeholder="请选择数据类型">-->
+<!--            <el-option-->
+<!--              v-for="dict in dict.type.data_type"-->
+<!--              :key="dict.value"-->
+<!--              :label="dict.label"-->
+<!--:value="parseInt(dict.value)"-->
+<!--            ></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -207,7 +230,9 @@ export default {
         lowPointName: null,
         nowWaterLevel: null,
         waterLevelWarn: null,
-        coordinate: null,
+        channelCode: null,
+        gpsX: null,
+        gpsY: null,
         dataType: null
       },
       // 表单参数
@@ -242,7 +267,9 @@ export default {
         lowPointName: null,
         nowWaterLevel: null,
         waterLevelWarn: null,
-        coordinate: null,
+        channelCode: null,
+        gpsX: null,
+        gpsY: null,
         dataType: null
       };
       this.resetForm("form");

@@ -32,6 +32,7 @@
             <if test="coordinate != null  and coordinate != ''"> and coordinate = #{coordinate}</if>
             <if test="dataType != null "> and data_type = #{dataType}</if>
         </where>
+        order by place_type asc
     </select>
 
     <select id="selectYjAvoidDisasterById" parameterType="Long" resultMap="YjAvoidDisasterResult">

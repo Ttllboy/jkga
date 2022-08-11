@@ -7,7 +7,7 @@ import com.ruoyi.jkza.domain.YyVideo;
  * 视频设备Service接口
  * 
  * @author ruoyi
- * @date 2022-04-19
+ * @date 2022-06-18
  */
 public interface IYyVideoService 
 {
@@ -26,7 +26,6 @@ public interface IYyVideoService
      * @return 视频设备集合
      */
     public List<YyVideo> selectYyVideoList(YyVideo yyVideo);
-    public List<YyVideo> selectYyVideoListAndName(YyVideo yyVideo);
 
     /**
      * 新增视频设备
@@ -50,7 +49,7 @@ public interface IYyVideoService
      * @param ids 需要删除的视频设备主键集合
      * @return 结果
      */
-    public int deleteYyVideoByIds(Integer[] ids);
+    public int deleteYyVideoByIds(Long[] ids);
 
     /**
      * 删除视频设备信息

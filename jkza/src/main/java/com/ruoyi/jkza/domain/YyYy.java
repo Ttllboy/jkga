@@ -42,6 +42,22 @@ public class YyYy extends BaseEntity
     @Excel(name = "坐标")
     private String coordinate;
 
+    /** 安保车辆数 */
+    @Excel(name = "安保车辆数")
+    private Long securityCar;
+
+    /** 在岗安保车辆数 */
+    @Excel(name = "在岗安保车辆数")
+    private Long securityCarOnline;
+
+    /** 消控室 */
+    @Excel(name = "消控室")
+    private Long disappearRoom;
+
+    /** 危险源 */
+    @Excel(name = "危险源")
+    private Long dangerSource;
+
     /** 数据类型 */
     @Excel(name = "数据类型")
     private Integer dataType;
@@ -67,6 +83,38 @@ public class YyYy extends BaseEntity
     public void setBed(Long bed) 
     {
         this.bed = bed;
+    }
+
+    public Long getSecurityCar() {
+        return securityCar;
+    }
+
+    public void setSecurityCar(Long securityCar) {
+        this.securityCar = securityCar;
+    }
+
+    public Long getDisappearRoom() {
+        return disappearRoom;
+    }
+
+    public void setDisappearRoom(Long disappearRoom) {
+        this.disappearRoom = disappearRoom;
+    }
+
+    public Long getDangerSource() {
+        return dangerSource;
+    }
+
+    public void setDangerSource(Long dangerSource) {
+        this.dangerSource = dangerSource;
+    }
+
+    public Long getSecurityCarOnline() {
+        return securityCarOnline;
+    }
+
+    public void setSecurityCarOnline(Long securityCarOnline) {
+        this.securityCarOnline = securityCarOnline;
     }
 
     public void setCoordinate(String coordinate)

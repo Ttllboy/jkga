@@ -6,32 +6,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="GdSynergy" id="GdSynergyResult">
         <result property="id"    column="id"    />
-        <result property="projectName"    column="project_name"    />
-        <result property="checkPosition"    column="check_position"    />
-        <result property="checkTime"    column="check_time"    />
-        <result property="streetId"    column="street_id"    />
-        <result property="buildingId"    column="building_id"    />
-        <result property="notificationType"    column="notification_type"    />
-        <result property="replyCheck"    column="reply_check"    />
-        <result property="replyInfo"    column="reply_info"    />
+        <result property="projectguid"    column="ProjectGUID"    />
+        <result property="noticenum"    column="NoticeNum"    />
+        <result property="checkposition"    column="CheckPosition"    />
+        <result property="noticetype"    column="NoticeType"    />
+        <result property="checkdatet"    column="CheckDatet"    />
+        <result property="isreply"    column="IsReply"    />
+        <result property="createTime"    column="create_time"    />
         <result property="dataType"    column="data_type"    />
     </resultMap>
 
     <sql id="selectGdSynergyVo">
-        select id, project_name, check_time, street_id, building_id, notification_type, reply_check, reply_info, data_type,check_position from gd_synergy
+        select id, ProjectGUID, NoticeNum, CheckPosition, NoticeType, CheckDatet, IsReply, create_time, data_type from gd_synergy
     </sql>
 
     <select id="selectGdSynergyList" parameterType="GdSynergy" resultMap="GdSynergyResult">
         <include refid="selectGdSynergyVo"/>
         <where>  
-            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
-            <if test="checkTime != null "> and check_time = #{checkTime}</if>
-            <if test="streetId != null "> and street_id = #{streetId}</if>
-            <if test="buildingId != null "> and building_id = #{buildingId}</if>
-            <if test="notificationType != null "> and notification_type = #{notificationType}</if>
-            <if test="replyCheck != null "> and reply_check = #{replyCheck}</if>
-            <if test="checkPosition != null and checkPosition != ''"> and check_position = #{checkPosition}</if>
-            <if test="replyInfo != null  and replyInfo != ''"> and reply_info = #{replyInfo}</if>
+            <if test="projectguid != null  and projectguid != ''"> and ProjectGUID = #{projectguid}</if>
+            <if test="noticenum != null  and noticenum != ''"> and NoticeNum = #{noticenum}</if>
+            <if test="checkposition != null  and checkposition != ''"> and CheckPosition = #{checkposition}</if>
+            <if test="noticetype != null  and noticetype != ''"> and NoticeType = #{noticetype}</if>
+            <if test="checkdatet != null "> and CheckDatet = #{checkdatet}</if>
+            <if test="isreply != null  and isreply != ''"> and IsReply = #{isreply}</if>
             <if test="dataType != null "> and data_type = #{dataType}</if>
         </where>
     </select>
@@ -44,25 +41,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertGdSynergy" parameterType="GdSynergy" useGeneratedKeys="true" keyProperty="id">
         insert into gd_synergy
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="projectName != null">project_name,</if>
-            <if test="checkTime != null">check_time,</if>
-            <if test="streetId != null">street_id,</if>
-            <if test="buildingId != null">building_id,</if>
-            <if test="notificationType != null">notification_type,</if>
-            <if test="replyCheck != null">reply_check,</if>
-            <if test="replyInfo != null">reply_info,</if>
-            <if test="checkPosition != null">check_position,</if>
+            <if test="projectguid != null">ProjectGUID,</if>
+            <if test="noticenum != null">NoticeNum,</if>
+            <if test="checkposition != null">CheckPosition,</if>
+            <if test="noticetype != null">NoticeType,</if>
+            <if test="checkdatet != null">CheckDatet,</if>
+            <if test="isreply != null">IsReply,</if>
+            <if test="createTime != null">create_time,</if>
             <if test="dataType != null">data_type,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="projectName != null">#{projectName},</if>
-            <if test="checkTime != null">#{checkTime},</if>
-            <if test="streetId != null">#{streetId},</if>
-            <if test="buildingId != null">#{buildingId},</if>
-            <if test="notificationType != null">#{notificationType},</if>
-            <if test="replyCheck != null">#{replyCheck},</if>
-            <if test="replyInfo != null">#{replyInfo},</if>
-            <if test="checkPosition != null">#{checkPosition},</if>
+            <if test="projectguid != null">#{projectguid},</if>
+            <if test="noticenum != null">#{noticenum},</if>
+            <if test="checkposition != null">#{checkposition},</if>
+            <if test="noticetype != null">#{noticetype},</if>
+            <if test="checkdatet != null">#{checkdatet},</if>
+            <if test="isreply != null">#{isreply},</if>
+            <if test="createTime != null">#{createTime},</if>
             <if test="dataType != null">#{dataType},</if>
          </trim>
     </insert>
@@ -70,14 +65,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateGdSynergy" parameterType="GdSynergy">
         update gd_synergy
         <trim prefix="SET" suffixOverrides=",">
-            <if test="projectName != null">project_name = #{projectName},</if>
-            <if test="checkTime != null">check_time = #{checkTime},</if>
-            <if test="streetId != null">street_id = #{streetId},</if>
-            <if test="buildingId != null">building_id = #{buildingId},</if>
-            <if test="notificationType != null">notification_type = #{notificationType},</if>
-            <if test="replyCheck != null">reply_check = #{replyCheck},</if>
-            <if test="replyInfo != null">reply_info = #{replyInfo},</if>
-            <if test="checkPosition != null">check_position = #{checkPosition},</if>
+            <if test="projectguid != null">ProjectGUID = #{projectguid},</if>
+            <if test="noticenum != null">NoticeNum = #{noticenum},</if>
+            <if test="checkposition != null">CheckPosition = #{checkposition},</if>
+            <if test="noticetype != null">NoticeType = #{noticetype},</if>
+            <if test="checkdatet != null">CheckDatet = #{checkdatet},</if>
+            <if test="isreply != null">IsReply = #{isreply},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
             <if test="dataType != null">data_type = #{dataType},</if>
         </trim>
         where id = #{id}
@@ -93,4 +87,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <insert id="freshGdSynergy">
+        INSERT INTO gd_synergy(ProjectGUID,NoticeNum,CheckPosition,NoticeType,CheckDatet,IsReply,create_time,data_type)
+        SELECT ProjectGUID,
+               NoticeNum,
+               CheckPosition,
+               NoticeType,
+               CheckDatet,
+               IsReply,
+               create_time,
+               0
+               FROM dt_rectificationnotice
+    </insert>
 </mapper>

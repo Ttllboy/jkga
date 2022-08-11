@@ -7,7 +7,7 @@ import com.ruoyi.jkza.domain.YjLowPoint;
  * 低洼点Mapper接口
  * 
  * @author ruoyi
- * @date 2022-04-18
+ * @date 2022-06-20
  */
 public interface YjLowPointMapper 
 {
@@ -50,6 +50,7 @@ public interface YjLowPointMapper
      * @return 结果
      */
     public int deleteYjLowPointById(Long id);
+    public int truncateYjLowPoint();
 
     /**
      * 批量删除低洼点

@@ -1,13 +1,15 @@
 package com.ruoyi.jkza.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import com.ruoyi.jkza.domain.YjVideo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 视频设备Mapper接口
  * 
  * @author ruoyi
- * @date 2022-04-21
+ * @date 2022-06-18
  */
 public interface YjVideoMapper 
 {
@@ -26,7 +28,6 @@ public interface YjVideoMapper
      * @return 视频设备集合
      */
     public List<YjVideo> selectYjVideoList(YjVideo yjVideo);
-    public List<YjVideo> selectYjVideoListAndName(YjVideo yjVideo);
 
     /**
      * 新增视频设备
@@ -51,6 +52,9 @@ public interface YjVideoMapper
      * @return 结果
      */
     public int deleteYjVideoById(Long id);
+    public int truncateYjVideo();
+//    public HashMap<String ,String > selectYjClassify();
+    public List<HashMap<String ,String>> selectYjClassify(@Param("channelCode") String channelCode);
 
     /**
      * 批量删除视频设备
@@ -58,5 +62,5 @@ public interface YjVideoMapper
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteYjVideoByIds(Integer[] ids);
+    public int deleteYjVideoByIds(Long[] ids);
 }

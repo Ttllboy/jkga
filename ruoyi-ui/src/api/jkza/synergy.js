@@ -43,12 +43,9 @@ export function delSynergy(id) {
   })
 }
 
-
-
-//查询所有工地名称
-export function listBuildingNames(){
+export function listBuildingNames() {
   return request({
-    url:'/jkza/building/listBuildingNames',
-    method:'post'
+    url: '/jkza/building/listBuildingNames',
+    method: 'post'
   })
 }

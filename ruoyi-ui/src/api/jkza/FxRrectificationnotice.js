@@ -42,3 +42,11 @@ export function delFxRrectificationnotice(projectguid) {
     method: 'delete'
   })
 }
+
+//查询所有项目Id
+export function listProjectId(){
+  return request({
+    url:'/jkza/building/listProjectId',
+    method:'post'
+  })
+}

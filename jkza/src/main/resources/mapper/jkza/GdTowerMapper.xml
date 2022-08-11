@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.GdTowerMapper">
+    
+    <resultMap type="GdTower" id="GdTowerResult">
+        <result property="id"    column="id"    />
+        <result property="projectId"    column="project_id"    />
+        <result property="warnTime"    column="warn_time"    />
+        <result property="recordNo"    column="record_no"    />
+        <result property="moment"    column="moment"    />
+        <result property="loadWeight"    column="load_weight"    />
+        <result property="margin"    column="margin"    />
+        <result property="heightUp"    column="height_up"    />
+        <result property="heightLower"    column="height_lower"    />
+        <result property="rotation"    column="rotation"    />
+        <result property="windSpeed"    column="wind_speed"    />
+        <result property="weightWarn"    column="weight_warn"    />
+        <result property="momentWarn"    column="moment_warn"    />
+        <result property="rightRotationWarn"    column="right_rotation_warn"    />
+        <result property="leftRotationWarn"    column="left_rotation_warn"    />
+        <result property="heightLowerWarn"    column="height_lower_warn"    />
+        <result property="heightUpWarn"    column="height_up_warn"    />
+        <result property="inclinationYWarn"    column="inclination_y_warn"    />
+        <result property="inclinationXWarn"    column="inclination_x_warn"    />
+        <result property="windSpeedWarn"    column="wind_speed_warn"    />
+        <result property="smallMarginWarn"    column="small_margin_warn"    />
+        <result property="bigMarginWarn"    column="big_margin_warn"    />
+        <result property="sensorStatus"    column="sensor_status"    />
+        <result property="sensorType"    column="sensor_type"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectGdTowerVo">
+        select id, project_id, warn_time, record_no, moment, load_weight, margin, height_up, height_lower, rotation, wind_speed, weight_warn, moment_warn, right_rotation_warn, left_rotation_warn, height_lower_warn, height_up_warn, inclination_y_warn, inclination_x_warn, wind_speed_warn, small_margin_warn, big_margin_warn, sensor_status, sensor_type, project_name, data_type from gd_tower
+    </sql>
+
+    <select id="selectGdTowerList" parameterType="GdTower" resultMap="GdTowerResult">
+        <include refid="selectGdTowerVo"/>
+        <where>  
+            <if test="projectId != null  and projectId != ''"> and project_id = #{projectId}</if>
+            <if test="warnTime != null "> and warn_time = #{warnTime}</if>
+            <if test="recordNo != null  and recordNo != ''"> and record_no = #{recordNo}</if>
+            <if test="moment != null "> and moment = #{moment}</if>
+            <if test="loadWeight != null "> and load_weight = #{loadWeight}</if>
+            <if test="margin != null "> and margin = #{margin}</if>
+            <if test="heightUp != null "> and height_up = #{heightUp}</if>
+            <if test="heightLower != null "> and height_lower = #{heightLower}</if>
+            <if test="rotation != null "> and rotation = #{rotation}</if>
+            <if test="windSpeed != null "> and wind_speed = #{windSpeed}</if>
+            <if test="weightWarn != null  and weightWarn != ''"> and weight_warn = #{weightWarn}</if>
+            <if test="momentWarn != null  and momentWarn != ''"> and moment_warn = #{momentWarn}</if>
+            <if test="rightRotationWarn != null  and rightRotationWarn != ''"> and right_rotation_warn = #{rightRotationWarn}</if>
+            <if test="leftRotationWarn != null  and leftRotationWarn != ''"> and left_rotation_warn = #{leftRotationWarn}</if>
+            <if test="heightLowerWarn != null  and heightLowerWarn != ''"> and height_lower_warn = #{heightLowerWarn}</if>
+            <if test="heightUpWarn != null  and heightUpWarn != ''"> and height_up_warn = #{heightUpWarn}</if>
+            <if test="inclinationYWarn != null  and inclinationYWarn != ''"> and inclination_y_warn = #{inclinationYWarn}</if>
+            <if test="inclinationXWarn != null  and inclinationXWarn != ''"> and inclination_x_warn = #{inclinationXWarn}</if>
+            <if test="windSpeedWarn != null  and windSpeedWarn != ''"> and wind_speed_warn = #{windSpeedWarn}</if>
+            <if test="smallMarginWarn != null  and smallMarginWarn != ''"> and small_margin_warn = #{smallMarginWarn}</if>
+            <if test="bigMarginWarn != null  and bigMarginWarn != ''"> and big_margin_warn = #{bigMarginWarn}</if>
+            <if test="sensorStatus != null  and sensorStatus != ''"> and sensor_status = #{sensorStatus}</if>
+            <if test="sensorType != null "> and sensor_type = #{sensorType}</if>
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    
+    <select id="selectGdTowerById" parameterType="Long" resultMap="GdTowerResult">
+        <include refid="selectGdTowerVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGdTower" parameterType="GdTower" useGeneratedKeys="true" keyProperty="id">
+        insert into gd_tower
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">project_id,</if>
+            <if test="warnTime != null">warn_time,</if>
+            <if test="recordNo != null">record_no,</if>
+            <if test="moment != null">moment,</if>
+            <if test="loadWeight != null">load_weight,</if>
+            <if test="margin != null">margin,</if>
+            <if test="heightUp != null">height_up,</if>
+            <if test="heightLower != null">height_lower,</if>
+            <if test="rotation != null">rotation,</if>
+            <if test="windSpeed != null">wind_speed,</if>
+            <if test="weightWarn != null">weight_warn,</if>
+            <if test="momentWarn != null">moment_warn,</if>
+            <if test="rightRotationWarn != null">right_rotation_warn,</if>
+            <if test="leftRotationWarn != null">left_rotation_warn,</if>
+            <if test="heightLowerWarn != null">height_lower_warn,</if>
+            <if test="heightUpWarn != null">height_up_warn,</if>
+            <if test="inclinationYWarn != null">inclination_y_warn,</if>
+            <if test="inclinationXWarn != null">inclination_x_warn,</if>
+            <if test="windSpeedWarn != null">wind_speed_warn,</if>
+            <if test="smallMarginWarn != null">small_margin_warn,</if>
+            <if test="bigMarginWarn != null">big_margin_warn,</if>
+            <if test="sensorStatus != null">sensor_status,</if>
+            <if test="sensorType != null">sensor_type,</if>
+            <if test="projectName != null">project_name,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">#{projectId},</if>
+            <if test="warnTime != null">#{warnTime},</if>
+            <if test="recordNo != null">#{recordNo},</if>
+            <if test="moment != null">#{moment},</if>
+            <if test="loadWeight != null">#{loadWeight},</if>
+            <if test="margin != null">#{margin},</if>
+            <if test="heightUp != null">#{heightUp},</if>
+            <if test="heightLower != null">#{heightLower},</if>
+            <if test="rotation != null">#{rotation},</if>
+            <if test="windSpeed != null">#{windSpeed},</if>
+            <if test="weightWarn != null">#{weightWarn},</if>
+            <if test="momentWarn != null">#{momentWarn},</if>
+            <if test="rightRotationWarn != null">#{rightRotationWarn},</if>
+            <if test="leftRotationWarn != null">#{leftRotationWarn},</if>
+            <if test="heightLowerWarn != null">#{heightLowerWarn},</if>
+            <if test="heightUpWarn != null">#{heightUpWarn},</if>
+            <if test="inclinationYWarn != null">#{inclinationYWarn},</if>
+            <if test="inclinationXWarn != null">#{inclinationXWarn},</if>
+            <if test="windSpeedWarn != null">#{windSpeedWarn},</if>
+            <if test="smallMarginWarn != null">#{smallMarginWarn},</if>
+            <if test="bigMarginWarn != null">#{bigMarginWarn},</if>
+            <if test="sensorStatus != null">#{sensorStatus},</if>
+            <if test="sensorType != null">#{sensorType},</if>
+            <if test="projectName != null">#{projectName},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGdTower" parameterType="GdTower">
+        update gd_tower
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectId != null">project_id = #{projectId},</if>
+            <if test="warnTime != null">warn_time = #{warnTime},</if>
+            <if test="recordNo != null">record_no = #{recordNo},</if>
+            <if test="moment != null">moment = #{moment},</if>
+            <if test="loadWeight != null">load_weight = #{loadWeight},</if>
+            <if test="margin != null">margin = #{margin},</if>
+            <if test="heightUp != null">height_up = #{heightUp},</if>
+            <if test="heightLower != null">height_lower = #{heightLower},</if>
+            <if test="rotation != null">rotation = #{rotation},</if>
+            <if test="windSpeed != null">wind_speed = #{windSpeed},</if>
+            <if test="weightWarn != null">weight_warn = #{weightWarn},</if>
+            <if test="momentWarn != null">moment_warn = #{momentWarn},</if>
+            <if test="rightRotationWarn != null">right_rotation_warn = #{rightRotationWarn},</if>
+            <if test="leftRotationWarn != null">left_rotation_warn = #{leftRotationWarn},</if>
+            <if test="heightLowerWarn != null">height_lower_warn = #{heightLowerWarn},</if>
+            <if test="heightUpWarn != null">height_up_warn = #{heightUpWarn},</if>
+            <if test="inclinationYWarn != null">inclination_y_warn = #{inclinationYWarn},</if>
+            <if test="inclinationXWarn != null">inclination_x_warn = #{inclinationXWarn},</if>
+            <if test="windSpeedWarn != null">wind_speed_warn = #{windSpeedWarn},</if>
+            <if test="smallMarginWarn != null">small_margin_warn = #{smallMarginWarn},</if>
+            <if test="bigMarginWarn != null">big_margin_warn = #{bigMarginWarn},</if>
+            <if test="sensorStatus != null">sensor_status = #{sensorStatus},</if>
+            <if test="sensorType != null">sensor_type = #{sensorType},</if>
+            <if test="projectName != null">project_name = #{projectName},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGdTowerById" parameterType="Long">
+        delete from gd_tower where id = #{id}
+    </delete>
+
+    <delete id="deleteGdTowerByIds" parameterType="String">
+        delete from gd_tower where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

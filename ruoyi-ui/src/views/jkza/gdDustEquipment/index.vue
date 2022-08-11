@@ -1,32 +1,41 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="110px">
-      <!--<el-form-item label="设备编号" prop="equipmentName">-->
-      <!--  <el-input-->
-      <!--    v-model="queryParams.equipmentName"-->
-      <!--    placeholder="请输入设备编号"-->
-      <!--    clearable-->
-      <!--    @keyup.enter.native="handleQuery"-->
-      <!--  />-->
-      <!--</el-form-item>-->
-      <el-form-item label="所属工地" prop="buildingId">
+      <el-form-item label="设备编号" prop="equipmentName">
         <el-input
-          v-model="queryParams.buildingId"
-          placeholder="请输入所属工地"
+          v-model="queryParams.equipmentName"
+          placeholder="请输入设备编号"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="数据类型" prop="dataType">
-        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
+      <el-form-item label="所属工地" prop="buildingId">
+<!--        <el-input-->
+<!--          v-model="queryParams.buildingId"-->
+<!--          placeholder="请输入所属工地"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+        <el-select v-model="queryParams.buildingId" placeholder="请选择所属工地" @change="changeBuildingId" clearable>
           <el-option
-            v-for="dict in dict.type.data_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
+            v-for="item in buildingNames"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
         </el-select>
       </el-form-item>
+<!--      <el-form-item label="数据类型" prop="dataType">-->
+<!--        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.data_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -87,12 +96,16 @@
         </template>
       </el-table-column>
       <el-table-column label="设备编号" align="center" prop="equipmentName" />
-      <el-table-column label="所属工地" align="center" prop="buildingId" />
-      <el-table-column label="数据类型" align="center" prop="dataType">
+      <el-table-column label="所属工地" align="center" prop="buildingId" >
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>
+          {{buildingNames[(scope.row.buildingId)-1].label}}
         </template>
       </el-table-column>
+<!--      <el-table-column label="数据类型" align="center" prop="dataType">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -128,7 +141,16 @@
           <el-input v-model="form.equipmentName" placeholder="请输入设备编号" />
         </el-form-item>
         <el-form-item label="所属工地" prop="buildingId">
-          <el-input v-model="form.buildingId" placeholder="请输入所属工地" />
+<!--          <el-input v-model="form.buildingId" placeholder="请输入所属工地" />-->
+          <el-select v-model="form.buildingId" placeholder="请选择所属工地" @change="changeFormBuildingId" clearable>
+            <el-option
+              v-for="item in buildingNames"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
         </el-form-item>
 <!--        <el-form-item label="数据类型" prop="dataType">-->
 <!--          <el-select v-model="form.dataType" placeholder="请选择数据类型">-->
@@ -151,6 +173,7 @@
 
 <script>
 import { listGdDustEquipment, getGdDustEquipment, delGdDustEquipment, addGdDustEquipment, updateGdDustEquipment } from "@/api/jkza/gdDustEquipment";
+import {listBuildingNames} from "@/api/jkza/synergy";
 
 export default {
   name: "GdDustEquipment",
@@ -171,6 +194,8 @@ export default {
       total: 0,
       // 扬尘设备表格数据
       gdDustEquipmentList: [],
+      //所有工地名称
+      buildingNames: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -202,6 +227,11 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+      listBuildingNames().then(response => {
+          console.log(response);
+          this.buildingNames = response;
+        }
+      );
     },
     // 取消按钮
     cancel() {
@@ -285,7 +315,15 @@ export default {
       this.download('jkza/gdDustEquipment/export', {
         ...this.queryParams
       }, `gdDustEquipment_${new Date().getTime()}.xlsx`)
-    }
+    },
+    //改变queryParams所属工地ID
+    changeBuildingId(buildingId){
+      this.queryParams.buildingId =buildingId;
+    },
+    //改变form所属工地ID
+    changeFormBuildingId(buildingId){
+      this.form.buildingId =buildingId;
+    },
   }
 };
 </script>

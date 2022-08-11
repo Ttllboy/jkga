@@ -1,80 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.jkza.mapper.StVideoMapper">
-
+    
     <resultMap type="StVideo" id="StVideoResult">
         <result property="id"    column="id"    />
         <result property="solidId"    column="solid_id"    />
-        <result property="videoName"    column="video_name"    />
-        <result property="coordinate"    column="coordinate"    />
-        <result property="equipmentType"    column="equipment_type"    />
-        <result property="onlineType"    column="online_type"    />
+        <result property="jscId"    column="jsc_id"    />
+        <result property="channelName"    column="channel_name"    />
+        <result property="cameraType"    column="camera_type"    />
+        <result property="networkStatus"    column="network_status"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="gpsX"    column="gps_x"    />
+        <result property="gpsY"    column="gps_y"    />
         <result property="dataType"    column="data_type"    />
-        <result property="solidName"    column="solid_name"    />
     </resultMap>
 
     <sql id="selectStVideoVo">
-        select id, solid_id, video_name,coordinate, equipment_type, online_type, data_type from st_video
-    </sql>
-    <sql id="selectStVideoVoAndName">
-        select t1.id, t1.solid_id, t1.video_name,t1.coordinate,t1.equipment_type,t1.online_type, t1.data_type,t2.solid_name,t2.id
-        from st_video t1
-                 left join st_solid_waste t2 on t1.solid_id = t2.id
+        select id, solid_id, jsc_id, channel_name, camera_type, network_status, channel_code, gps_x, gps_y, data_type from st_video
     </sql>
 
     <select id="selectStVideoList" parameterType="StVideo" resultMap="StVideoResult">
         <include refid="selectStVideoVo"/>
-        <where>
+        <where>  
             <if test="solidId != null "> and solid_id = #{solidId}</if>
-            <if test="videoName != null  and videoName != ''"> and video_name like concat('%', #{videoName}, '%')</if>
-            <if test="coordinate != null  and coordinate != ''"> and coordinate = #{coordinate}</if>
-            <if test="equipmentType != null "> and equipment_type = #{equipmentType}</if>
-            <if test="onlineType != null "> and online_type = #{onlineType}</if>
+            <if test="jscId != null "> and jsc_id = #{jscId}</if>
+            <if test="channelName != null  and channelName != ''"> and channel_name like concat('%', #{channelName}, '%')</if>
+            <if test="cameraType != null "> and camera_type = #{cameraType}</if>
+            <if test="networkStatus != null "> and network_status = #{networkStatus}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="gpsX != null "> and gps_x = #{gpsX}</if>
+            <if test="gpsY != null "> and gps_y = #{gpsY}</if>
             <if test="dataType != null "> and data_type = #{dataType}</if>
         </where>
     </select>
-    <select id="selectStVideoListAndName" parameterType="StVideo" resultMap="StVideoResult">
-        <include refid="selectStVideoVoAndName"/>
-        <where>
-            <if test="solidId != null "> and t1.solid_id = #{solidId}</if>
-            <if test="videoName != null  and videoName != ''"> and t1.video_name like concat('%', #{videoName}, '%')</if>
-            <if test="coordinate != null  and coordinate != ''"> and t1.coordinate = #{coordinate}</if>
-            <if test="equipmentType != null "> and t1.equipment_type = #{equipmentType}</if>
-            <if test="onlineType != null "> and t1.online_type = #{onlineType}</if>
-            <if test="solidName != null  and solidName != ''"> and t2.solid_name like concat('%', #{solidName}, '%')</if>
-            <if test="dataType != null "> and t1.data_type = #{dataType}</if>
-        </where>
-    </select>
-
+    
     <select id="selectStVideoById" parameterType="Long" resultMap="StVideoResult">
         <include refid="selectStVideoVo"/>
         where id = #{id}
     </select>
-
+        
     <insert id="insertStVideo" parameterType="StVideo" useGeneratedKeys="true" keyProperty="id">
         insert into st_video
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="solidId != null">solid_id,</if>
-            <if test="videoName != null">video_name,</if>
+            <if test="jscId != null">jsc_id,</if>
+            <if test="channelName != null">channel_name,</if>
+            <if test="cameraType != null">camera_type,</if>
+            <if test="networkStatus != null">network_status,</if>
+            <if test="channelCode != null">channel_code,</if>
+            <if test="gpsX != null">gps_x,</if>
+            <if test="gpsY != null">gps_y,</if>
             <if test="dataType != null">data_type,</if>
-        </trim>
+         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="solidId != null">#{solidId},</if>
-            <if test="videoName != null">#{videoName},</if>
+            <if test="jscId != null">#{jscId},</if>
+            <if test="channelName != null">#{channelName},</if>
+            <if test="cameraType != null">#{cameraType},</if>
+            <if test="networkStatus != null">#{networkStatus},</if>
+            <if test="channelCode != null">#{channelCode},</if>
+            <if test="gpsX != null">#{gpsX},</if>
+            <if test="gpsY != null">#{gpsY},</if>
             <if test="dataType != null">#{dataType},</if>
-        </trim>
+         </trim>
     </insert>
 
     <update id="updateStVideo" parameterType="StVideo">
         update st_video
         <trim prefix="SET" suffixOverrides=",">
             <if test="solidId != null">solid_id = #{solidId},</if>
-            <if test="videoName != null">video_name = #{videoName},</if>
-            <if test="coordinate != null">coordinate = #{coordinate},</if>
-            <if test="equipmentType != null">equipment_type = #{equipmentType},</if>
-            <if test="onlineType != null">online_type = #{onlineType},</if>
+            <if test="jscId != null">jsc_id = #{jscId},</if>
+            <if test="channelName != null">channel_name = #{channelName},</if>
+            <if test="cameraType != null">camera_type = #{cameraType},</if>
+            <if test="networkStatus != null">network_status = #{networkStatus},</if>
+            <if test="channelCode != null">channel_code = #{channelCode},</if>
+            <if test="gpsX != null">gps_x = #{gpsX},</if>
+            <if test="gpsY != null">gps_y = #{gpsY},</if>
             <if test="dataType != null">data_type = #{dataType},</if>
         </trim>
         where id = #{id}
@@ -84,8 +87,12 @@
         delete from st_video where id = #{id}
     </delete>
 
+    <update id="truncateStVideo">
+        TRUNCATE TABLE st_video
+    </update>
+
     <delete id="deleteStVideoByIds" parameterType="String">
-        delete from st_video where id in
+        delete from st_video where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

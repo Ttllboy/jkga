@@ -1,7 +1,10 @@
 package com.ruoyi.jkza.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import com.ruoyi.jkza.domain.GdBase;
+import com.ruoyi.jkza.domain.YjTqyb;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 基础数据Mapper接口
@@ -50,6 +53,11 @@ public interface GdBaseMapper
      * @return 结果
      */
     public int deleteGdBaseById(Long id);
+    public int truncateTabel(@Param("tabel") String tabel);
+    public List<HashMap> ifGd(@Param("channelCode") String channelCode);
+    public List<HashMap> selectChannelCode(@Param("deviceName") String deviceName);
+    public List<HashMap> selectAdmTdcjgl();
+    public int insertYjTqyb(YjTqyb yjTqyb);
 
     /**
      * 批量删除基础数据

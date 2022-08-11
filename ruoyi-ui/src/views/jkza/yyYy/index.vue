@@ -41,24 +41,24 @@
       <!--    @keyup.enter.native="handleQuery"-->
       <!--  />-->
       <!--</el-form-item>-->
-      <el-form-item label="坐标" prop="coordinate">
-        <el-input
-          v-model="queryParams.coordinate"
-          placeholder="请输入坐标"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="数据类型" prop="dataType">
-        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
-          <el-option
-            v-for="dict in dict.type.data_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+      <!--      <el-form-item label="坐标" prop="coordinate">-->
+      <!--        <el-input-->
+      <!--          v-model="queryParams.coordinate"-->
+      <!--          placeholder="请输入坐标"-->
+      <!--          clearable-->
+      <!--          @keyup.enter.native="handleQuery"-->
+      <!--        />-->
+      <!--      </el-form-item>-->
+      <!--      <el-form-item label="数据类型" prop="dataType">-->
+      <!--        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>-->
+      <!--          <el-option-->
+      <!--            v-for="dict in dict.type.data_type"-->
+      <!--            :key="dict.value"-->
+      <!--            :label="dict.label"-->
+      <!--            :value="dict.value"-->
+      <!--          />-->
+      <!--        </el-select>-->
+      <!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -124,12 +124,16 @@
       <el-table-column label="医院停车数" align="center" prop="car" />
       <el-table-column label="安保人员数" align="center" prop="securityStaff" />
       <el-table-column label="在岗安保数" align="center" prop="securityStaffOnline" />
+      <el-table-column label="安保车辆数" align="center" prop="securityCar" />
+      <el-table-column label="在岗安保车辆数" align="center" prop="securityCarOnline" />
+      <el-table-column label="消控室" align="center" prop="disappearRoom" />
+      <el-table-column label="危险源" align="center" prop="dangerSource" />
       <el-table-column label="坐标" align="center" prop="coordinate" />
-      <el-table-column label="数据类型" align="center" prop="dataType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>
-        </template>
-      </el-table-column>
+      <!--      <el-table-column label="数据类型" align="center" prop="dataType">-->
+      <!--        <template slot-scope="scope">-->
+      <!--          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -175,6 +179,18 @@
         </el-form-item>
         <el-form-item label="在岗安保数" prop="securityStaffOnline">
           <el-input v-model="form.securityStaffOnline" placeholder="请输入在岗安保数" />
+        </el-form-item>
+        <el-form-item label="安保车辆数" prop="securityCar">
+          <el-input v-model="form.securityCar" placeholder="请输入安保车辆数" />
+        </el-form-item>
+        <el-form-item label="在岗安保车辆数" prop="securityCarOnline">
+          <el-input v-model="form.securityCarOnline" placeholder="请输入在岗安保车辆数" />
+        </el-form-item>
+        <el-form-item label="消控室" prop="disappearRoom">
+          <el-input v-model="form.disappearRoom" placeholder="请输入消控室" />
+        </el-form-item>
+        <el-form-item label="危险源" prop="dangerSource">
+          <el-input v-model="form.dangerSource" placeholder="请输入危险源" />
         </el-form-item>
         <el-form-item label="坐标" prop="coordinate">
           <el-input v-model="form.coordinate" placeholder="请输入坐标" />
@@ -233,6 +249,11 @@ export default {
         car: null,
         securityStaff: null,
         securityStaffOnline: null,
+
+        securityCar: null,
+        securityCarOnline: null,
+        disappearRoom: null,
+        dangerSource: null,
         coordinate: null,
         dataType: null
       },
@@ -270,6 +291,11 @@ export default {
         car: null,
         securityStaff: null,
         securityStaffOnline: null,
+
+        securityCar: null,
+        securityCarOnline: null,
+        disappearRoom: null,
+        dangerSource: null,
         coordinate: null,
         dataType: null
       };

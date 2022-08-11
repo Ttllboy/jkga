@@ -39,6 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="projectguid != null  and projectguid != ''"> and t1.ProjectGUID = #{projectguid}</if>
         </where>
+        order by t1.CheckDatet desc
     </select>
     
     <select id="selectDtRectificationnoticeByProjectguid" parameterType="String" resultMap="DtRectificationnoticeResult">

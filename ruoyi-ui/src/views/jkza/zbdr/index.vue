@@ -200,7 +200,7 @@
 
     <!-- 添加或修改值班导入对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="日期" prop="zbDate">
           <el-input v-model="form.zbDate" placeholder="请输入日期" />
         </el-form-item>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YjTqyjIdMapper">
+    
+    <resultMap type="YjTqyjId" id="YjTqyjIdResult">
+        <result property="id"    column="id"    />
+        <result property="tqyjId"    column="tqyj_id"    />
+        <result property="tqyjText"    column="tqyj_text"    />
+    </resultMap>
+
+    <sql id="selectYjTqyjIdVo">
+        select id, tqyj_id, tqyj_text from yj_tqyj_id
+    </sql>
+
+    <select id="selectYjTqyjIdList" parameterType="YjTqyjId" resultMap="YjTqyjIdResult">
+        <include refid="selectYjTqyjIdVo"/>
+        <where>  
+            <if test="tqyjId != null  and tqyjId != ''"> and tqyj_id = #{tqyjId}</if>
+            <if test="tqyjText != null  and tqyjText != ''"> and tqyj_text = #{tqyjText}</if>
+        </where>
+    </select>
+    
+    <select id="selectYjTqyjIdById" parameterType="Long" resultMap="YjTqyjIdResult">
+        <include refid="selectYjTqyjIdVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertYjTqyjId" parameterType="YjTqyjId" useGeneratedKeys="true" keyProperty="id">
+        insert into yj_tqyj_id
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tqyjId != null">tqyj_id,</if>
+            <if test="tqyjText != null">tqyj_text,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tqyjId != null">#{tqyjId},</if>
+            <if test="tqyjText != null">#{tqyjText},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYjTqyjId" parameterType="YjTqyjId">
+        update yj_tqyj_id
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tqyjId != null">tqyj_id = #{tqyjId},</if>
+            <if test="tqyjText != null">tqyj_text = #{tqyjText},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYjTqyjIdById" parameterType="Long">
+        delete from yj_tqyj_id where id = #{id}
+    </delete>
+
+    <delete id="deleteYjTqyjIdByIds" parameterType="String">
+        delete from yj_tqyj_id where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

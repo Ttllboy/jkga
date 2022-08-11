@@ -1,94 +1,64 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="110px">
-      <el-form-item label="项目名称" prop="projectName">
-        <el-input
-          v-model="queryParams.projectName"
-          placeholder="请输入项目名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+<!--      <el-form-item label="项目信息编号" prop="projectguid">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.projectguid"-->
+<!--          placeholder="请输入项目信息编号"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="整改编号" prop="noticenum">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.noticenum"-->
+<!--          placeholder="请输入整改编号"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="检查部分" prop="checkposition">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.checkposition"-->
+<!--          placeholder="请输入检查部分"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="通知书类型" prop="noticetype">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.noticetype"-->
+<!--          placeholder="请输入通知书类型"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+      <el-form-item label="检查日期" prop="checkdatet">
+        <el-date-picker clearable
+                        v-model="queryParams.checkdatet"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请选择检查日期">
+        </el-date-picker>
       </el-form-item>
-      <!--<el-form-item label="检测日期" prop="checkTime">-->
-      <!--  <el-date-picker clearable-->
-      <!--    v-model="queryParams.checkTime"-->
-      <!--    type="date"-->
-      <!--    value-format="yyyy-MM-dd"-->
-      <!--    placeholder="请选择检测日期">-->
-      <!--  </el-date-picker>-->
-      <!--</el-form-item>-->
-      <!--<el-form-item label="所属街道" prop="streetId">-->
-      <!--  &lt;!&ndash;<el-input&ndash;&gt;-->
-      <!--  &lt;!&ndash;  v-model="queryParams.streetId"&ndash;&gt;-->
-      <!--  &lt;!&ndash;  placeholder="请选择所属街道"&ndash;&gt;-->
-      <!--  &lt;!&ndash;  clearable&ndash;&gt;-->
-      <!--  &lt;!&ndash;  @keyup.enter.native="handleQuery"&ndash;&gt;-->
-      <!--  &lt;!&ndash;/>&ndash;&gt;-->
-      <!--  <el-select v-model="queryParams.streetId" placeholder="请选择所属街道" @change="changeStreetId" clearable>-->
-      <!--    <el-option-->
-      <!--      v-for="item in streetNames"-->
-      <!--      :key="item.value"-->
-      <!--      :label="item.label"-->
-      <!--      :value="item.value"-->
-      <!--    >-->
-      <!--    </el-option>-->
-      <!--  </el-select>-->
-      <!--</el-form-item>-->
-      <el-form-item label="所属工地" prop="buildingId">
-        <!--<el-input-->
-        <!--  v-model="queryParams.buildingId"-->
-        <!--  placeholder="请选择所属工地"-->
-        <!--  clearable-->
-        <!--  @keyup.enter.native="handleQuery"-->
-        <!--/>-->
-        <el-select v-model="queryParams.buildingId" placeholder="请选择所属工地" @change="changeBuildingId" clearable>
-          <el-option
-            v-for="item in buildingNames"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="通知书类型" prop="notificationType">
-        <el-select v-model="queryParams.notificationType" placeholder="请选择通知书类型" clearable>
-          <el-option
-            v-for="dict in dict.type.notice_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="回复查看" prop="replyCheck">
-        <el-select v-model="queryParams.replyCheck" placeholder="请选择回复查看" clearable>
-          <el-option
-            v-for="dict in dict.type.reply_check"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <!--<el-form-item label="回复信息" prop="replyInfo">-->
-      <!--  <el-input-->
-      <!--    v-model="queryParams.replyInfo"-->
-      <!--    placeholder="请输入回复信息"-->
-      <!--    clearable-->
-      <!--    @keyup.enter.native="handleQuery"-->
-      <!--  />-->
-      <!--</el-form-item>-->
-      <el-form-item label="数据类型" prop="dataType">
-        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
-          <el-option
-            v-for="dict in dict.type.data_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="是否回复" prop="isreply">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.isreply"-->
+<!--          placeholder="请输入是否回复"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="数据类型" prop="dataType">-->
+<!--        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.data_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -143,46 +113,26 @@
 
     <el-table v-loading="loading" :data="synergyList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <!--<el-table-column label="ID" align="center" prop="id" />-->
       <el-table-column label="序号" align="center" prop="id" >
         <template slot-scope="scope">
           <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="项目名称" align="center" prop="projectName" />
-      <el-table-column label="检测日期" align="center" prop="checkTime" width="180">
+      <el-table-column label="项目信息编号" align="center" prop="projectguid" />
+      <el-table-column label="整改编号" align="center" prop="noticenum" />
+      <el-table-column label="检查部分" align="center" prop="checkposition" />
+      <el-table-column label="通知书类型" align="center" prop="noticetype" />
+      <el-table-column label="检查日期" align="center" prop="checkdatet" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.checkTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+          <span>{{ parseTime(scope.row.checkdatet, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <!--<el-table-column label="所属街道" align="center" prop="streetId" >-->
-      <!--  <template slot-scope="scope" v-if="scope.row.streetId">-->
-      <!--    <StreetNames :streetNames="streetNames" :streetId="scope.row.streetId"></StreetNames>-->
-      <!--  </template>-->
-      <!--</el-table-column>-->
-      <el-table-column label="所属工地" align="center" prop="buildingId" >
-        <template slot-scope="scope" v-if="scope.row.buildingId">
-          <BuildingNames :buildingNames="buildingNames" :buildingId="scope.row.buildingId"></BuildingNames>
-        </template>
-      </el-table-column>
-      <el-table-column label="检查部位" align="center" prop="checkPosition" />
-      <el-table-column label="通知书类型" align="center" prop="notificationType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.notice_type" :value="scope.row.notificationType"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="回复查看" align="center" prop="replyCheck">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.reply_check" :value="scope.row.replyCheck"/>
-        </template>
-      </el-table-column>
-      <!--<el-table-column label="回复信息" align="center" prop="replyInfo" />-->
-
-      <el-table-column label="数据类型" align="center" prop="dataType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>
-        </template>
-      </el-table-column>
+      <el-table-column label="是否回复" align="center" prop="isreply" />
+<!--      <el-table-column label="数据类型" align="center" prop="dataType">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -210,79 +160,40 @@
       :limit.sync="queryParams.pageSize"
       @pagination="getList"
     />
-    <!--value-format="yyyy-MM-dd HH:mm:ss"-->
+
     <!-- 添加或修改整改通知对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="110px">
-        <el-form-item label="项目名称" prop="projectName">
-          <el-input v-model="form.projectName" placeholder="请输入项目名称" />
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+        <el-form-item label="项目信息编号" prop="projectguid">
+          <el-input v-model="form.projectguid" placeholder="请输入项目信息编号" />
         </el-form-item>
-        <el-form-item label="检测日期" prop="checkTime">
+        <el-form-item label="整改编号" prop="noticenum">
+          <el-input v-model="form.noticenum" placeholder="请输入整改编号" />
+        </el-form-item>
+        <el-form-item label="检查部分" prop="checkposition">
+          <el-input v-model="form.checkposition" placeholder="请输入检查部分" />
+        </el-form-item>
+        <el-form-item label="通知书类型" prop="noticetype">
+          <el-input v-model="form.noticetype" placeholder="请输入通知书类型" />
+        </el-form-item>
+        <el-form-item label="检查日期" prop="checkdatet">
           <el-date-picker clearable
-            v-model="form.checkTime"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            type="datetime"
-            default-time="12:00:00"
-            placeholder="请选择检测日期">
+                          v-model="form.checkdatet"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择检查日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="检查部位" prop="checkPosition">
-          <el-input v-model="form.checkPosition" placeholder="请输入检查部位" />
+        <el-form-item label="是否回复" prop="isreply">
+          <el-input v-model="form.isreply" placeholder="请输入是否回复" />
         </el-form-item>
-        <!--<el-form-item label="所属街道" prop="streetId">-->
-        <!--  &lt;!&ndash;<el-input v-model="form.streetId" placeholder="请选择所属街道" />&ndash;&gt;-->
-        <!--  <el-select v-model="form.streetId" placeholder="请选择所属街道" @change="changeFormStreetId" clearable>-->
-        <!--    <el-option-->
-        <!--      v-for="item in streetNames"-->
-        <!--      :key="item.value"-->
-        <!--      :label="item.label"-->
-        <!--      :value="item.value"-->
-        <!--    >-->
-        <!--    </el-option>-->
-        <!--  </el-select>-->
-        <!--</el-form-item>-->
-        <el-form-item label="所属工地" prop="buildingId">
-          <!--<el-input v-model="form.buildingId" placeholder="请选择所属工地" />-->
-          <el-select v-model="form.buildingId" placeholder="请选择所属工地" @change="changeFormBuildingId" clearable>
-            <el-option
-              v-for="item in buildingNames"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="通知书类型" prop="notificationType">
-          <el-select v-model="form.notificationType" placeholder="请选择通知书类型">
-            <el-option
-              v-for="dict in dict.type.notice_type"
-              :key="dict.value"
-              :label="dict.label"
-:value="parseInt(dict.value)"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="回复查看" prop="replyCheck">
-          <el-select v-model="form.replyCheck" placeholder="请选择回复查看">
-            <el-option
-              v-for="dict in dict.type.reply_check"
-              :key="dict.value"
-              :label="dict.label"
-:value="parseInt(dict.value)"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <!--<el-form-item label="回复信息" prop="replyInfo">-->
-        <!--  <el-input v-model="form.replyInfo" placeholder="请输入回复信息" />-->
-        <!--</el-form-item>-->
 <!--        <el-form-item label="数据类型" prop="dataType">-->
 <!--          <el-select v-model="form.dataType" placeholder="请选择数据类型">-->
 <!--            <el-option-->
 <!--              v-for="dict in dict.type.data_type"-->
 <!--              :key="dict.value"-->
 <!--              :label="dict.label"-->
-<!--:value="parseInt(dict.value)"-->
+<!--              :value="parseInt(dict.value)"-->
 <!--            ></el-option>-->
 <!--          </el-select>-->
 <!--        </el-form-item>-->
@@ -296,17 +207,11 @@
 </template>
 
 <script>
-import { listSynergy, getSynergy, delSynergy, addSynergy, updateSynergy,listBuildingNames } from "@/api/jkza/synergy";
-import {
-  listStreetNames
-} from "@/api/jkza/building";
-import StreetNames from "@/views/components/streetName";
-import BuildingNames from "@/views/components/buildingName"
+import { listSynergy, getSynergy, delSynergy, addSynergy, updateSynergy } from "@/api/jkza/synergy";
 
 export default {
   name: "Synergy",
-  dicts: ['notice_type', 'reply_check', 'data_type'],
-  components:{StreetNames,BuildingNames},
+  dicts: ['data_type'],
   data() {
     return {
       // 遮罩层
@@ -327,22 +232,16 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
-      //所有的街道名称
-      streetNames: [],
-      //所有工地名称
-      buildingNames: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        projectName: null,
-        checkTime: null,
-        streetId: null,
-        buildingId: null,
-        notificationType: null,
-        replyCheck: null,
-        replyInfo: null,
-        checkPosition: null,
+        projectguid: null,
+        noticenum: null,
+        checkposition: null,
+        noticetype: null,
+        checkdatet: null,
+        isreply: null,
         dataType: null
       },
       // 表单参数
@@ -364,13 +263,6 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
-      listBuildingNames().then(response => {
-        this.buildingNames = response;
-        }
-      );
-      listStreetNames().then(res => {
-        this.streetNames = res;
-      })
     },
     // 取消按钮
     cancel() {
@@ -381,14 +273,13 @@ export default {
     reset() {
       this.form = {
         id: null,
-        projectName: null,
-        checkTime: null,
-        streetId: null,
-        buildingId: null,
-        notificationType: null,
-        replyCheck: null,
-        replyInfo: null,
-        checkPosition: null,
+        projectguid: null,
+        noticenum: null,
+        checkposition: null,
+        noticetype: null,
+        checkdatet: null,
+        isreply: null,
+        createTime: null,
         dataType: null
       };
       this.resetForm("form");
@@ -460,24 +351,7 @@ export default {
       this.download('jkza/synergy/export', {
         ...this.queryParams
       }, `synergy_${new Date().getTime()}.xlsx`)
-    },
-    //改变queryParams所属街道ID
-    changeStreetId(streetId){
-      this.queryParams.streetId =streetId;
-    },
-    //改变form所属街道ID
-    changeFormStreetId(streetId){
-      this.form.streetId =streetId;
-    },
-    //改变queryParams所属工地ID
-    changeBuildingId(buildingId){
-      this.queryParams.buildingId =buildingId;
-    },
-    //改变form所属工地ID
-    changeFormBuildingId(buildingId){
-      this.form.buildingId =buildingId;
-    },
-
+    }
   }
 };
 </script>

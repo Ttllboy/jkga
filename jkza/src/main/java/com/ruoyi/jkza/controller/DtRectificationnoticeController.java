@@ -77,6 +77,7 @@ public class DtRectificationnoticeController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody DtRectificationnotice dtRectificationnotice)
     {
+        System.out.println(1);
         return toAjax(dtRectificationnoticeService.insertDtRectificationnotice(dtRectificationnotice));
     }
 

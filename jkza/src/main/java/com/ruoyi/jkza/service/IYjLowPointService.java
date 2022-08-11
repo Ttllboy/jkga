@@ -7,7 +7,7 @@ import com.ruoyi.jkza.domain.YjLowPoint;
  * 低洼点Service接口
  * 
  * @author ruoyi
- * @date 2022-04-18
+ * @date 2022-06-20
  */
 public interface IYjLowPointService 
 {

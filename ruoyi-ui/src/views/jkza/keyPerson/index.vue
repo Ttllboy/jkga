@@ -18,14 +18,14 @@
       <!--  </el-date-picker>-->
       <!--</el-form-item>-->
 
-      <el-form-item label="预警地点" prop="warnSite">
-        <el-input
-          v-model="queryParams.warnSite"
-          placeholder="请输入预警地点"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="预警地点" prop="warnSite">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.warnSite"-->
+<!--          placeholder="请输入预警地点"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <!--<el-form-item label="预警类型" prop="warnType">-->
       <!--  <el-input-->
       <!--    v-model="queryParams.warnType"-->
@@ -34,43 +34,43 @@
       <!--    @keyup.enter.native="handleQuery"-->
       <!--  />-->
       <!--</el-form-item>-->
-      <el-form-item label="事件状态" prop="incidentType">
-        <el-select v-model="queryParams.incidentType" placeholder="请选择事件状态" clearable>
-          <el-option
-            v-for="dict in dict.type.incident_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="所属工地" prop="buildingId">
+<!--      <el-form-item label="事件状态" prop="incidentType">-->
+<!--        <el-select v-model="queryParams.incidentType" placeholder="请选择事件状态" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.incident_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="所属工地" prop="buildingId">-->
         <!--<el-input-->
         <!--  v-model="queryParams.buildingId"-->
         <!--  placeholder="请选择所属工地"-->
         <!--  clearable-->
         <!--  @keyup.enter.native="handleQuery"-->
         <!--/>-->
-        <el-select v-model="queryParams.buildingId" placeholder="请选择所属工地" @change="changeBuildingId" clearable>
-          <el-option
-            v-for="item in buildingNames"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="数据类型" prop="dataType">
-        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
-          <el-option
-            v-for="dict in dict.type.data_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--        <el-select v-model="queryParams.buildingId" placeholder="请选择所属工地" @change="changeBuildingId" clearable>-->
+<!--          <el-option-->
+<!--            v-for="item in buildingNames"-->
+<!--            :key="item.value"-->
+<!--            :label="item.label"-->
+<!--            :value="item.value"-->
+<!--          >-->
+<!--          </el-option>-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="数据类型" prop="dataType">-->
+<!--        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.data_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -131,7 +131,11 @@
           <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="预警画面" align="center" prop="warnImg" />
+      <el-table-column label="预警画面" align="center" prop="warnImg" >
+        <template slot-scope="scope">
+          <img :src="scope.row.warnImg" width="100px" height="100px" />
+        </template>
+      </el-table-column>
       <el-table-column label="预警时间" align="center" prop="warnTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.warnTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
@@ -139,21 +143,21 @@
       </el-table-column>
       <el-table-column label="预警地点" align="center" prop="warnSite" />
       <el-table-column label="预警类型" align="center" prop="warnType" />
-      <el-table-column label="事件状态" align="center" prop="incidentType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.incident_type" :value="scope.row.incidentType"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="所属工地" align="center" prop="buildingId" >
-        <template slot-scope="scope" v-if="scope.row.buildingId">
-          <BuildingNames :buildingNames="buildingNames" :buildingId="scope.row.buildingId"></BuildingNames>
-        </template>
-      </el-table-column>
-      <el-table-column label="数据类型" align="center" prop="dataType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="事件状态" align="center" prop="incidentType">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.incident_type" :value="scope.row.incidentType"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+<!--      <el-table-column label="所属工地" align="center" prop="buildingId" >-->
+<!--        <template slot-scope="scope" v-if="scope.row.buildingId">-->
+<!--          <BuildingNames :buildingNames="buildingNames" :buildingId="scope.row.buildingId"></BuildingNames>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+<!--      <el-table-column label="数据类型" align="center" prop="dataType">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -185,9 +189,9 @@
     <!-- 添加或修改重点人员预警对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="110px">
-        <!--<el-form-item label="预警画面" prop="warnImg">-->
-        <!--  <el-input v-model="form.warnImg" placeholder="请输入预警画面" />-->
-        <!--</el-form-item>-->
+        <el-form-item label="预警画面" prop="warnImg">
+          <el-input v-model="form.warnImg" placeholder="请输入预警画面" />
+        </el-form-item>
         <el-form-item label="预警时间" prop="warnTime">
           <el-date-picker clearable
             v-model="form.warnTime"
@@ -200,31 +204,31 @@
         <el-form-item label="预警地点" prop="warnSite">
           <el-input v-model="form.warnSite" placeholder="请输入预警地点" />
         </el-form-item>
-        <!--<el-form-item label="预警类型" prop="warnType">-->
-        <!--  <el-input v-model="form.warnType" placeholder="请输入预警类型" />-->
-        <!--</el-form-item>-->
-        <el-form-item label="事件状态" prop="incidentType">
-          <el-select v-model="form.incidentType" placeholder="请选择事件状态">
-            <el-option
-              v-for="dict in dict.type.incident_type"
-              :key="dict.value"
-              :label="dict.label"
-:value="parseInt(dict.value)"
-            ></el-option>
-          </el-select>
+        <el-form-item label="预警类型" prop="warnType">
+          <el-input v-model="form.warnType" placeholder="请输入预警类型" />
         </el-form-item>
-        <el-form-item label="所属工地" prop="buildingId">
-          <!--<el-input v-model="form.buildingId" placeholder="请选择所属工地" />-->
-          <el-select v-model="form.buildingId" placeholder="请选择所属工地" @change="changeFormBuildingId" clearable>
-            <el-option
-              v-for="item in buildingNames"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
+<!--        <el-form-item label="事件状态" prop="incidentType">-->
+<!--          <el-select v-model="form.incidentType" placeholder="请选择事件状态">-->
+<!--            <el-option-->
+<!--              v-for="dict in dict.type.incident_type"-->
+<!--              :key="dict.value"-->
+<!--              :label="dict.label"-->
+<!--:value="parseInt(dict.value)"-->
+<!--            ></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="所属工地" prop="buildingId">-->
+<!--          &lt;!&ndash;<el-input v-model="form.buildingId" placeholder="请选择所属工地" />&ndash;&gt;-->
+<!--          <el-select v-model="form.buildingId" placeholder="请选择所属工地" @change="changeFormBuildingId" clearable>-->
+<!--            <el-option-->
+<!--              v-for="item in buildingNames"-->
+<!--              :key="item.value"-->
+<!--              :label="item.label"-->
+<!--              :value="item.value"-->
+<!--            >-->
+<!--            </el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
 <!--        <el-form-item label="数据类型" prop="dataType">-->
 <!--          <el-select v-model="form.dataType" placeholder="请选择数据类型">-->
 <!--            <el-option-->

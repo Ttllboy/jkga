@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YjLevMapper">
+    
+    <resultMap type="YjLev" id="YjLevResult">
+        <result property="id"    column="id"    />
+        <result property="lev"    column="lev"    />
+    </resultMap>
+
+    <sql id="selectYjLevVo">
+        select id, lev from yj_lev
+    </sql>
+
+    <select id="selectYjLevList" parameterType="YjLev" resultMap="YjLevResult">
+        <include refid="selectYjLevVo"/>
+        <where>  
+            <if test="lev != null "> and lev = #{lev}</if>
+        </where>
+    </select>
+    
+    <select id="selectYjLevById" parameterType="Long" resultMap="YjLevResult">
+        <include refid="selectYjLevVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertYjLev" parameterType="YjLev" useGeneratedKeys="true" keyProperty="id">
+        insert into yj_lev
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="lev != null">lev,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="lev != null">#{lev},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYjLev" parameterType="YjLev">
+        update yj_lev
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="lev != null">lev = #{lev},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYjLevById" parameterType="Long">
+        delete from yj_lev where id = #{id}
+    </delete>
+
+    <delete id="deleteYjLevByIds" parameterType="String">
+        delete from yj_lev where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

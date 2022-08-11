@@ -7,7 +7,7 @@ import com.ruoyi.jkza.domain.GdSynergy;
  * 整改通知Service接口
  * 
  * @author ruoyi
- * @date 2022-04-11
+ * @date 2022-06-26
  */
 public interface IGdSynergyService 
 {

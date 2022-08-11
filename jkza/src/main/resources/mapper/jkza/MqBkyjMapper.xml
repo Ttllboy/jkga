@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.MqBkyjMapper">
+    
+    <resultMap type="MqBkyj" id="MqBkyjResult">
+        <result property="id"    column="id"    />
+        <result property="repositoryCode"    column="repository_code"    />
+        <result property="imgUrl2"    column="img_url2"    />
+        <result property="recordType"    column="record_type"    />
+        <result property="alarmTime"    column="alarm_time"    />
+        <result property="imgUrl1"    column="img_url1"    />
+        <result property="repositoryName"    column="repository_name"    />
+        <result property="recordId"    column="record_id"    />
+        <result property="objId"    column="obj_id"    />
+        <result property="channelName"    column="channel_name"    />
+        <result property="surveyOrg"    column="survey_org"    />
+        <result property="objType"    column="obj_type"    />
+        <result property="capTime"    column="cap_time"    />
+        <result property="channelId"    column="channel_id"    />
+        <result property="gpsX"    column="gps_x"    />
+        <result property="gpsY"    column="gps_y"    />
+        <result property="imgUrl3"    column="img_url3"    />
+        <result property="cardNo"    column="card_no"    />
+        <result property="cardType"    column="card_type"    />
+        <result property="name"    column="name"    />
+        <result property="jscId"    column="jsc_id"    />
+    </resultMap>
+
+    <sql id="selectMqBkyjVo">
+        select id, repository_code, img_url2, record_type, alarm_time, img_url1, repository_name, record_id, obj_id, channel_name, survey_org, obj_type, cap_time, channel_id, gps_x, gps_y, img_url3, card_no, card_type, name, jsc_id from mq_bkyj
+    </sql>
+
+    <select id="selectMqBkyjList" parameterType="MqBkyj" resultMap="MqBkyjResult">
+        <include refid="selectMqBkyjVo"/>
+        <where>  
+            <if test="repositoryCode != null  and repositoryCode != ''"> and repository_code like concat('%', #{repositoryCode} ,'%') </if>
+            <if test="imgUrl2 != null  and imgUrl2 != ''"> and img_url2 = #{imgUrl2}</if>
+            <if test="recordType != null "> and record_type = #{recordType}</if>
+            <if test="alarmTime != null "> and alarm_time = #{alarmTime}</if>
+            <if test="imgUrl1 != null  and imgUrl1 != ''"> and img_url1 = #{imgUrl1}</if>
+            <if test="repositoryName != null  and repositoryName != ''"> and repository_name like concat('%', #{repositoryName}, '%')</if>
+            <if test="recordId != null  and recordId != ''"> and record_id = #{recordId}</if>
+            <if test="objId != null  and objId != ''"> and obj_id = #{objId}</if>
+            <if test="channelName != null  and channelName != ''"> and channel_name like concat('%', #{channelName}, '%')</if>
+            <if test="surveyOrg != null  and surveyOrg != ''"> and survey_org = #{surveyOrg}</if>
+            <if test="objType != null "> and obj_type = #{objType}</if>
+            <if test="capTime != null "> and cap_time = #{capTime}</if>
+            <if test="channelId != null  and channelId != ''"> and channel_id = #{channelId}</if>
+            <if test="gpsX != null "> and gps_x = #{gpsX}</if>
+            <if test="gpsY != null "> and gps_y = #{gpsY}</if>
+            <if test="imgUrl3 != null  and imgUrl3 != ''"> and img_url3 = #{imgUrl3}</if>
+            <if test="cardNo != null  and cardNo != ''"> and card_no = #{cardNo}</if>
+            <if test="cardType != null  and cardType != ''"> and card_type = #{cardType}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="jscId != null "> and jsc_id = #{jscId}</if>
+        </where>
+        order by alarm_time desc
+    </select>
+    
+    <select id="selectMqBkyjById" parameterType="Long" resultMap="MqBkyjResult">
+        <include refid="selectMqBkyjVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMqBkyj" parameterType="MqBkyj" useGeneratedKeys="true" keyProperty="id">
+        insert into mq_bkyj
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="repositoryCode != null">repository_code,</if>
+            <if test="imgUrl2 != null">img_url2,</if>
+            <if test="recordType != null">record_type,</if>
+            <if test="alarmTime != null">alarm_time,</if>
+            <if test="imgUrl1 != null">img_url1,</if>
+            <if test="repositoryName != null">repository_name,</if>
+            <if test="recordId != null">record_id,</if>
+            <if test="objId != null">obj_id,</if>
+            <if test="channelName != null">channel_name,</if>
+            <if test="surveyOrg != null">survey_org,</if>
+            <if test="objType != null">obj_type,</if>
+            <if test="capTime != null">cap_time,</if>
+            <if test="channelId != null">channel_id,</if>
+            <if test="gpsX != null">gps_x,</if>
+            <if test="gpsY != null">gps_y,</if>
+            <if test="imgUrl3 != null">img_url3,</if>
+            <if test="cardNo != null">card_no,</if>
+            <if test="cardType != null">card_type,</if>
+            <if test="name != null">name,</if>
+            <if test="jscId != null">jsc_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="repositoryCode != null">#{repositoryCode},</if>
+            <if test="imgUrl2 != null">#{imgUrl2},</if>
+            <if test="recordType != null">#{recordType},</if>
+            <if test="alarmTime != null">#{alarmTime},</if>
+            <if test="imgUrl1 != null">#{imgUrl1},</if>
+            <if test="repositoryName != null">#{repositoryName},</if>
+            <if test="recordId != null">#{recordId},</if>
+            <if test="objId != null">#{objId},</if>
+            <if test="channelName != null">#{channelName},</if>
+            <if test="surveyOrg != null">#{surveyOrg},</if>
+            <if test="objType != null">#{objType},</if>
+            <if test="capTime != null">#{capTime},</if>
+            <if test="channelId != null">#{channelId},</if>
+            <if test="gpsX != null">#{gpsX},</if>
+            <if test="gpsY != null">#{gpsY},</if>
+            <if test="imgUrl3 != null">#{imgUrl3},</if>
+            <if test="cardNo != null">#{cardNo},</if>
+            <if test="cardType != null">#{cardType},</if>
+            <if test="name != null">#{name},</if>
+            <if test="jscId != null">#{jscId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMqBkyj" parameterType="MqBkyj">
+        update mq_bkyj
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="repositoryCode != null">repository_code = #{repositoryCode},</if>
+            <if test="imgUrl2 != null">img_url2 = #{imgUrl2},</if>
+            <if test="recordType != null">record_type = #{recordType},</if>
+            <if test="alarmTime != null">alarm_time = #{alarmTime},</if>
+            <if test="imgUrl1 != null">img_url1 = #{imgUrl1},</if>
+            <if test="repositoryName != null">repository_name = #{repositoryName},</if>
+            <if test="recordId != null">record_id = #{recordId},</if>
+            <if test="objId != null">obj_id = #{objId},</if>
+            <if test="channelName != null">channel_name = #{channelName},</if>
+            <if test="surveyOrg != null">survey_org = #{surveyOrg},</if>
+            <if test="objType != null">obj_type = #{objType},</if>
+            <if test="capTime != null">cap_time = #{capTime},</if>
+            <if test="channelId != null">channel_id = #{channelId},</if>
+            <if test="gpsX != null">gps_x = #{gpsX},</if>
+            <if test="gpsY != null">gps_y = #{gpsY},</if>
+            <if test="imgUrl3 != null">img_url3 = #{imgUrl3},</if>
+            <if test="cardNo != null">card_no = #{cardNo},</if>
+            <if test="cardType != null">card_type = #{cardType},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="jscId != null">jsc_id = #{jscId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMqBkyjById" parameterType="Long">
+        delete from mq_bkyj where id = #{id}
+    </delete>
+
+    <delete id="deleteMqBkyjByIds" parameterType="String">
+        delete from mq_bkyj where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

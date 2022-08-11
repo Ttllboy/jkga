@@ -7,7 +7,7 @@ import com.ruoyi.jkza.domain.GdSynergy;
  * 整改通知Mapper接口
  * 
  * @author ruoyi
- * @date 2022-04-11
+ * @date 2022-06-26
  */
 public interface GdSynergyMapper 
 {
@@ -58,4 +58,5 @@ public interface GdSynergyMapper
      * @return 结果
      */
     public int deleteGdSynergyByIds(Long[] ids);
+    public int freshGdSynergy();
 }

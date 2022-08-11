@@ -11,7 +11,7 @@ import com.ruoyi.jkza.service.IGdVideoService;
  * 视频设备Service业务层处理
  * 
  * @author ruoyi
- * @date 2022-04-12
+ * @date 2022-06-18
  */
 @Service
 public class GdVideoServiceImpl implements IGdVideoService 
@@ -42,14 +42,6 @@ public class GdVideoServiceImpl implements IGdVideoService
     {
         return gdVideoMapper.selectGdVideoList(gdVideo);
     }
-
-    //查询视频设备列表与工地表链接查询
-    @Override
-    public List<GdVideo> selectGdVideoListAndBuilding(GdVideo gdVideo)
-    {
-        return gdVideoMapper.selectGdVideoListAndBuilding(gdVideo);
-    }
-
 
     /**
      * 新增视频设备

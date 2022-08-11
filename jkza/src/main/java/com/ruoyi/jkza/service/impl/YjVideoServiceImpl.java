@@ -11,7 +11,7 @@ import com.ruoyi.jkza.service.IYjVideoService;
  * 视频设备Service业务层处理
  * 
  * @author ruoyi
- * @date 2022-04-21
+ * @date 2022-06-18
  */
 @Service
 public class YjVideoServiceImpl implements IYjVideoService 
@@ -41,11 +41,6 @@ public class YjVideoServiceImpl implements IYjVideoService
     public List<YjVideo> selectYjVideoList(YjVideo yjVideo)
     {
         return yjVideoMapper.selectYjVideoList(yjVideo);
-    }
-    @Override
-    public List<YjVideo> selectYjVideoListAndName(YjVideo yjVideo)
-    {
-        return yjVideoMapper.selectYjVideoListAndName(yjVideo);
     }
 
     /**
@@ -79,7 +74,7 @@ public class YjVideoServiceImpl implements IYjVideoService
      * @return 结果
      */
     @Override
-    public int deleteYjVideoByIds(Integer[] ids)
+    public int deleteYjVideoByIds(Long[] ids)
     {
         return yjVideoMapper.deleteYjVideoByIds(ids);
     }

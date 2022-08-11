@@ -25,16 +25,16 @@
       <!--    @keyup.enter.native="handleQuery"-->
       <!--  />-->
       <!--</el-form-item>-->
-      <el-form-item label="数据类型" prop="dataType">
-        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
-          <el-option
-            v-for="dict in dict.type.data_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="数据类型" prop="dataType">-->
+<!--        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.data_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -97,11 +97,11 @@
       <el-table-column label="值班人员类型" align="center" prop="operatorType" />
       <el-table-column label="值班人员名称" align="center" prop="operatorName" />
       <el-table-column label="值班人员电话" align="center" prop="operatorPhone" />
-      <el-table-column label="数据类型" align="center" prop="dataType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="数据类型" align="center" prop="dataType">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -142,16 +142,16 @@
         <el-form-item label="值班人员电话" prop="operatorPhone">
           <el-input v-model="form.operatorPhone" placeholder="请输入值班人员电话" />
         </el-form-item>
-        <el-form-item label="数据类型" prop="dataType">
-          <el-select v-model="form.dataType" placeholder="请选择数据类型">
-            <el-option
-              v-for="dict in dict.type.data_type"
-              :key="dict.value"
-              :label="dict.label"
-:value="parseInt(dict.value)"
-            ></el-option>
-          </el-select>
-        </el-form-item>
+<!--        <el-form-item label="数据类型" prop="dataType">-->
+<!--          <el-select v-model="form.dataType" placeholder="请选择数据类型">-->
+<!--            <el-option-->
+<!--              v-for="dict in dict.type.data_type"-->
+<!--              :key="dict.value"-->
+<!--              :label="dict.label"-->
+<!--:value="parseInt(dict.value)"-->
+<!--            ></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>

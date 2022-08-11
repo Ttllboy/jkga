@@ -1,77 +1,106 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="110px">
-      <el-form-item label="所属街道" prop="belongStreet">
-        <!--<el-input-->
-        <!--  v-model="queryParams.belongStreet"-->
-        <!--  placeholder="请输入所属街道"-->
-        <!--  clearable-->
-        <!--  @keyup.enter.native="handleQuery"-->
-        <!--/>-->
-        <el-select v-model="queryParams.belongStreet" placeholder="请选择所属街道" @change="changeStreetId" clearable>
-          <el-option
-            v-for="item in streetNames"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <!--<el-form-item label="检查时间" prop="checkTime">-->
-      <!--  <el-date-picker clearable-->
-      <!--    v-model="queryParams.checkTime"-->
-      <!--    type="date"-->
-      <!--    value-format="yyyy-MM-dd"-->
-      <!--    placeholder="请选择检查时间">-->
-      <!--  </el-date-picker>-->
-      <!--</el-form-item>-->
-      <el-form-item label="事件描述" prop="incidentDescribe">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="90px">
+<!--      <el-form-item label="事件ID" prop="eventId">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.eventId"-->
+<!--          placeholder="请输入事件ID"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="所属街道" prop="belongStreet">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.belongStreet"-->
+<!--          placeholder="请输入所属街道"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+      <el-form-item label="街道名称" prop="streetName">
         <el-input
-          v-model="queryParams.incidentDescribe"
-          placeholder="请输入事件描述"
+          v-model="queryParams.streetName"
+          placeholder="请输入街道名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+<!--      <el-form-item label="检查时间" prop="checkTime">-->
+<!--        <el-date-picker clearable-->
+<!--          v-model="queryParams.checkTime"-->
+<!--          type="date"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          placeholder="请选择检查时间">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
       <el-form-item label="事件类型" prop="incidentType">
-        <el-select v-model="queryParams.incidentType" placeholder="请选择事件类型" clearable>
+        <el-input
+          v-model="queryParams.incidentType"
+          placeholder="请输入事件类型"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+<!--      <el-form-item label="回复查看" prop="replyCheck">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.replyCheck"-->
+<!--          placeholder="请输入回复查看"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+      <el-form-item label="事件大类型" prop="eventType">
+        <el-select v-model="queryParams.eventType" placeholder="请选择事件大类型" clearable>
           <el-option
-            v-for="dict in dict.type.incident_mold"
+            v-for="dict in dict.type.yj_event_type"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
           />
         </el-select>
       </el-form-item>
-      <!--<el-form-item label="查看详情" prop="checkInfo">-->
-      <!--  <el-input-->
-      <!--    v-model="queryParams.checkInfo"-->
-      <!--    placeholder="请输入查看详情"-->
-      <!--    clearable-->
-      <!--    @keyup.enter.native="handleQuery"-->
-      <!--  />-->
-      <!--</el-form-item>-->
-      <!--<el-form-item label="回复查看" prop="replyCheck">-->
-      <!--  <el-select v-model="queryParams.replyCheck" placeholder="请选择回复查看" clearable>-->
-      <!--    <el-option-->
-      <!--      v-for="dict in dict.type.yj_check"-->
-      <!--      :key="dict.value"-->
-      <!--      :label="dict.label"-->
-      <!--      :value="dict.value"-->
-      <!--    />-->
-      <!--  </el-select>-->
-      <!--</el-form-item>-->
-      <el-form-item label="数据类型" prop="dataType">
-        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
-          <el-option
-            v-for="dict in dict.type.data_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="报警人" prop="alarmName">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.alarmName"-->
+<!--          placeholder="请输入报警人"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="联系电话" prop="alarmPhone">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.alarmPhone"-->
+<!--          placeholder="请输入联系电话"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="主管单位" prop="competentUnit">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.competentUnit"-->
+<!--          placeholder="请输入主管单位"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="警情地址" prop="address">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.address"-->
+<!--          placeholder="请输入警情地址"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="数据类型" prop="dataType">-->
+<!--        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.data_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -131,33 +160,34 @@
           <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="所属街道" align="center" prop="belongStreet" >
-        <template slot-scope="scope" v-if="scope.row.belongStreet">
-          <StreetNames :streetNames="streetNames" :streetId="scope.row.belongStreet"></StreetNames>
-        </template>
-      </el-table-column>
-      <el-table-column label="检查时间" align="center" prop="checkTime" width="180">
+      <el-table-column label="事件ID" align="center" prop="eventId" />
+<!--      <el-table-column label="所属街道" align="center" prop="belongStreet" />-->
+      <el-table-column label="街道名称" align="center" prop="streetName" />
+      <el-table-column label="检查时间" align="center" prop="checkTime" width="100">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.checkTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="事件描述" align="center" prop="incidentDescribe" />
-      <el-table-column label="事件类型" align="center" prop="incidentType">
+      <el-table-column label="事件描述" align="center" prop="incidentDescribe" width="300" />
+      <el-table-column label="警情地址" align="center" prop="address" width="200" />
+      <el-table-column label="事件类型" align="center" prop="incidentType" />
+<!--      <el-table-column label="回复查看" align="center" prop="replyCheck" />-->
+<!--      <el-table-column label="查看详情" align="center" prop="checkInfo" />-->
+      <el-table-column label="事件大类型" align="center" prop="eventType" width="180">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.incident_mold" :value="scope.row.incidentType"/>
+          <dict-tag :options="dict.type.yj_event_type" :value="scope.row.eventType"/>
         </template>
       </el-table-column>
-      <el-table-column label="查看详情" align="center" prop="checkInfo" />
-      <el-table-column label="回复查看" align="center" prop="replyCheck">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.yj_check" :value="scope.row.replyCheck"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="数据类型" align="center" prop="dataType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>
-        </template>
-      </el-table-column>
+      <el-table-column label="报警人" align="center" prop="alarmName" />
+      <el-table-column label="联系电话" align="center" prop="alarmPhone" />
+      <el-table-column label="处理结果" align="center" prop="treatmentResult" />
+      <el-table-column label="主管单位" align="center" prop="competentUnit" />
+
+<!--      <el-table-column label="数据类型" align="center" prop="dataType">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -188,53 +218,62 @@
 
     <!-- 添加或修改多跨协同对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="110px">
-        <el-form-item label="所属街道" prop="belongStreet">
-          <!--<el-input v-model="form.belongStreet" placeholder="请输入所属街道" />-->
-          <el-select v-model="form.belongStreet" placeholder="请选择所属街道" @change="changeFormStreetId" clearable>
-            <el-option
-              v-for="item in streetNames"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+        <el-form-item label="事件ID" prop="eventId">
+          <el-input v-model="form.eventId" placeholder="请输入事件ID" />
+        </el-form-item>
+<!--        <el-form-item label="所属街道" prop="belongStreet">-->
+<!--          <el-input v-model="form.belongStreet" placeholder="请输入所属街道" />-->
+<!--        </el-form-item>-->
+        <el-form-item label="街道名称" prop="streetName">
+          <el-input v-model="form.streetName" placeholder="请输入街道名称" />
         </el-form-item>
         <el-form-item label="检查时间" prop="checkTime">
           <el-date-picker clearable
             v-model="form.checkTime"
-                          value-format="yyyy-MM-dd"
-                          type="date"
+            type="date"
+            value-format="yyyy-MM-dd"
             placeholder="请选择检查时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="事件描述" prop="incidentDescribe">
-          <el-input v-model="form.incidentDescribe" placeholder="请输入事件描述" />
+          <el-input v-model="form.incidentDescribe" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="警情地址" prop="address">
+          <el-input v-model="form.address" placeholder="请输入警情地址" />
         </el-form-item>
         <el-form-item label="事件类型" prop="incidentType">
-          <el-select v-model="form.incidentType" placeholder="请选择事件类型">
+          <el-input v-model="form.incidentType" placeholder="请输入事件类型" />
+        </el-form-item>
+<!--        <el-form-item label="回复查看" prop="replyCheck">-->
+<!--          <el-input v-model="form.replyCheck" placeholder="请输入回复查看" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="查看详情" prop="checkInfo">-->
+<!--          <el-input v-model="form.checkInfo" type="textarea" placeholder="请输入内容" />-->
+<!--        </el-form-item>-->
+        <el-form-item label="事件大类型" prop="eventType">
+          <el-select v-model="form.eventType" placeholder="请选择事件大类型">
             <el-option
-              v-for="dict in dict.type.incident_mold"
+              v-for="dict in dict.type.yj_event_type"
               :key="dict.value"
               :label="dict.label"
 :value="parseInt(dict.value)"
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="查看详情" prop="checkInfo">
-          <el-input v-model="form.checkInfo" placeholder="请输入查看详情" />
+        <el-form-item label="报警人" prop="alarmName">
+          <el-input v-model="form.alarmName" placeholder="请输入报警人" />
         </el-form-item>
-        <el-form-item label="回复查看" prop="replyCheck">
-          <el-select v-model="form.replyCheck" placeholder="请选择回复查看">
-            <el-option
-              v-for="dict in dict.type.yj_check"
-              :key="dict.value"
-              :label="dict.label"
-:value="parseInt(dict.value)"
-            ></el-option>
-          </el-select>
+        <el-form-item label="联系电话" prop="alarmPhone">
+          <el-input v-model="form.alarmPhone" placeholder="请输入联系电话" />
         </el-form-item>
+        <el-form-item label="处理结果" prop="treatmentResult">
+          <el-input v-model="form.treatmentResult" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="主管单位" prop="competentUnit">
+          <el-input v-model="form.competentUnit" placeholder="请输入主管单位" />
+        </el-form-item>
+
 <!--        <el-form-item label="数据类型" prop="dataType">-->
 <!--          <el-select v-model="form.dataType" placeholder="请选择数据类型">-->
 <!--            <el-option-->
@@ -256,13 +295,10 @@
 
 <script>
 import { listYjSynergy, getYjSynergy, delYjSynergy, addYjSynergy, updateYjSynergy } from "@/api/jkza/yjSynergy";
-import {listStreetNames} from "@/api/jkza/building";
-import StreetNames from "@/views/components/streetName";
 
 export default {
   name: "YjSynergy",
-  components:{StreetNames},
-  dicts: ['incident_mold', 'yj_check', 'data_type'],
+  dicts: ['data_type', 'yj_event_type'],
   data() {
     return {
       // 遮罩层
@@ -283,24 +319,33 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
-      //所有的街道名称
-      streetNames: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        eventId: null,
         belongStreet: null,
+        streetName: null,
         checkTime: null,
         incidentDescribe: null,
         incidentType: null,
-        checkInfo: null,
         replyCheck: null,
+        checkInfo: null,
+        eventType: null,
+        alarmName: null,
+        alarmPhone: null,
+        treatmentResult: null,
+        competentUnit: null,
+        address: null,
         dataType: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
+        eventId: [
+          { required: true, message: "事件ID不能为空", trigger: "blur" }
+        ],
       }
     };
   },
@@ -316,9 +361,6 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
-      listStreetNames().then(response => {
-        this.streetNames = response;
-      });
     },
     // 取消按钮
     cancel() {
@@ -329,12 +371,20 @@ export default {
     reset() {
       this.form = {
         id: null,
+        eventId: null,
         belongStreet: null,
+        streetName: null,
         checkTime: null,
         incidentDescribe: null,
         incidentType: null,
-        checkInfo: null,
         replyCheck: null,
+        checkInfo: null,
+        eventType: null,
+        alarmName: null,
+        alarmPhone: null,
+        treatmentResult: null,
+        competentUnit: null,
+        address: null,
         dataType: null
       };
       this.resetForm("form");
@@ -406,15 +456,7 @@ export default {
       this.download('jkza/yjSynergy/export', {
         ...this.queryParams
       }, `yjSynergy_${new Date().getTime()}.xlsx`)
-    },
-    //改变queryParams所属街道ID
-    changeStreetId(streetId){
-      this.queryParams.belongStreet =streetId;
-    },
-    //改变form所属街道ID
-    changeFormStreetId(streetId){
-      this.form.belongStreet =streetId;
-    },
+    }
   }
 };
 </script>

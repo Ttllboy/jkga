@@ -1,7 +1,14 @@
 package com.ruoyi.jkza.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.jkza.domain.MqBkyj;
+import com.ruoyi.jkza.mapper.GdBaseMapper;
+import com.ruoyi.jkza.mapper.MqBkyjMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,7 +65,10 @@ public class GdKeyPersonController extends BaseController
         ExcelUtil<GdKeyPerson> util = new ExcelUtil<GdKeyPerson>(GdKeyPerson.class);
         util.exportExcel(response, list, "重点人员预警数据");
     }
-
+    @Autowired
+    private GdBaseMapper gdBaseMapper;
+    @Autowired
+    private MqBkyjMapper mqBkyjMapper;
     /**
      * 获取重点人员预警详细信息
      */
@@ -66,6 +76,27 @@ public class GdKeyPersonController extends BaseController
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
+        gdBaseMapper.truncateTabel("gd_key_person");
+        MqBkyj bkyj = new MqBkyj();
+        bkyj.setRecordType(3L);
+        List<MqBkyj> mqBkyjs = mqBkyjMapper.selectMqBkyjList(bkyj);
+        List<MqBkyj> list = new ArrayList<>();
+        for (int i = 0; i < mqBkyjs.size(); i++) {
+            String channelId = mqBkyjs.get(i).getChannelId();
+            List<HashMap> belongGd = gdBaseMapper.ifGd("\""+channelId+"\"");
+            if (belongGd.size()>0) {
+                list.add(mqBkyjs.get(i));
+                MqBkyj mqBkyj = mqBkyjs.get(i);
+                System.out.println(mqBkyjs.get(i));
+                GdKeyPerson keyPerson = new GdKeyPerson();
+                keyPerson.setWarnImg(mqBkyj.getImgUrl1());
+                Date date = new Date(mqBkyj.getCapTime());
+                keyPerson.setWarnTime(date);
+                keyPerson.setWarnSite(mqBkyj.getChannelName());
+                keyPerson.setWarnType("重点人员预警");
+                gdKeyPersonService.insertGdKeyPerson(keyPerson);
+            }
+        }
         return AjaxResult.success(gdKeyPersonService.selectGdKeyPersonById(id));
     }
 

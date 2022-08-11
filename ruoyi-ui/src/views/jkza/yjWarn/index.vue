@@ -19,14 +19,14 @@
       <!--    placeholder="请选择预警时间">-->
       <!--  </el-date-picker>-->
       <!--</el-form-item>-->
-      <el-form-item label="预警详情" prop="warnInfo">
-        <el-input
-          v-model="queryParams.warnInfo"
-          placeholder="请输入预警详情"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="预警详情" prop="warnInfo">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.warnInfo"-->
+<!--          placeholder="请输入预警详情"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item label="预警类型" prop="warnType">
         <el-select v-model="queryParams.warnType" placeholder="请选择预警类型" clearable>
           <el-option
@@ -37,26 +37,26 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="事件状态" prop="incidentType">
-        <el-select v-model="queryParams.incidentType" placeholder="请选择事件状态" clearable>
-          <el-option
-            v-for="dict in dict.type.incident_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="数据类型" prop="dataType">
-        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
-          <el-option
-            v-for="dict in dict.type.data_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="事件状态" prop="incidentType">-->
+<!--        <el-select v-model="queryParams.incidentType" placeholder="请选择事件状态" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.incident_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="数据类型" prop="dataType">-->
+<!--        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.data_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>

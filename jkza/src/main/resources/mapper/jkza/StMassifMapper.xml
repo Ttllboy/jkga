@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.StMassifMapper">
+    
+    <resultMap type="StMassif" id="StMassifResult">
+        <result property="id"    column="id"    />
+        <result property="thStreet"    column="th_street"    />
+        <result property="jbStreet"    column="jb_street"    />
+        <result property="cnStreet"    column="cn_street"    />
+        <result property="csStreet"    column="cs_street"    />
+        <result property="safeUse"    column="safe_use"    />
+        <result property="year"    column="year"    />
+    </resultMap>
+
+    <sql id="selectStMassifVo">
+        select id, th_street, jb_street, cn_street, cs_street, safe_use, year from st_massif
+    </sql>
+
+    <select id="selectStMassifList" parameterType="StMassif" resultMap="StMassifResult">
+        <include refid="selectStMassifVo"/>
+        <where>  
+            <if test="thStreet != null "> and th_street = #{thStreet}</if>
+            <if test="jbStreet != null "> and jb_street = #{jbStreet}</if>
+            <if test="cnStreet != null "> and cn_street = #{cnStreet}</if>
+            <if test="csStreet != null "> and cs_street = #{csStreet}</if>
+            <if test="safeUse != null "> and safe_use = #{safeUse}</if>
+            <if test="year != null "> and year = #{year}</if>
+        </where>
+    </select>
+    
+    <select id="selectStMassifById" parameterType="Long" resultMap="StMassifResult">
+        <include refid="selectStMassifVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStMassif" parameterType="StMassif" useGeneratedKeys="true" keyProperty="id">
+        insert into st_massif
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="thStreet != null">th_street,</if>
+            <if test="jbStreet != null">jb_street,</if>
+            <if test="cnStreet != null">cn_street,</if>
+            <if test="csStreet != null">cs_street,</if>
+            <if test="safeUse != null">safe_use,</if>
+            <if test="year != null">year,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="thStreet != null">#{thStreet},</if>
+            <if test="jbStreet != null">#{jbStreet},</if>
+            <if test="cnStreet != null">#{cnStreet},</if>
+            <if test="csStreet != null">#{csStreet},</if>
+            <if test="safeUse != null">#{safeUse},</if>
+            <if test="year != null">#{year},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStMassif" parameterType="StMassif">
+        update st_massif
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="thStreet != null">th_street = #{thStreet},</if>
+            <if test="jbStreet != null">jb_street = #{jbStreet},</if>
+            <if test="cnStreet != null">cn_street = #{cnStreet},</if>
+            <if test="csStreet != null">cs_street = #{csStreet},</if>
+            <if test="safeUse != null">safe_use = #{safeUse},</if>
+            <if test="year != null">year = #{year},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStMassifById" parameterType="Long">
+        delete from st_massif where id = #{id}
+    </delete>
+
+    <delete id="deleteStMassifByIds" parameterType="String">
+        delete from st_massif where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

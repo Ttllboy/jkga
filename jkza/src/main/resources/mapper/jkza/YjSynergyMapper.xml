@@ -1,76 +1,139 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.jkza.mapper.YjSynergyMapper">
-    
+
     <resultMap type="YjSynergy" id="YjSynergyResult">
         <result property="id"    column="id"    />
+        <result property="eventId"    column="event_id"    />
         <result property="belongStreet"    column="belong_street"    />
+        <result property="streetName"    column="street_name"    />
         <result property="checkTime"    column="check_time"    />
         <result property="incidentDescribe"    column="incident_describe"    />
         <result property="incidentType"    column="incident_type"    />
-        <result property="checkInfo"    column="check_info"    />
         <result property="replyCheck"    column="reply_check"    />
+        <result property="checkInfo"    column="check_info"    />
+        <result property="eventType"    column="event_type"    />
+        <result property="alarmName"    column="alarm_name"    />
+        <result property="alarmPhone"    column="alarm_phone"    />
+        <result property="treatmentResult"    column="treatment_result"    />
+        <result property="competentUnit"    column="competent_unit"    />
+        <result property="address"    column="address"    />
         <result property="dataType"    column="data_type"    />
     </resultMap>
 
     <sql id="selectYjSynergyVo">
-        select id, belong_street, check_time, incident_describe, incident_type, check_info, reply_check, data_type from yj_synergy
+        select id, event_id, belong_street, street_name, check_time, incident_describe, incident_type, reply_check, check_info, event_type, alarm_name, alarm_phone, treatment_result, competent_unit, address, data_type from yj_synergy
     </sql>
-
+<!--    <if test="incidentType != null  and incidentType != ''"> and incident_type = #{incidentType}</if>-->
     <select id="selectYjSynergyList" parameterType="YjSynergy" resultMap="YjSynergyResult">
         <include refid="selectYjSynergyVo"/>
-        <where>  
+        <where>
+            <if test="eventId != null "> and event_id = #{eventId}</if>
             <if test="belongStreet != null "> and belong_street = #{belongStreet}</if>
+            <if test="streetName != null  and streetName != ''"> and street_name like concat('%', #{streetName}, '%')</if>
             <if test="checkTime != null "> and check_time = #{checkTime}</if>
             <if test="incidentDescribe != null  and incidentDescribe != ''"> and incident_describe = #{incidentDescribe}</if>
-            <if test="incidentType != null "> and incident_type = #{incidentType}</if>
-            <if test="checkInfo != null  and checkInfo != ''"> and check_info = #{checkInfo}</if>
+
+            <if test="incidentType != null  and incidentType != ''"> and incident_type like concat('%', #{incidentType}, '%')</if>
             <if test="replyCheck != null "> and reply_check = #{replyCheck}</if>
+            <if test="checkInfo != null  and checkInfo != ''"> and check_info = #{checkInfo}</if>
+            <if test="eventType != null "> and event_type = #{eventType}</if>
+            <if test="alarmName != null  and alarmName != ''"> and alarm_name like concat('%', #{alarmName}, '%')</if>
+            <if test="alarmPhone != null  and alarmPhone != ''"> and alarm_phone = #{alarmPhone}</if>
+            <if test="treatmentResult != null  and treatmentResult != ''"> and treatment_result = #{treatmentResult}</if>
+            <if test="competentUnit != null  and competentUnit != ''"> and competent_unit = #{competentUnit}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
             <if test="dataType != null "> and data_type = #{dataType}</if>
         </where>
+        order by check_time desc
     </select>
-    
+
     <select id="selectYjSynergyById" parameterType="Long" resultMap="YjSynergyResult">
         <include refid="selectYjSynergyVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertYjSynergy" parameterType="YjSynergy" useGeneratedKeys="true" keyProperty="id">
         insert into yj_synergy
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="eventId != null">event_id,</if>
             <if test="belongStreet != null">belong_street,</if>
+            <if test="streetName != null">street_name,</if>
             <if test="checkTime != null">check_time,</if>
             <if test="incidentDescribe != null">incident_describe,</if>
             <if test="incidentType != null">incident_type,</if>
-            <if test="checkInfo != null">check_info,</if>
             <if test="replyCheck != null">reply_check,</if>
+            <if test="checkInfo != null">check_info,</if>
+            <if test="eventType != null">event_type,</if>
+            <if test="alarmName != null">alarm_name,</if>
+            <if test="alarmPhone != null">alarm_phone,</if>
+            <if test="treatmentResult != null">treatment_result,</if>
+            <if test="competentUnit != null">competent_unit,</if>
+            <if test="address != null">address,</if>
             <if test="dataType != null">data_type,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="eventId != null">#{eventId},</if>
             <if test="belongStreet != null">#{belongStreet},</if>
+            <if test="streetName != null">#{streetName},</if>
             <if test="checkTime != null">#{checkTime},</if>
             <if test="incidentDescribe != null">#{incidentDescribe},</if>
             <if test="incidentType != null">#{incidentType},</if>
-            <if test="checkInfo != null">#{checkInfo},</if>
             <if test="replyCheck != null">#{replyCheck},</if>
+            <if test="checkInfo != null">#{checkInfo},</if>
+            <if test="eventType != null">#{eventType},</if>
+            <if test="alarmName != null">#{alarmName},</if>
+            <if test="alarmPhone != null">#{alarmPhone},</if>
+            <if test="treatmentResult != null">#{treatmentResult},</if>
+            <if test="competentUnit != null">#{competentUnit},</if>
+            <if test="address != null">#{address},</if>
             <if test="dataType != null">#{dataType},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateYjSynergy" parameterType="YjSynergy">
         update yj_synergy
         <trim prefix="SET" suffixOverrides=",">
+            <if test="eventId != null">event_id = #{eventId},</if>
             <if test="belongStreet != null">belong_street = #{belongStreet},</if>
+            <if test="streetName != null">street_name = #{streetName},</if>
             <if test="checkTime != null">check_time = #{checkTime},</if>
             <if test="incidentDescribe != null">incident_describe = #{incidentDescribe},</if>
             <if test="incidentType != null">incident_type = #{incidentType},</if>
-            <if test="checkInfo != null">check_info = #{checkInfo},</if>
             <if test="replyCheck != null">reply_check = #{replyCheck},</if>
+            <if test="checkInfo != null">check_info = #{checkInfo},</if>
+            <if test="eventType != null">event_type = #{eventType},</if>
+            <if test="alarmName != null">alarm_name = #{alarmName},</if>
+            <if test="alarmPhone != null">alarm_phone = #{alarmPhone},</if>
+            <if test="treatmentResult != null">treatment_result = #{treatmentResult},</if>
+            <if test="competentUnit != null">competent_unit = #{competentUnit},</if>
+            <if test="address != null">address = #{address},</if>
             <if test="dataType != null">data_type = #{dataType},</if>
         </trim>
         where id = #{id}
+    </update>
+    <update id="updateEvent" parameterType="YjSynergy">
+        update yj_synergy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="eventId != null">event_id = #{eventId},</if>
+            <if test="belongStreet != null">belong_street = #{belongStreet},</if>
+            <if test="streetName != null">street_name = #{streetName},</if>
+            <if test="checkTime != null">check_time = #{checkTime},</if>
+            <if test="incidentDescribe != null">incident_describe = #{incidentDescribe},</if>
+            <if test="incidentType != null">incident_type = #{incidentType},</if>
+            <if test="replyCheck != null">reply_check = #{replyCheck},</if>
+            <if test="checkInfo != null">check_info = #{checkInfo},</if>
+            <if test="eventType != null">event_type = #{eventType},</if>
+            <if test="alarmName != null">alarm_name = #{alarmName},</if>
+            <if test="alarmPhone != null">alarm_phone = #{alarmPhone},</if>
+            <if test="treatmentResult != null">treatment_result = #{treatmentResult},</if>
+            <if test="competentUnit != null">competent_unit = #{competentUnit},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where event_id = #{eventId}
     </update>
 
     <delete id="deleteYjSynergyById" parameterType="Long">
@@ -78,7 +141,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteYjSynergyByIds" parameterType="String">
-        delete from yj_synergy where id in 
+        delete from yj_synergy where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

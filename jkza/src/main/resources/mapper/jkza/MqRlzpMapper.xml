@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.MqRlzpMapper">
+    
+    <resultMap type="MqRlzp" id="MqRlzpResult">
+        <result property="id"    column="id"    />
+        <result property="channelId"    column="channel_id"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="recordId"    column="record_id"    />
+        <result property="capTime"    column="cap_time"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="faceImgUrl"    column="face_img_url"    />
+        <result property="faceImgType"    column="face_img_type"    />
+        <result property="dataSource"    column="data_source"    />
+    </resultMap>
+
+    <sql id="selectMqRlzpVo">
+        select id, channel_id, device_id, record_id, cap_time, img_url, face_img_url, face_img_type, data_source from mq_rlzp
+    </sql>
+
+    <select id="selectMqRlzpList" parameterType="MqRlzp" resultMap="MqRlzpResult">
+        <include refid="selectMqRlzpVo"/>
+        <where>  
+            <if test="channelId != null  and channelId != ''"> and channel_id = #{channelId}</if>
+            <if test="deviceId != null  and deviceId != ''"> and device_id = #{deviceId}</if>
+            <if test="recordId != null  and recordId != ''"> and record_id = #{recordId}</if>
+            <if test="capTime != null "> and cap_time = #{capTime}</if>
+            <if test="imgUrl != null  and imgUrl != ''"> and img_url = #{imgUrl}</if>
+            <if test="faceImgUrl != null  and faceImgUrl != ''"> and face_img_url = #{faceImgUrl}</if>
+            <if test="faceImgType != null "> and face_img_type = #{faceImgType}</if>
+            <if test="dataSource != null "> and data_source = #{dataSource}</if>
+        </where>
+    </select>
+    <select id="selectMqRlzpLimit" resultMap="MqRlzpResult">
+        select *
+        from mq_rlzp
+        order by cap_time desc
+        limit 500
+    </select>
+    
+    <select id="selectMqRlzpById" parameterType="Long" resultMap="MqRlzpResult">
+        <include refid="selectMqRlzpVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMqRlzp" parameterType="MqRlzp" useGeneratedKeys="true" keyProperty="id">
+        insert into mq_rlzp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="channelId != null">channel_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="recordId != null">record_id,</if>
+            <if test="capTime != null">cap_time,</if>
+            <if test="imgUrl != null">img_url,</if>
+            <if test="faceImgUrl != null">face_img_url,</if>
+            <if test="faceImgType != null">face_img_type,</if>
+            <if test="dataSource != null">data_source,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="channelId != null">#{channelId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="recordId != null">#{recordId},</if>
+            <if test="capTime != null">#{capTime},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
+            <if test="faceImgUrl != null">#{faceImgUrl},</if>
+            <if test="faceImgType != null">#{faceImgType},</if>
+            <if test="dataSource != null">#{dataSource},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMqRlzp" parameterType="MqRlzp">
+        update mq_rlzp
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="channelId != null">channel_id = #{channelId},</if>
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="recordId != null">record_id = #{recordId},</if>
+            <if test="capTime != null">cap_time = #{capTime},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
+            <if test="faceImgUrl != null">face_img_url = #{faceImgUrl},</if>
+            <if test="faceImgType != null">face_img_type = #{faceImgType},</if>
+            <if test="dataSource != null">data_source = #{dataSource},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMqRlzpById" parameterType="Long">
+        delete from mq_rlzp where id = #{id}
+    </delete>
+
+    <delete id="deleteMqRlzpByIds" parameterType="String">
+        delete from mq_rlzp where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

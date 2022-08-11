@@ -16,6 +16,16 @@ ruoyi:
   # 验证码类型 math 数组计算 char 字符验证
   captchaType: math
 
+jkgaconfig:
+  #天气预报
+  tqyb: http://133.1.254.22:18093/dahua/tqyb/personnel/page/query
+  #水旱灾害
+  sfzh: http://133.1.254.22:18093/dahua/sfzh/personnel/page/query
+  #台风路径
+  tflj: http://133.1.254.22:18093/dahua/tflj/personnel/page/query
+  #健康码
+  jkm: http://133.1.254.22:18093/dahua/jkm/personnel/page/query
+
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080

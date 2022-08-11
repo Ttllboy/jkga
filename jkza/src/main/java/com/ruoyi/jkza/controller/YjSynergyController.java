@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 多跨协同Controller
  * 
  * @author ruoyi
- * @date 2022-04-18
+ * @date 2022-06-24
  */
 @RestController
 @RequestMapping("/jkza/yjSynergy")

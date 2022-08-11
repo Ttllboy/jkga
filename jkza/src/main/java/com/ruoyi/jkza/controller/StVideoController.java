@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 视频设备Controller
  * 
  * @author ruoyi
- * @date 2022-04-19
+ * @date 2022-06-18
  */
 @RestController
 @RequestMapping("/jkza/stVideo")
@@ -97,7 +97,7 @@ public class StVideoController extends BaseController
     @PreAuthorize("@ss.hasPermi('jkza:stVideo:remove')")
     @Log(title = "视频设备", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Integer[] ids)
+    public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(stVideoService.deleteStVideoByIds(ids));
     }

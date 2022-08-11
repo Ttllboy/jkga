@@ -1,54 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.jkza.mapper.YjLowPointMapper">
-
+    
     <resultMap type="YjLowPoint" id="YjLowPointResult">
         <result property="id"    column="id"    />
         <result property="lowPointName"    column="low_point_name"    />
         <result property="nowWaterLevel"    column="now_water_level"    />
         <result property="waterLevelWarn"    column="water_level_warn"    />
-        <result property="coordinate"    column="coordinate"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="gpsX"    column="gps_x"    />
+        <result property="gpsY"    column="gps_y"    />
         <result property="dataType"    column="data_type"    />
     </resultMap>
 
     <sql id="selectYjLowPointVo">
-        select id, low_point_name, now_water_level, water_level_warn, coordinate, data_type from yj_low_point
+        select id, low_point_name, now_water_level, water_level_warn, channel_code, gps_x, gps_y, data_type from yj_low_point
     </sql>
 
     <select id="selectYjLowPointList" parameterType="YjLowPoint" resultMap="YjLowPointResult">
         <include refid="selectYjLowPointVo"/>
-        <where>
+        <where>  
             <if test="lowPointName != null  and lowPointName != ''"> and low_point_name like concat('%', #{lowPointName}, '%')</if>
             <if test="nowWaterLevel != null "> and now_water_level = #{nowWaterLevel}</if>
             <if test="waterLevelWarn != null "> and water_level_warn = #{waterLevelWarn}</if>
-            <if test="coordinate != null  and coordinate != ''"> and coordinate = #{coordinate}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="gpsX != null "> and gps_x = #{gpsX}</if>
+            <if test="gpsY != null "> and gps_y = #{gpsY}</if>
             <if test="dataType != null "> and data_type = #{dataType}</if>
         </where>
     </select>
-
+    
     <select id="selectYjLowPointById" parameterType="Long" resultMap="YjLowPointResult">
         <include refid="selectYjLowPointVo"/>
         where id = #{id}
     </select>
-
+        
     <insert id="insertYjLowPoint" parameterType="YjLowPoint" useGeneratedKeys="true" keyProperty="id">
         insert into yj_low_point
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="lowPointName != null">low_point_name,</if>
             <if test="nowWaterLevel != null">now_water_level,</if>
             <if test="waterLevelWarn != null">water_level_warn,</if>
-            <if test="coordinate != null">coordinate,</if>
+            <if test="channelCode != null">channel_code,</if>
+            <if test="gpsX != null">gps_x,</if>
+            <if test="gpsY != null">gps_y,</if>
             <if test="dataType != null">data_type,</if>
-        </trim>
+         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="lowPointName != null">#{lowPointName},</if>
             <if test="nowWaterLevel != null">#{nowWaterLevel},</if>
             <if test="waterLevelWarn != null">#{waterLevelWarn},</if>
-            <if test="coordinate != null">#{coordinate},</if>
+            <if test="channelCode != null">#{channelCode},</if>
+            <if test="gpsX != null">#{gpsX},</if>
+            <if test="gpsY != null">#{gpsY},</if>
             <if test="dataType != null">#{dataType},</if>
-        </trim>
+         </trim>
     </insert>
 
     <update id="updateYjLowPoint" parameterType="YjLowPoint">
@@ -57,7 +65,9 @@
             <if test="lowPointName != null">low_point_name = #{lowPointName},</if>
             <if test="nowWaterLevel != null">now_water_level = #{nowWaterLevel},</if>
             <if test="waterLevelWarn != null">water_level_warn = #{waterLevelWarn},</if>
-            <if test="coordinate != null">coordinate = #{coordinate},</if>
+            <if test="channelCode != null">channel_code = #{channelCode},</if>
+            <if test="gpsX != null">gps_x = #{gpsX},</if>
+            <if test="gpsY != null">gps_y = #{gpsY},</if>
             <if test="dataType != null">data_type = #{dataType},</if>
         </trim>
         where id = #{id}
@@ -67,8 +77,12 @@
         delete from yj_low_point where id = #{id}
     </delete>
 
+    <update id="truncateYjLowPoint">
+        TRUNCATE TABLE yj_low_point
+    </update>
+
     <delete id="deleteYjLowPointByIds" parameterType="String">
-        delete from yj_low_point where id in
+        delete from yj_low_point where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

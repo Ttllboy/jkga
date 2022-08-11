@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.GdDustDataTotalMapper">
+    
+    <resultMap type="GdDustDataTotal" id="GdDustDataTotalResult">
+        <result property="id"    column="id"    />
+        <result property="date"    column="date"    />
+        <result property="pm10"    column="pm10"    />
+        <result property="pm25"    column="pm25"    />
+    </resultMap>
+
+    <sql id="selectGdDustDataTotalVo">
+        select id, date, pm10, pm25 from gd_dust_data_total
+    </sql>
+
+    <select id="selectGdDustDataTotalList" parameterType="GdDustDataTotal" resultMap="GdDustDataTotalResult">
+        <include refid="selectGdDustDataTotalVo"/>
+        <where>  
+            <if test="date != null "> and date = #{date}</if>
+            <if test="pm10 != null "> and pm10 = #{pm10}</if>
+            <if test="pm25 != null "> and pm25 = #{pm25}</if>
+        </where>
+        order by date desc
+        limit 7
+    </select>
+    
+    <select id="selectGdDustDataTotalById" parameterType="Long" resultMap="GdDustDataTotalResult">
+        <include refid="selectGdDustDataTotalVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGdDustDataTotal" parameterType="GdDustDataTotal" useGeneratedKeys="true" keyProperty="id">
+        insert into gd_dust_data_total
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="date != null">date,</if>
+            <if test="pm10 != null">pm10,</if>
+            <if test="pm25 != null">pm25,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="date != null">#{date},</if>
+            <if test="pm10 != null">#{pm10},</if>
+            <if test="pm25 != null">#{pm25},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGdDustDataTotal" parameterType="GdDustDataTotal">
+        update gd_dust_data_total
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="date != null">date = #{date},</if>
+            <if test="pm10 != null">pm10 = #{pm10},</if>
+            <if test="pm25 != null">pm25 = #{pm25},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGdDustDataTotalById" parameterType="Long">
+        delete from gd_dust_data_total where id = #{id}
+    </delete>
+
+    <delete id="deleteGdDustDataTotalByIds" parameterType="String">
+        delete from gd_dust_data_total where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

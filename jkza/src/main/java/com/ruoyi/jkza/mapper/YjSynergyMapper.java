@@ -7,7 +7,7 @@ import com.ruoyi.jkza.domain.YjSynergy;
  * 多跨协同Mapper接口
  * 
  * @author ruoyi
- * @date 2022-04-18
+ * @date 2022-06-24
  */
 public interface YjSynergyMapper 
 {
@@ -42,6 +42,7 @@ public interface YjSynergyMapper
      * @return 结果
      */
     public int updateYjSynergy(YjSynergy yjSynergy);
+    public int updateEvent(YjSynergy yjSynergy);
 
     /**
      * 删除多跨协同

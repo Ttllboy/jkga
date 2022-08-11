@@ -124,7 +124,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -144,6 +144,9 @@
         </el-form-item>
         <el-form-item label="检查部分" prop="checkposition">
           <el-input v-model="form.checkposition" placeholder="请输入检查部分" />
+        </el-form-item>
+        <el-form-item label="通知书类型" prop="noticetype">
+          <el-input v-model="form.noticetype" placeholder="请输入通知书类型" />
         </el-form-item>
         <el-form-item label="检查日期" prop="checkdatet">
           <el-date-picker clearable
@@ -166,7 +169,7 @@
 </template>
 
 <script>
-import { listFxRrectificationnotice, getFxRrectificationnotice, delFxRrectificationnotice, addFxRrectificationnotice, updateFxRrectificationnotice } from "@/api/jkza/FxRrectificationnotice";
+import { listFxRrectificationnotice, getFxRrectificationnotice, delFxRrectificationnotice, addFxRrectificationnotice, updateFxRrectificationnotice,listProjectId } from "@/api/jkza/FxRrectificationnotice";
 
 export default {
   name: "FxRrectificationnotice",
@@ -188,6 +191,7 @@ export default {
       FxRrectificationnoticeList: [],
       // 弹出层标题
       title: "",
+      projectId:[],
       // 是否显示弹出层
       open: false,
       // 查询参数
@@ -220,6 +224,12 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+      listProjectId().then(res => {
+        this.projectId = res;
+        console.log(res);
+        this.ifExist();
+      });
+
     },
     // 取消按钮
     cancel() {
@@ -275,7 +285,8 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.projectguid != null) {
+          // if (this.form.projectguid != null) {
+          if (this.ifExist(this.form.projectguid)) {
             updateFxRrectificationnotice(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
@@ -306,7 +317,18 @@ export default {
       this.download('jkza/FxRrectificationnotice/export', {
         ...this.queryParams
       }, `FxRrectificationnotice_${new Date().getTime()}.xlsx`)
+    },
+    ifExist(projectId){
+      for(let i = 0; i < this.projectId.length; i++){
+        if (projectId == this.projectId[i].label){
+          return true;
+        }else {
+          return false;
+        }
+      }
+
     }
+
   }
 };
 </script>

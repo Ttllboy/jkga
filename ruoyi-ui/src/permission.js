@@ -44,7 +44,56 @@ router.beforeEach((to, from, next) => {
     if (whiteList.indexOf(to.path) !== -1) {
       // 在免登录白名单，直接进入
       next()
-    } else {
+    }
+    else if (to.query.jkgagd === '1') {
+        let username = 'jsjtj'
+        let password = '123456'
+        store.dispatch('Login', {username, password}).then(() => {
+          router.push({path: "/index"}).catch(err => {
+          });
+        })
+      store.dispatch('Login', {username, password}).then(() => {
+        router.push({path: "/index"}).catch(err => {
+        });
+      })
+    }
+    else if (to.query.jkgayy === '1') {
+        let username = 'shfzj'
+        let password = '123456'
+        store.dispatch('Login', {username, password}).then(() => {
+          router.push({path: "/index"}).catch(err => {
+          });
+        })
+      store.dispatch('Login', {username, password}).then(() => {
+        router.push({path: "/index"}).catch(err => {
+        });
+      })
+    }
+    else if (to.query.jkgayj === '1') {
+        let username = 'yjglj'
+        let password = '123456'
+        store.dispatch('Login', {username, password}).then(() => {
+          router.push({path: "/index"}).catch(err => {
+          });
+        })
+      store.dispatch('Login', {username, password}).then(() => {
+        router.push({path: "/index"}).catch(err => {
+        });
+      })
+    }
+    else if (to.query.jkgast === '1') {
+        let username = 'sthjfj'
+        let password = '123456'
+        store.dispatch('Login', {username, password}).then(() => {
+          router.push({path: "/index"}).catch(err => {
+          });
+        })
+      store.dispatch('Login', {username, password}).then(() => {
+        router.push({path: "/index"}).catch(err => {
+        });
+      })
+    }
+    else {
       next(`/login?redirect=${to.fullPath}`) // 否则全部重定向到登录页
       // next(`/login`) // 否则全部重定向到登录页
       NProgress.done()

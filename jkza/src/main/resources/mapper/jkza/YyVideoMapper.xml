@@ -7,45 +7,34 @@
     <resultMap type="YyVideo" id="YyVideoResult">
         <result property="id"    column="id"    />
         <result property="hosId"    column="hos_id"    />
-        <result property="videoName"    column="video_name"    />
         <result property="hosName"    column="hos_name"    />
-        <result property="coordinate"    column="coordinate"    />
-        <result property="equipmentType"    column="equipment_type"    />
-        <result property="onlineType"    column="online_type"    />
+        <result property="jscId"    column="jsc_id"    />
+        <result property="channelName"    column="channel_name"    />
+        <result property="cameraType"    column="camera_type"    />
+        <result property="networkStatus"    column="network_status"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="gpsX"    column="gps_x"    />
+        <result property="gpsY"    column="gps_y"    />
         <result property="dataType"    column="data_type"    />
     </resultMap>
 
     <sql id="selectYyVideoVo">
-        select id, hos_id, video_name, coordinate, equipment_type, online_type,data_type from yy_video
-    </sql>
-    <sql id="selectYyVideoListAndName">
-        select t1.id, t1.hos_id, t1.video_name,t1.coordinate, t1.equipment_type,t1.online_type,t1.data_type ,t2.id, t2.hos_name
-        from yy_video t1
-                 left join yy_yy t2
-                           on t1.hos_id = t2.id
+        select id, hos_id, hos_name, jsc_id, channel_name, camera_type, network_status, channel_code, gps_x, gps_y, data_type from yy_video
     </sql>
 
     <select id="selectYyVideoList" parameterType="YyVideo" resultMap="YyVideoResult">
         <include refid="selectYyVideoVo"/>
         <where>
             <if test="hosId != null "> and hos_id = #{hosId}</if>
-            <if test="videoName != null  and videoName != ''"> and video_name like concat('%', #{videoName}, '%')</if>
-            <if test="coordinate != null  and coordinate != ''"> and coordinate = #{coordinate}</if>
-            <if test="equipmentType != null "> and equipment_type = #{equipmentType}</if>
-            <if test="onlineType != null "> and online_type = #{onlineType}</if>
+            <if test="hosName != null  and hosName != ''"> and hos_name like concat('%', #{hosName}, '%')</if>
+            <if test="jscId != null "> and jsc_id = #{jscId}</if>
+            <if test="channelName != null  and channelName != ''"> and channel_name like concat('%', #{channelName}, '%')</if>
+            <if test="cameraType != null "> and camera_type = #{cameraType}</if>
+            <if test="networkStatus != null "> and network_status = #{networkStatus}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="gpsX != null "> and gps_x = #{gpsX}</if>
+            <if test="gpsY != null "> and gps_y = #{gpsY}</if>
             <if test="dataType != null "> and data_type = #{dataType}</if>
-        </where>
-    </select>
-    <select id="selectYyVideoListAndName" parameterType="YyVideo" resultMap="YyVideoResult">
-        <include refid="selectYyVideoListAndName"/>
-        <where>
-            <if test="hosId != null "> and t1.hos_id = #{hosId}</if>
-            <if test="videoName != null  and videoName != ''"> and t1.video_name like concat('%', #{videoName}, '%')</if>
-            <if test="coordinate != null  and coordinate != ''"> and t1.coordinate = #{coordinate}</if>
-            <if test="equipmentType != null "> and t1.equipment_type = #{equipmentType}</if>
-            <if test="onlineType != null "> and t1.online_type = #{onlineType}</if>
-            <if test="hosName != null  and hosName != ''"> and t2.hos_name like concat('%', #{hosName}, '%')</if>
-            <if test="dataType != null "> and t1.data_type = #{dataType}</if>
         </where>
     </select>
 
@@ -58,18 +47,26 @@
         insert into yy_video
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="hosId != null">hos_id,</if>
-            <if test="videoName != null">video_name,</if>
-            <if test="coordinate != null">coordinate,</if>
-            <if test="equipmentType != null">equipment_type,</if>
-            <if test="onlineType != null">online_type,</if>
+            <if test="hosName != null">hos_name,</if>
+            <if test="jscId != null">jsc_id,</if>
+            <if test="channelName != null">channel_name,</if>
+            <if test="cameraType != null">camera_type,</if>
+            <if test="networkStatus != null">network_status,</if>
+            <if test="channelCode != null">channel_code,</if>
+            <if test="gpsX != null">gps_x,</if>
+            <if test="gpsY != null">gps_y,</if>
             <if test="dataType != null">data_type,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="hosId != null">#{hosId},</if>
-            <if test="videoName != null">#{videoName},</if>
-            <if test="coordinate != null">#{coordinate},</if>
-            <if test="equipmentType != null">#{equipmentType},</if>
-            <if test="onlineType != null">#{onlineType},</if>
+            <if test="hosName != null">#{hosName},</if>
+            <if test="jscId != null">#{jscId},</if>
+            <if test="channelName != null">#{channelName},</if>
+            <if test="cameraType != null">#{cameraType},</if>
+            <if test="networkStatus != null">#{networkStatus},</if>
+            <if test="channelCode != null">#{channelCode},</if>
+            <if test="gpsX != null">#{gpsX},</if>
+            <if test="gpsY != null">#{gpsY},</if>
             <if test="dataType != null">#{dataType},</if>
         </trim>
     </insert>
@@ -78,10 +75,14 @@
         update yy_video
         <trim prefix="SET" suffixOverrides=",">
             <if test="hosId != null">hos_id = #{hosId},</if>
-            <if test="videoName != null">video_name = #{videoName},</if>
-            <if test="coordinate != null">coordinate = #{coordinate},</if>
-            <if test="equipmentType != null">equipment_type = #{equipmentType},</if>
-            <if test="onlineType != null">online_type = #{onlineType},</if>
+            <if test="hosName != null">hos_name = #{hosName},</if>
+            <if test="jscId != null">jsc_id = #{jscId},</if>
+            <if test="channelName != null">channel_name = #{channelName},</if>
+            <if test="cameraType != null">camera_type = #{cameraType},</if>
+            <if test="networkStatus != null">network_status = #{networkStatus},</if>
+            <if test="channelCode != null">channel_code = #{channelCode},</if>
+            <if test="gpsX != null">gps_x = #{gpsX},</if>
+            <if test="gpsY != null">gps_y = #{gpsY},</if>
             <if test="dataType != null">data_type = #{dataType},</if>
         </trim>
         where id = #{id}
@@ -91,10 +92,19 @@
         delete from yy_video where id = #{id}
     </delete>
 
+    <update id="truncateYyVideo">
+        TRUNCATE TABLE yy_video
+    </update>
+
     <delete id="deleteYyVideoByIds" parameterType="String">
         delete from yy_video where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
+    <select id="selectYyClassify" parameterType="String" resultType="java.util.HashMap">
+        select channel_code,scene_name,channel_name
+        from adm_tdcjgl
+        where channel_code = #{channelCode}
+    </select>
 </mapper>

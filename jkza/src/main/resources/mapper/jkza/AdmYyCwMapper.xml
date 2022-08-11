@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.AdmYyCwMapper">
+    
+    <resultMap type="AdmYyCw" id="AdmYyCwResult">
+        <result property="id"    column="id"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="channelName"    column="channel_name"    />
+        <result property="deviceCode"    column="device_code"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="onlineType"    column="online_type"    />
+    </resultMap>
+
+    <sql id="selectAdmYyCwVo">
+        select id, channel_code, channel_name, device_code, device_name, online_type from adm_yy_cw
+    </sql>
+
+    <select id="selectAdmYyCwList" parameterType="AdmYyCw" resultMap="AdmYyCwResult">
+        <include refid="selectAdmYyCwVo"/>
+        <where>  
+            <if test="channelCode != null  and channelCode != ''"> and channel_code like concat('%', #{channelCode}, '%')</if>
+            <if test="channelName != null  and channelName != ''"> and channel_name like concat('%', #{channelName}, '%')</if>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code like concat('%', #{deviceCode}, '%')</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="onlineType != null "> and online_type = #{onlineType}</if>
+        </where>
+    </select>
+    
+    <select id="selectAdmYyCwById" parameterType="Long" resultMap="AdmYyCwResult">
+        <include refid="selectAdmYyCwVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAdmYyCw" parameterType="AdmYyCw" useGeneratedKeys="true" keyProperty="id">
+        insert into adm_yy_cw
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="channelCode != null">channel_code,</if>
+            <if test="channelName != null">channel_name,</if>
+            <if test="deviceCode != null">device_code,</if>
+            <if test="deviceName != null">device_name,</if>
+            <if test="onlineType != null">online_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="channelCode != null">#{channelCode},</if>
+            <if test="channelName != null">#{channelName},</if>
+            <if test="deviceCode != null">#{deviceCode},</if>
+            <if test="deviceName != null">#{deviceName},</if>
+            <if test="onlineType != null">#{onlineType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAdmYyCw" parameterType="AdmYyCw">
+        update adm_yy_cw
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="channelCode != null">channel_code = #{channelCode},</if>
+            <if test="channelName != null">channel_name = #{channelName},</if>
+            <if test="deviceCode != null">device_code = #{deviceCode},</if>
+            <if test="deviceName != null">device_name = #{deviceName},</if>
+            <if test="onlineType != null">online_type = #{onlineType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAdmYyCwById" parameterType="Long">
+        delete from adm_yy_cw where id = #{id}
+    </delete>
+
+    <delete id="deleteAdmYyCwByIds" parameterType="String">
+        delete from adm_yy_cw where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

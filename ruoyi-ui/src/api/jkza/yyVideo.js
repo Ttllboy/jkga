@@ -42,11 +42,3 @@ export function delYyVideo(id) {
     method: 'delete'
   })
 }
-
-//查询医院所有名称
-export function listYyNames(){
-  return request({
-    url:'/jkza/yyYy/listYyNames',
-    method:'post'
-  })
-}

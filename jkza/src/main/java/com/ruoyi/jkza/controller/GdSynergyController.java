@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 整改通知Controller
  * 
  * @author ruoyi
- * @date 2022-04-11
+ * @date 2022-06-26
  */
 @RestController
 @RequestMapping("/jkza/synergy")
@@ -77,7 +77,6 @@ public class GdSynergyController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody GdSynergy gdSynergy)
     {
-        gdSynergy.setDataType(1);
         return toAjax(gdSynergyService.insertGdSynergy(gdSynergy));
     }
 

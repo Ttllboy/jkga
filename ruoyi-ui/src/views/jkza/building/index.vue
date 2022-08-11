@@ -90,24 +90,24 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="坐标" prop="coordinate">
-        <el-input
-          v-model="queryParams.coordinate"
-          placeholder="请输入坐标"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="数据类型" prop="dataType">
-        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
-          <el-option
-            v-for="dict in dict.type.data_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="坐标" prop="coordinate">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.coordinate"-->
+<!--          placeholder="请输入坐标"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="数据类型" prop="dataType">-->
+<!--        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.data_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -168,11 +168,11 @@
         </template>
       </el-table-column>
       <el-table-column label="工地名称" align="center" prop="buildingSiteName" />
-      <el-table-column label="工地编号" align="center" prop="buildingSiteNum" />
-      <el-table-column label="工程编号" align="center" prop="projectNum" />
+<!--      <el-table-column label="工地编号" align="center" prop="buildingSiteNum" />-->
+<!--      <el-table-column label="工程编号" align="center" prop="projectNum" />-->
       <el-table-column label="项目信息编号" align="center" prop="projectInfoNum" />
       <el-table-column label="施工许可证" align="center" prop="buildingLicense" />
-      <el-table-column label="工地实有人口" align="center" prop="workerNum" />
+<!--      <el-table-column label="工地实有人口" align="center" prop="workerNum" />-->
       <el-table-column label="工地地址" align="center" prop="buildingSiteLocation" />
       <el-table-column label="面积" align="center" prop="space" />
       <el-table-column label="造价" align="center" prop="price" />
@@ -182,11 +182,11 @@
         </template>
       </el-table-column>
       <el-table-column label="坐标" align="center" prop="coordinate" />
-      <el-table-column label="数据类型" align="center" prop="dataType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="数据类型" align="center" prop="dataType">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -221,21 +221,21 @@
         <el-form-item label="工地名称" prop="buildingSiteName">
           <el-input v-model="form.buildingSiteName" placeholder="请输入工地名称" />
         </el-form-item>
-        <el-form-item label="工地编号" prop="buildingSiteNum">
-          <el-input v-model="form.buildingSiteNum" placeholder="请输入工地编号" />
-        </el-form-item>
-        <el-form-item label="工程编号" prop="projectNum">
-          <el-input v-model="form.projectNum" placeholder="请输入工程编号" />
-        </el-form-item>
+<!--        <el-form-item label="工地编号" prop="buildingSiteNum">-->
+<!--          <el-input v-model="form.buildingSiteNum" placeholder="请输入工地编号" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="工程编号" prop="projectNum">-->
+<!--          <el-input v-model="form.projectNum" placeholder="请输入工程编号" />-->
+<!--        </el-form-item>-->
         <el-form-item label="项目信息编号" prop="projectInfoNum">
           <el-input v-model="form.projectInfoNum" placeholder="请输入项目信息编号" />
         </el-form-item>
         <el-form-item label="施工许可证" prop="buildingLicense">
           <el-input v-model="form.buildingLicense" placeholder="请输入施工许可证" />
         </el-form-item>
-        <el-form-item label="工地实有人口" prop="workerNum">
-          <el-input v-model="form.workerNum" placeholder="请输入工地实有人口" />
-        </el-form-item>
+<!--        <el-form-item label="工地实有人口" prop="workerNum">-->
+<!--          <el-input v-model="form.workerNum" placeholder="请输入工地实有人口" />-->
+<!--        </el-form-item>-->
         <el-form-item label="工地地址" prop="buildingSiteLocation">
           <el-input v-model="form.buildingSiteLocation" placeholder="请输入工地地址" />
         </el-form-item>

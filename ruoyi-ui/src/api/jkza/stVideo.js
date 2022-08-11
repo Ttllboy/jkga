@@ -42,11 +42,3 @@ export function delStVideo(id) {
     method: 'delete'
   })
 }
-
-// 查询固废点名称
-export function listSolidNames() {
-  return request({
-    url: '/jkza/stWaste/listSolidNames',
-    method: 'post',
-  })
-}

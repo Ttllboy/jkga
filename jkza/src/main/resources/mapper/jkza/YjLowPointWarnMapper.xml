@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YjLowPointWarnMapper">
+    
+    <resultMap type="YjLowPointWarn" id="YjLowPointWarnResult">
+        <result property="id"    column="id"    />
+        <result property="alarmCode"    column="alarm_code"    />
+        <result property="alarmPicture"    column="alarm_picture"    />
+        <result property="alarmType"    column="alarm_type"    />
+        <result property="alarmTime"    column="alarm_time"    />
+        <result property="orgCode"    column="org_code"    />
+        <result property="orgName"    column="org_name"    />
+        <result property="deviceCode"    column="device_code"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="channelName"    column="channel_name"    />
+        <result property="alarmStat"    column="alarm_stat"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectYjLowPointWarnVo">
+        select id, alarm_code, alarm_picture, alarm_type, alarm_time, org_code, org_name, device_code, device_name, channel_code, channel_name, alarm_stat, data_type from yj_low_point_warn
+    </sql>
+
+    <select id="selectYjLowPointWarnList" parameterType="YjLowPointWarn" resultMap="YjLowPointWarnResult">
+        <include refid="selectYjLowPointWarnVo"/>
+        <where>  
+            <if test="alarmCode != null  and alarmCode != ''"> and alarm_code = #{alarmCode}</if>
+            <if test="alarmPicture != null  and alarmPicture != ''"> and alarm_picture = #{alarmPicture}</if>
+            <if test="alarmType != null "> and alarm_type = #{alarmType}</if>
+            <if test="alarmTime != null  and alarmTime != ''"> and alarm_time = #{alarmTime}</if>
+            <if test="orgCode != null  and orgCode != ''"> and org_code = #{orgCode}</if>
+            <if test="orgName != null  and orgName != ''"> and org_name like concat('%', #{orgName}, '%')</if>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code = #{deviceCode}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="channelName != null  and channelName != ''"> and channel_name like concat('%', #{channelName}, '%')</if>
+            <if test="alarmStat != null "> and alarm_stat = #{alarmStat}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+        order by alarm_time desc
+    </select>
+    
+    <select id="selectYjLowPointWarnById" parameterType="Long" resultMap="YjLowPointWarnResult">
+        <include refid="selectYjLowPointWarnVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertYjLowPointWarn" parameterType="YjLowPointWarn" useGeneratedKeys="true" keyProperty="id">
+        insert into yj_low_point_warn
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="alarmCode != null">alarm_code,</if>
+            <if test="alarmPicture != null">alarm_picture,</if>
+            <if test="alarmType != null">alarm_type,</if>
+            <if test="alarmTime != null">alarm_time,</if>
+            <if test="orgCode != null">org_code,</if>
+            <if test="orgName != null">org_name,</if>
+            <if test="deviceCode != null">device_code,</if>
+            <if test="deviceName != null">device_name,</if>
+            <if test="channelCode != null">channel_code,</if>
+            <if test="channelName != null">channel_name,</if>
+            <if test="alarmStat != null">alarm_stat,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="alarmCode != null">#{alarmCode},</if>
+            <if test="alarmPicture != null">#{alarmPicture},</if>
+            <if test="alarmType != null">#{alarmType},</if>
+            <if test="alarmTime != null">#{alarmTime},</if>
+            <if test="orgCode != null">#{orgCode},</if>
+            <if test="orgName != null">#{orgName},</if>
+            <if test="deviceCode != null">#{deviceCode},</if>
+            <if test="deviceName != null">#{deviceName},</if>
+            <if test="channelCode != null">#{channelCode},</if>
+            <if test="channelName != null">#{channelName},</if>
+            <if test="alarmStat != null">#{alarmStat},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYjLowPointWarn" parameterType="YjLowPointWarn">
+        update yj_low_point_warn
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="alarmCode != null">alarm_code = #{alarmCode},</if>
+            <if test="alarmPicture != null">alarm_picture = #{alarmPicture},</if>
+            <if test="alarmType != null">alarm_type = #{alarmType},</if>
+            <if test="alarmTime != null">alarm_time = #{alarmTime},</if>
+            <if test="orgCode != null">org_code = #{orgCode},</if>
+            <if test="orgName != null">org_name = #{orgName},</if>
+            <if test="deviceCode != null">device_code = #{deviceCode},</if>
+            <if test="deviceName != null">device_name = #{deviceName},</if>
+            <if test="channelCode != null">channel_code = #{channelCode},</if>
+            <if test="channelName != null">channel_name = #{channelName},</if>
+            <if test="alarmStat != null">alarm_stat = #{alarmStat},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYjLowPointWarnById" parameterType="Long">
+        delete from yj_low_point_warn where id = #{id}
+    </delete>
+
+    <delete id="deleteYjLowPointWarnByIds" parameterType="String">
+        delete from yj_low_point_warn where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

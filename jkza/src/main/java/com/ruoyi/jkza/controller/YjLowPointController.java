@@ -2,9 +2,6 @@ package com.ruoyi.jkza.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
-
-import cn.hutool.json.JSONObject;
-import com.alibaba.fastjson.JSONArray;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 低洼点Controller
  * 
  * @author ruoyi
- * @date 2022-04-18
+ * @date 2022-06-20
  */
 @RestController
 @RequestMapping("/jkza/yjLowPoint")
@@ -101,23 +98,7 @@ public class YjLowPointController extends BaseController
     @Log(title = "低洼点", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
-
     {
         return toAjax(yjLowPointService.deleteYjLowPointByIds(ids));
-    }
-
-    //查询所有低洼点名称
-    @PostMapping("/listLowPointNames")
-    public JSONArray listLowPointNames(){
-        YjLowPoint yjLowPoint = new YjLowPoint();
-        List<YjLowPoint> yjLowPoints = yjLowPointService.selectYjLowPointList(yjLowPoint);
-        JSONArray data = new JSONArray();
-        for(int i = 0; i < yjLowPoints.size(); i++){
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.set("value",yjLowPoints.get(i).getId());
-            jsonObject.set("label",yjLowPoints.get(i).getLowPointName());
-            data.add(i,jsonObject);
-        }
-        return data;
     }
 }

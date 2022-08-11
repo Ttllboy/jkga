@@ -74,6 +74,12 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.dahuatech.icc</groupId>
+            <artifactId>java-sdk-oauth</artifactId>
+            <version>1.0.9</version>
+        </dependency>
+
 
     </dependencies>
 

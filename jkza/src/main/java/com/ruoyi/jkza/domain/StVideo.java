@@ -7,9 +7,9 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 视频设备对象 st_video
- *
+ * 
  * @author ruoyi
- * @date 2022-04-27
+ * @date 2022-06-18
  */
 public class StVideo extends BaseEntity
 {
@@ -22,98 +22,125 @@ public class StVideo extends BaseEntity
     @Excel(name = "固废点ID")
     private Long solidId;
 
+    /** 驾驶舱ID */
+    @Excel(name = "驾驶舱ID")
+    private Integer jscId;
+
     /** 视频设备名称 */
     @Excel(name = "视频设备名称")
-    private String videoName;
+    private String channelName;
 
-    /** 坐标 */
-    @Excel(name = "坐标")
-    private String coordinate;
-
-    /** 固废点名称 */
-    @Excel(name = "固废点名称")
-    private String solidName;
-
-    /** 设备类型 */
-    @Excel(name = "设备类型")
-    private Integer equipmentType;
+    /** 摄像机类型 */
+    @Excel(name = "摄像机类型")
+    private Integer cameraType;
 
     /** 在线状态 */
     @Excel(name = "在线状态")
-    private Integer onlineType;
+    private Integer networkStatus;
+
+    /** 通道编码 */
+    @Excel(name = "通道编码")
+    private String channelCode;
+
+    /** 经度 */
+    @Excel(name = "经度")
+    private Double gpsX;
+
+    /** 纬度 */
+    @Excel(name = "纬度")
+    private Double gpsY;
 
     /** 数据类型 */
     @Excel(name = "数据类型")
     private Integer dataType;
 
-    public void setId(Long id)
+    public void setId(Long id) 
     {
         this.id = id;
     }
 
-    public Long getId()
+    public Long getId() 
     {
         return id;
     }
-    public void setSolidId(Long solidId)
+    public void setSolidId(Long solidId) 
     {
         this.solidId = solidId;
     }
 
-    public String getSolidName() {
-        return solidName;
-    }
-
-    public void setSolidName(String solidName) {
-        this.solidName = solidName;
-    }
-
-    public Long getSolidId()
+    public Long getSolidId() 
     {
         return solidId;
     }
-    public void setVideoName(String videoName)
+    public void setJscId(Integer jscId) 
     {
-        this.videoName = videoName;
+        this.jscId = jscId;
     }
 
-    public String getVideoName()
+    public Integer getJscId() 
     {
-        return videoName;
+        return jscId;
     }
-    public void setCoordinate(String coordinate)
+    public void setChannelName(String channelName) 
     {
-        this.coordinate = coordinate;
-    }
-
-    public String getCoordinate()
-    {
-        return coordinate;
-    }
-    public void setEquipmentType(Integer equipmentType)
-    {
-        this.equipmentType = equipmentType;
+        this.channelName = channelName;
     }
 
-    public Integer getEquipmentType()
+    public String getChannelName() 
     {
-        return equipmentType;
+        return channelName;
     }
-    public void setOnlineType(Integer onlineType)
+    public void setCameraType(Integer cameraType) 
     {
-        this.onlineType = onlineType;
+        this.cameraType = cameraType;
     }
 
-    public Integer getOnlineType()
+    public Integer getCameraType() 
     {
-        return onlineType;
+        return cameraType;
     }
-    public void setDataType(Integer dataType)
+    public void setNetworkStatus(Integer networkStatus) 
+    {
+        this.networkStatus = networkStatus;
+    }
+
+    public Integer getNetworkStatus() 
+    {
+        return networkStatus;
+    }
+    public void setChannelCode(String channelCode) 
+    {
+        this.channelCode = channelCode;
+    }
+
+    public String getChannelCode() 
+    {
+        return channelCode;
+    }
+    public void setGpsX(Double gpsX)
+    {
+        this.gpsX = gpsX;
+    }
+
+    public Double getGpsX()
+    {
+        return gpsX;
+    }
+    public void setGpsY(Double gpsY)
+    {
+        this.gpsY = gpsY;
+    }
+
+    public Double getGpsY()
+    {
+        return gpsY;
+    }
+    public void setDataType(Integer dataType) 
     {
         this.dataType = dataType;
     }
 
-    public Integer getDataType()
+    public Integer getDataType() 
     {
         return dataType;
     }
@@ -121,13 +148,16 @@ public class StVideo extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("solidId", getSolidId())
-                .append("videoName", getVideoName())
-                .append("coordinate", getCoordinate())
-                .append("equipmentType", getEquipmentType())
-                .append("onlineType", getOnlineType())
-                .append("dataType", getDataType())
-                .toString();
+            .append("id", getId())
+            .append("solidId", getSolidId())
+            .append("jscId", getJscId())
+            .append("channelName", getChannelName())
+            .append("cameraType", getCameraType())
+            .append("networkStatus", getNetworkStatus())
+            .append("channelCode", getChannelCode())
+            .append("gpsX", getGpsX())
+            .append("gpsY", getGpsY())
+            .append("dataType", getDataType())
+            .toString();
     }
 }

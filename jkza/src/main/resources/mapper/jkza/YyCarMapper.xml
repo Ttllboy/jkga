@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YyCarMapper">
+
+    <resultMap type="YyCar" id="YyCarResult">
+        <result property="id"    column="id"    />
+        <result property="hosName"    column="hos_name"    />
+        <result property="carCard"    column="car_card"    />
+        <result property="personName"    column="person_name"    />
+    </resultMap>
+
+    <sql id="selectYyCarVo">
+        select id, hos_name, car_card, person_name from yy_car
+    </sql>
+
+    <select id="selectYyCarList" parameterType="YyCar" resultMap="YyCarResult">
+        <include refid="selectYyCarVo"/>
+        <where>
+            <if test="hosName != null "> and hos_name like concat('%', #{hosName}, '%')</if>
+            <if test="carCard != null  and carCard != ''"> and car_card like concat('%', #{carCard}, '%')</if>
+            <if test="personName != null  and personName != ''"> and person_name like concat('%', #{personName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectYyCarById" parameterType="Long" resultMap="YyCarResult">
+        <include refid="selectYyCarVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertYyCar" parameterType="YyCar" useGeneratedKeys="true" keyProperty="id">
+        insert into yy_car
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="hosName != null">hos_name,</if>
+            <if test="carCard != null">car_card,</if>
+            <if test="personName != null">person_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="hosName != null">#{hosName},</if>
+            <if test="carCard != null">#{carCard},</if>
+            <if test="personName != null">#{personName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateYyCar" parameterType="YyCar">
+        update yy_car
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="hosName != null">hos_name = #{hosName},</if>
+            <if test="carCard != null">car_card = #{carCard},</if>
+            <if test="personName != null">person_name = #{personName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYyCarById" parameterType="Long">
+        delete from yy_car where id = #{id}
+    </delete>
+
+    <delete id="deleteYyCarByIds" parameterType="String">
+        delete from yy_car where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

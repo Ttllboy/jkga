@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.MqCarMapper">
+    
+    <resultMap type="MqCar" id="MqCarResult">
+        <result property="id"    column="id"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="recordId"    column="record_id"    />
+        <result property="plateNum"    column="plate_num"    />
+        <result property="capTime"    column="cap_time"    />
+        <result property="plateType"    column="plate_type"    />
+        <result property="carImgUrl"    column="car_img_url"    />
+        <result property="plateNumUrl"    column="plate_num_url"    />
+        <result property="dataType"    column="data_type"    />
+    </resultMap>
+
+    <sql id="selectMqCarVo">
+        select id, device_id, channel_code, record_id, plate_num, cap_time, plate_type, car_img_url, plate_num_url, data_type from mq_car
+    </sql>
+
+    <select id="selectMqCarList" parameterType="MqCar" resultMap="MqCarResult">
+        <include refid="selectMqCarVo"/>
+        <where>  
+            <if test="deviceId != null  and deviceId != ''"> and device_id = #{deviceId}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="recordId != null  and recordId != ''"> and record_id = #{recordId}</if>
+            <if test="plateNum != null  and plateNum != ''"> and plate_num = #{plateNum}</if>
+            <if test="capTime != null "> and cap_time = #{capTime}</if>
+            <if test="plateType != null  and plateType != ''"> and plate_type = #{plateType}</if>
+            <if test="carImgUrl != null  and carImgUrl != ''"> and car_img_url = #{carImgUrl}</if>
+            <if test="plateNumUrl != null  and plateNumUrl != ''"> and plate_num_url = #{plateNumUrl}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+    </select>
+    <select id="selectMqCarList2" parameterType="MqCar" resultMap="MqCarResult">
+        <include refid="selectMqCarVo"/>
+        <where>
+            <if test="deviceId != null  and deviceId != ''"> and device_id = #{deviceId}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="recordId != null  and recordId != ''"> and record_id = #{recordId}</if>
+            <if test="plateNum != null  and plateNum != ''"> and plate_num = #{plateNum}</if>
+            <if test="capTime != null "> and cap_time = #{capTime}</if>
+            <if test="plateType != null  and plateType != ''"> and plate_type = #{plateType}</if>
+            <if test="carImgUrl != null  and carImgUrl != ''"> and car_img_url = #{carImgUrl}</if>
+            <if test="plateNumUrl != null  and plateNumUrl != ''"> and plate_num_url = #{plateNumUrl}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+        </where>
+        order by cap_time desc
+        limit 50
+    </select>
+    
+    <select id="selectMqCarById" parameterType="Long" resultMap="MqCarResult">
+        <include refid="selectMqCarVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMqCar" parameterType="MqCar" useGeneratedKeys="true" keyProperty="id">
+        insert into mq_car
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">device_id,</if>
+            <if test="channelCode != null">channel_code,</if>
+            <if test="recordId != null">record_id,</if>
+            <if test="plateNum != null">plate_num,</if>
+            <if test="capTime != null">cap_time,</if>
+            <if test="plateType != null">plate_type,</if>
+            <if test="carImgUrl != null">car_img_url,</if>
+            <if test="plateNumUrl != null">plate_num_url,</if>
+            <if test="dataType != null">data_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="channelCode != null">#{channelCode},</if>
+            <if test="recordId != null">#{recordId},</if>
+            <if test="plateNum != null">#{plateNum},</if>
+            <if test="capTime != null">#{capTime},</if>
+            <if test="plateType != null">#{plateType},</if>
+            <if test="carImgUrl != null">#{carImgUrl},</if>
+            <if test="plateNumUrl != null">#{plateNumUrl},</if>
+            <if test="dataType != null">#{dataType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMqCar" parameterType="MqCar">
+        update mq_car
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="channelCode != null">channel_code = #{channelCode},</if>
+            <if test="recordId != null">record_id = #{recordId},</if>
+            <if test="plateNum != null">plate_num = #{plateNum},</if>
+            <if test="capTime != null">cap_time = #{capTime},</if>
+            <if test="plateType != null">plate_type = #{plateType},</if>
+            <if test="carImgUrl != null">car_img_url = #{carImgUrl},</if>
+            <if test="plateNumUrl != null">plate_num_url = #{plateNumUrl},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMqCarById" parameterType="Long">
+        delete from mq_car where id = #{id}
+    </delete>
+
+    <delete id="deleteMqCarByIds" parameterType="String">
+        delete from mq_car where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

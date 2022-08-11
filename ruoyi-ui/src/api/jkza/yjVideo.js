@@ -42,11 +42,3 @@ export function delYjVideo(id) {
     method: 'delete'
   })
 }
-
-//查询所有低洼点名称
-export function listLowPointNames(){
-  return request({
-    url:'/jkza/yjLowPoint/listLowPointNames',
-    method:'post'
-  })
-}

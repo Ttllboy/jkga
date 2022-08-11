@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="100px">
       <el-form-item label="物资库名称" prop="materialStoreName">
         <el-input
           v-model="queryParams.materialStoreName"
@@ -9,30 +9,30 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="物资等级" prop="materialLv">
-        <el-input
-          v-model="queryParams.materialLv"
-          placeholder="请输入物资等级"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="详细地址" prop="detailAddress">
-        <el-input
-          v-model="queryParams.detailAddress"
-          placeholder="请输入详细地址"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="所属单位" prop="affiliatedUnit">
-        <el-input
-          v-model="queryParams.affiliatedUnit"
-          placeholder="请输入所属单位"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="物资等级" prop="materialLv">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.materialLv"-->
+<!--          placeholder="请输入物资等级"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="详细地址" prop="detailAddress">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.detailAddress"-->
+<!--          placeholder="请输入详细地址"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="所属单位" prop="affiliatedUnit">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.affiliatedUnit"-->
+<!--          placeholder="请输入所属单位"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item label="联系人姓名" prop="contactName">
         <el-input
           v-model="queryParams.contactName"
@@ -41,14 +41,14 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="联系人联系方式" prop="contactPhone">
-        <el-input
-          v-model="queryParams.contactPhone"
-          placeholder="请输入联系人联系方式"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="联系人联系方式" prop="contactPhone">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.contactPhone"-->
+<!--          placeholder="请输入联系人联系方式"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item label="应急物资名字" prop="emergencyMaterialName">
         <el-input
           v-model="queryParams.emergencyMaterialName"
@@ -57,40 +57,40 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="规格" prop="specification">
-        <el-input
-          v-model="queryParams.specification"
-          placeholder="请输入规格"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="应急物资数量" prop="emergencyMaterialNum">
-        <el-input
-          v-model="queryParams.emergencyMaterialNum"
-          placeholder="请输入应急物资数量"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="规格" prop="measuringUnit">
-        <el-input
-          v-model="queryParams.measuringUnit"
-          placeholder="请输入规格"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="数据类型" prop="dataType">
-        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
-          <el-option
-            v-for="dict in dict.type.data_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="规格" prop="specification">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.specification"-->
+<!--          placeholder="请输入规格"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="应急物资数量" prop="emergencyMaterialNum">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.emergencyMaterialNum"-->
+<!--          placeholder="请输入应急物资数量"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="规格" prop="measuringUnit">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.measuringUnit"-->
+<!--          placeholder="请输入规格"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="数据类型" prop="dataType">-->
+<!--        <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.data_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -180,11 +180,11 @@
       <el-table-column label="规格" align="center" prop="specification" />
       <el-table-column label="应急物资数量" align="center" prop="emergencyMaterialNum" />
       <el-table-column label="规格" align="center" prop="measuringUnit" />
-      <el-table-column label="数据类型" align="center" prop="dataType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="数据类型" align="center" prop="dataType">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -215,7 +215,7 @@
 
     <!-- 添加或修改物资信息对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="110px">
         <el-form-item label="物资库名称" prop="materialStoreName">
           <el-input v-model="form.materialStoreName" placeholder="请输入物资库名称" />
         </el-form-item>
@@ -246,16 +246,16 @@
         <el-form-item label="规格" prop="measuringUnit">
           <el-input v-model="form.measuringUnit" placeholder="请输入规格" />
         </el-form-item>
-        <el-form-item label="数据类型" prop="dataType">
-          <el-select v-model="form.dataType" placeholder="请选择数据类型">
-            <el-option
-              v-for="dict in dict.type.data_type"
-              :key="dict.value"
-              :label="dict.label"
-:value="parseInt(dict.value)"
-            ></el-option>
-          </el-select>
-        </el-form-item>
+<!--        <el-form-item label="数据类型" prop="dataType">-->
+<!--          <el-select v-model="form.dataType" placeholder="请选择数据类型">-->
+<!--            <el-option-->
+<!--              v-for="dict in dict.type.data_type"-->
+<!--              :key="dict.value"-->
+<!--              :label="dict.label"-->
+<!--:value="parseInt(dict.value)"-->
+<!--            ></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>

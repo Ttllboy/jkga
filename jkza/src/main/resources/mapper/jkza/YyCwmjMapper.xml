@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.jkza.mapper.YyCwmjMapper">
+
+    <resultMap type="YyCwmj" id="YyCwmjResult">
+        <result property="id"    column="id"    />
+        <result property="orgName"    column="org_name"    />
+        <result property="enterOrExit"    column="enter_or_exit"    />
+        <result property="healthMode"    column="health_mode"    />
+        <result property="cardNumber"    column="card_number"    />
+        <result property="cardType"    column="card_type"    />
+        <result property="curTemp"    column="cur_temp"    />
+        <result property="picture1"    column="picture1"    />
+        <result property="deviceCode"    column="device_code"    />
+        <result property="personCode"    column="person_code"    />
+        <result property="idNumber"    column="id_number"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="openType"    column="open_type"    />
+        <result property="personName"    column="person_name"    />
+        <result property="recordId"    column="record_id"    />
+        <result property="isOverTemp"    column="is_over_temp"    />
+        <result property="orgCode"    column="org_code"    />
+        <result property="openResult"    column="open_result"    />
+        <result property="channelName"    column="channel_name"    />
+        <result property="category"    column="category"    />
+        <result property="capTime"    column="cap_time"    />
+        <result property="cardStatus"    column="card_status"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="hosName"    column="hos_name"    />
+    </resultMap>
+
+    <sql id="selectYyCwmjVo">
+        select id, org_name, enter_or_exit, health_mode, card_number, card_type, cur_temp, picture1, device_code, person_code, id_number, device_name, open_type, person_name, record_id, is_over_temp, org_code, open_result, channel_name, category, cap_time, card_status, channel_code, hos_name from yy_cwmj
+    </sql>
+
+    <select id="selectYyCwmjList" parameterType="YyCwmj" resultMap="YyCwmjResult">
+        <include refid="selectYyCwmjVo"/>
+        <where>
+            <if test="orgName != null  and orgName != ''"> and org_name like concat('%', #{orgName}, '%')</if>
+            <if test="enterOrExit != null "> and enter_or_exit = #{enterOrExit}</if>
+            <if test="healthMode != null  and healthMode != ''"> and health_mode like concat('%', #{healthMode}, '%')</if>
+            <if test="cardNumber != null  and cardNumber != ''"> and card_number = #{cardNumber}</if>
+            <if test="cardType != null "> and card_type = #{cardType}</if>
+            <if test="curTemp != null "> and cur_temp = #{curTemp}</if>
+            <if test="picture1 != null  and picture1 != ''"> and picture1 = #{picture1}</if>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code = #{deviceCode}</if>
+            <if test="personCode != null  and personCode != ''"> and person_code = #{personCode}</if>
+            <if test="idNumber != null  and idNumber != ''"> and id_number = #{idNumber}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="openType != null "> and open_type = #{openType}</if>
+            <if test="personName != null  and personName != ''"> and person_name like concat('%', #{personName}, '%')</if>
+            <if test="recordId != null  and recordId != ''"> and record_id = #{recordId}</if>
+            <if test="isOverTemp != null "> and is_over_temp = #{isOverTemp}</if>
+            <if test="orgCode != null  and orgCode != ''"> and org_code = #{orgCode}</if>
+            <if test="openResult != null "> and open_result = #{openResult}</if>
+            <if test="channelName != null  and channelName != ''"> and channel_name like concat('%', #{channelName}, '%')</if>
+            <if test="category != null "> and category = #{category}</if>
+            <if test="capTime != null "> and cap_time = #{capTime}</if>
+            <if test="cardStatus != null  and cardStatus != ''"> and card_status = #{cardStatus}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="hosName != null  and hosName != ''"> and hos_name like concat('%', #{hosName}, '%')</if>
+        </where>
+        order by cap_time desc
+    </select>
+
+    <select id="selectYyCwmjById" parameterType="Long" resultMap="YyCwmjResult">
+        <include refid="selectYyCwmjVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertYyCwmj" parameterType="YyCwmj" useGeneratedKeys="true" keyProperty="id">
+        insert into yy_cwmj
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orgName != null">org_name,</if>
+            <if test="enterOrExit != null">enter_or_exit,</if>
+            <if test="healthMode != null">health_mode,</if>
+            <if test="cardNumber != null">card_number,</if>
+            <if test="cardType != null">card_type,</if>
+            <if test="curTemp != null">cur_temp,</if>
+            <if test="picture1 != null">picture1,</if>
+            <if test="deviceCode != null">device_code,</if>
+            <if test="personCode != null">person_code,</if>
+            <if test="idNumber != null">id_number,</if>
+            <if test="deviceName != null">device_name,</if>
+            <if test="openType != null">open_type,</if>
+            <if test="personName != null">person_name,</if>
+            <if test="recordId != null">record_id,</if>
+            <if test="isOverTemp != null">is_over_temp,</if>
+            <if test="orgCode != null">org_code,</if>
+            <if test="openResult != null">open_result,</if>
+            <if test="channelName != null">channel_name,</if>
+            <if test="category != null">category,</if>
+            <if test="capTime != null">cap_time,</if>
+            <if test="cardStatus != null">card_status,</if>
+            <if test="channelCode != null">channel_code,</if>
+            <if test="hosName != null">hos_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orgName != null">#{orgName},</if>
+            <if test="enterOrExit != null">#{enterOrExit},</if>
+            <if test="healthMode != null">#{healthMode},</if>
+            <if test="cardNumber != null">#{cardNumber},</if>
+            <if test="cardType != null">#{cardType},</if>
+            <if test="curTemp != null">#{curTemp},</if>
+            <if test="picture1 != null">#{picture1},</if>
+            <if test="deviceCode != null">#{deviceCode},</if>
+            <if test="personCode != null">#{personCode},</if>
+            <if test="idNumber != null">#{idNumber},</if>
+            <if test="deviceName != null">#{deviceName},</if>
+            <if test="openType != null">#{openType},</if>
+            <if test="personName != null">#{personName},</if>
+            <if test="recordId != null">#{recordId},</if>
+            <if test="isOverTemp != null">#{isOverTemp},</if>
+            <if test="orgCode != null">#{orgCode},</if>
+            <if test="openResult != null">#{openResult},</if>
+            <if test="channelName != null">#{channelName},</if>
+            <if test="category != null">#{category},</if>
+            <if test="capTime != null">#{capTime},</if>
+            <if test="cardStatus != null">#{cardStatus},</if>
+            <if test="channelCode != null">#{channelCode},</if>
+            <if test="hosName != null">#{hosName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateYyCwmj" parameterType="YyCwmj">
+        update yy_cwmj
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orgName != null">org_name = #{orgName},</if>
+            <if test="enterOrExit != null">enter_or_exit = #{enterOrExit},</if>
+            <if test="healthMode != null">health_mode = #{healthMode},</if>
+            <if test="cardNumber != null">card_number = #{cardNumber},</if>
+            <if test="cardType != null">card_type = #{cardType},</if>
+            <if test="curTemp != null">cur_temp = #{curTemp},</if>
+            <if test="picture1 != null">picture1 = #{picture1},</if>
+            <if test="deviceCode != null">device_code = #{deviceCode},</if>
+            <if test="personCode != null">person_code = #{personCode},</if>
+            <if test="idNumber != null">id_number = #{idNumber},</if>
+            <if test="deviceName != null">device_name = #{deviceName},</if>
+            <if test="openType != null">open_type = #{openType},</if>
+            <if test="personName != null">person_name = #{personName},</if>
+            <if test="recordId != null">record_id = #{recordId},</if>
+            <if test="isOverTemp != null">is_over_temp = #{isOverTemp},</if>
+            <if test="orgCode != null">org_code = #{orgCode},</if>
+            <if test="openResult != null">open_result = #{openResult},</if>
+            <if test="channelName != null">channel_name = #{channelName},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="capTime != null">cap_time = #{capTime},</if>
+            <if test="cardStatus != null">card_status = #{cardStatus},</if>
+            <if test="channelCode != null">channel_code = #{channelCode},</if>
+            <if test="hosName != null">hos_name = #{hosName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteYyCwmjById" parameterType="Long">
+        delete from yy_cwmj where id = #{id}
+    </delete>
+
+    <delete id="deleteYyCwmjByIds" parameterType="String">
+        delete from yy_cwmj where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectLimit" resultMap="YyCwmjResult">
+        select *
+        from yy_cwmj
+        order by cap_time desc
+            limit 50
+    </select>
+</mapper>

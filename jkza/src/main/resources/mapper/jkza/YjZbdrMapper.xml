@@ -36,17 +36,17 @@
     <select id="selectYjZbdrList" parameterType="YjZbdr" resultMap="YjZbdrResult">
         <include refid="selectYjZbdrVo"/>
         <where>
-            <if test="zbDate != null  and zbDate != ''">and zb_date = #{zbDate}</if>
-            <if test="weekDate != null  and weekDate != ''">and week_date = #{weekDate}</if>
+            <if test="zbDate != null  and zbDate != ''">and zb_date like concat('%', #{zbDate}, '%')</if>
+            <if test="weekDate != null  and weekDate != ''">and week_date like concat('%', #{weekDate}, '%')</if>
             <if test="leaderName != null  and leaderName != ''">and leader_name like concat('%', #{leaderName}, '%')
             </if>
-            <if test="leaderPhone != null  and leaderPhone != ''">and leader_phone = #{leaderPhone}</if>
+            <if test="leaderPhone != null  and leaderPhone != ''">and leader_phone like concat('%', #{leaderPhone}, '%')</if>
             <if test="chiefName != null  and chiefName != ''">and chief_name like concat('%', #{chiefName}, '%')</if>
-            <if test="chiefPhone != null  and chiefPhone != ''">and chief_phone = #{chiefPhone}</if>
-            <if test="dayNameOne != null  and dayNameOne != ''">and day_name_one = #{dayNameOne}</if>
-            <if test="dayNameTwo != null  and dayNameTwo != ''">and day_name_two = #{dayNameTwo}</if>
-            <if test="nightNameOne != null  and nightNameOne != ''">and night_name_one = #{nightNameOne}</if>
-            <if test="nightNameTwo != null  and nightNameTwo != ''">and night_name_two = #{nightNameTwo}</if>
+            <if test="chiefPhone != null  and chiefPhone != ''">and chief_phone like concat('%', #{chiefPhone}, '%')</if>
+            <if test="dayNameOne != null  and dayNameOne != ''">and day_name_one like concat('%', #{dayNameOne}, '%')</if>
+            <if test="dayNameTwo != null  and dayNameTwo != ''">and day_name_two like concat('%', #{dayNameTwo}, '%')</if>
+            <if test="nightNameOne != null  and nightNameOne != ''">and night_name_one like concat('%', #{nightNameOne}, '%')</if>
+            <if test="nightNameTwo != null  and nightNameTwo != ''">and night_name_two like concat('%', #{nightNameTwo}, '%')</if>
         </where>
     </select>
 

@@ -1,87 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.jkza.mapper.YjVideoMapper">
-
+    
     <resultMap type="YjVideo" id="YjVideoResult">
         <result property="id"    column="id"    />
-        <result property="buildingSiteId"    column="building_site_id"    />
-        <result property="videoName"    column="video_name"    />
-        <result property="lowPointName"    column="low_point_name"    />
-        <result property="equipmentType"    column="equipment_type"    />
-        <result property="onlineType"    column="online_type"    />
-        <result property="coordinate"    column="coordinate"    />
+        <result property="lowpointId"    column="lowpoint_id"    />
+        <result property="bzdId"    column="bzd_id"    />
+        <result property="jscId"    column="jsc_id"    />
+        <result property="channelName"    column="channel_name"    />
+        <result property="cameraType"    column="camera_type"    />
+        <result property="networkStatus"    column="network_status"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="gpsX"    column="gps_x"    />
+        <result property="gpsY"    column="gps_y"    />
         <result property="dataType"    column="data_type"    />
     </resultMap>
 
     <sql id="selectYjVideoVo">
-        select id, building_site_id, video_name, equipment_type, online_type,coordinate, data_type from yj_video
-    </sql>
-    <sql id="selectYjVideoListAndName">
-        select t1.id, t1.building_site_id, t1.video_name,t1.coordinate, t1.equipment_type, t1.online_type, t1.data_type ,t2.id,t2.low_point_name
-        from yj_video t1
-                 left join yj_low_point t2
-                           on t1.building_site_id = t2.id
+        select id, lowpoint_id, bzd_id, jsc_id, channel_name, camera_type, network_status, channel_code, gps_x, gps_y, data_type from yj_video
     </sql>
 
     <select id="selectYjVideoList" parameterType="YjVideo" resultMap="YjVideoResult">
         <include refid="selectYjVideoVo"/>
-        <where>
-            <if test="buildingSiteId != null "> and building_site_id = #{buildingSiteId}</if>
-            <if test="videoName != null  and videoName != ''"> and video_name like concat('%', #{videoName}, '%')</if>
-            <if test="equipmentType != null "> and equipment_type = #{equipmentType}</if>
-            <if test="onlineType != null "> and online_type = #{onlineType}</if>
-            <if test="coordinate != null  and coordinate != ''"> and coordinate = #{coordinate}</if>
+        <where>  
+            <if test="lowpointId != null "> and lowpoint_id = #{lowpointId}</if>
+            <if test="bzdId != null "> and bzd_id = #{bzdId}</if>
+            <if test="jscId != null "> and jsc_id = #{jscId}</if>
+            <if test="channelName != null  and channelName != ''"> and channel_name like concat('%', #{channelName}, '%')</if>
+            <if test="cameraType != null "> and camera_type = #{cameraType}</if>
+            <if test="networkStatus != null "> and network_status = #{networkStatus}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="gpsX != null "> and gps_x = #{gpsX}</if>
+            <if test="gpsY != null "> and gps_y = #{gpsY}</if>
             <if test="dataType != null "> and data_type = #{dataType}</if>
         </where>
     </select>
-    <select id="selectYjVideoListAndName" parameterType="YjVideo" resultMap="YjVideoResult">
-        <include refid="selectYjVideoListAndName"/>
-        <where>
-            <if test="buildingSiteId != null "> and t1.building_site_id = #{buildingSiteId}</if>
-            <if test="videoName != null  and videoName != ''"> and t1.video_name like concat('%', #{videoName}, '%')</if>
-            <if test="coordinate != null  and coordinate != ''"> and t1.coordinate = #{coordinate}</if>
-            <if test="lowPointName != null  and lowPointName != ''"> and t2.low_point_name like concat('%', #{lowPointName}, '%')</if>
-            <if test="equipmentType != null "> and t1.equipment_type = #{equipmentType}</if>
-            <if test="onlineType != null "> and t1.online_type = #{onlineType}</if>
-            <if test="dataType != null "> and t1.data_type = #{dataType}</if>
-        </where>
-    </select>
-
+    
     <select id="selectYjVideoById" parameterType="Long" resultMap="YjVideoResult">
         <include refid="selectYjVideoVo"/>
         where id = #{id}
     </select>
-
+        
     <insert id="insertYjVideo" parameterType="YjVideo" useGeneratedKeys="true" keyProperty="id">
         insert into yj_video
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="buildingSiteId != null">building_site_id,</if>
-            <if test="videoName != null">video_name,</if>
-            <if test="equipmentType != null">equipment_type,</if>
-            <if test="onlineType != null">online_type,</if>
-            <if test="coordinate != null">coordinate,</if>
+            <if test="lowpointId != null">lowpoint_id,</if>
+            <if test="bzdId != null">bzd_id,</if>
+            <if test="jscId != null">jsc_id,</if>
+            <if test="channelName != null">channel_name,</if>
+            <if test="cameraType != null">camera_type,</if>
+            <if test="networkStatus != null">network_status,</if>
+            <if test="channelCode != null">channel_code,</if>
+            <if test="gpsX != null">gps_x,</if>
+            <if test="gpsY != null">gps_y,</if>
             <if test="dataType != null">data_type,</if>
-        </trim>
+         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="buildingSiteId != null">#{buildingSiteId},</if>
-            <if test="videoName != null">#{videoName},</if>
-            <if test="equipmentType != null">#{equipmentType},</if>
-            <if test="onlineType != null">#{onlineType},</if>
-            <if test="coordinate != null">#{coordinate},</if>
+            <if test="lowpointId != null">#{lowpointId},</if>
+            <if test="bzdId != null">#{bzdId},</if>
+            <if test="jscId != null">#{jscId},</if>
+            <if test="channelName != null">#{channelName},</if>
+            <if test="cameraType != null">#{cameraType},</if>
+            <if test="networkStatus != null">#{networkStatus},</if>
+            <if test="channelCode != null">#{channelCode},</if>
+            <if test="gpsX != null">#{gpsX},</if>
+            <if test="gpsY != null">#{gpsY},</if>
             <if test="dataType != null">#{dataType},</if>
-        </trim>
+         </trim>
     </insert>
 
     <update id="updateYjVideo" parameterType="YjVideo">
         update yj_video
         <trim prefix="SET" suffixOverrides=",">
-            <if test="buildingSiteId != null">building_site_id = #{buildingSiteId},</if>
-            <if test="videoName != null">video_name = #{videoName},</if>
-            <if test="equipmentType != null">equipment_type = #{equipmentType},</if>
-            <if test="onlineType != null">online_type = #{onlineType},</if>
-            <if test="coordinate != null">coordinate = #{coordinate},</if>
+            <if test="lowpointId != null">lowpoint_id = #{lowpointId},</if>
+            <if test="bzdId != null">bzd_id = #{bzdId},</if>
+            <if test="jscId != null">jsc_id = #{jscId},</if>
+            <if test="channelName != null">channel_name = #{channelName},</if>
+            <if test="cameraType != null">camera_type = #{cameraType},</if>
+            <if test="networkStatus != null">network_status = #{networkStatus},</if>
+            <if test="channelCode != null">channel_code = #{channelCode},</if>
+            <if test="gpsX != null">gps_x = #{gpsX},</if>
+            <if test="gpsY != null">gps_y = #{gpsY},</if>
             <if test="dataType != null">data_type = #{dataType},</if>
         </trim>
         where id = #{id}
@@ -91,10 +92,20 @@
         delete from yj_video where id = #{id}
     </delete>
 
+    <update id="truncateYjVideo">
+        TRUNCATE TABLE yj_video
+    </update>
+
     <delete id="deleteYjVideoByIds" parameterType="String">
-        delete from yj_video where id in
+        delete from yj_video where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
+
+    <select id="selectYjClassify" resultType="java.util.HashMap" parameterType="String">
+        select channel_code,scene_name,channel_name
+        from adm_tdcjgl
+        where channel_code = #{channelCode}
+    </select>
 </mapper>

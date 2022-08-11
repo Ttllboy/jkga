@@ -11,7 +11,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 整改通知对象 gd_synergy
  * 
  * @author ruoyi
- * @date 2022-04-11
+ * @date 2022-06-26
  */
 public class GdSynergy extends BaseEntity
 {
@@ -20,38 +20,30 @@ public class GdSynergy extends BaseEntity
     /** ID */
     private Long id;
 
-    /** 项目名称 */
-    @Excel(name = "项目名称")
-    private String projectName;
+    /** 项目信息编号 */
+    @Excel(name = "项目信息编号")
+    private String projectguid;
 
-    /** 检测日期 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Excel(name = "检测日期", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
-    private Date checkTime;
+    /** 整改编号 */
+    @Excel(name = "整改编号")
+    private String noticenum;
 
-    /** 街道ID */
-    @Excel(name = "街道ID")
-    private Long streetId;
-
-    /** 工地ID */
-    @Excel(name = "工地ID")
-    private Long buildingId;
-
-    /** 检查部位 */
-    @Excel(name = "检查部位")
-    private String checkPosition;
+    /** 检查部分 */
+    @Excel(name = "检查部分")
+    private String checkposition;
 
     /** 通知书类型 */
     @Excel(name = "通知书类型")
-    private Integer notificationType;
+    private String noticetype;
 
-    /** 回复查看 */
-    @Excel(name = "回复查看")
-    private Integer replyCheck;
+    /** 检查日期 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "检查日期", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date checkdatet;
 
-    /** 回复信息 */
-    @Excel(name = "回复信息")
-    private String replyInfo;
+    /** 是否回复 */
+    @Excel(name = "是否回复")
+    private String isreply;
 
     /** 数据类型 */
     @Excel(name = "数据类型")
@@ -62,80 +54,63 @@ public class GdSynergy extends BaseEntity
         this.id = id;
     }
 
-    public String getCheckPosition() {
-        return checkPosition;
-    }
-
-    public void setCheckPosition(String checkPosition) {
-        this.checkPosition = checkPosition;
-    }
-
-    public Long getId()
+    public Long getId() 
     {
         return id;
     }
-    public void setProjectName(String projectName) 
+    public void setProjectguid(String projectguid) 
     {
-        this.projectName = projectName;
+        this.projectguid = projectguid;
     }
 
-    public String getProjectName() 
+    public String getProjectguid() 
     {
-        return projectName;
+        return projectguid;
     }
-    public void setCheckTime(Date checkTime) 
+    public void setNoticenum(String noticenum) 
     {
-        this.checkTime = checkTime;
-    }
-
-    public Date getCheckTime() 
-    {
-        return checkTime;
-    }
-    public void setStreetId(Long streetId) 
-    {
-        this.streetId = streetId;
+        this.noticenum = noticenum;
     }
 
-    public Long getStreetId() 
+    public String getNoticenum() 
     {
-        return streetId;
+        return noticenum;
     }
-    public void setBuildingId(Long buildingId) 
+    public void setCheckposition(String checkposition) 
     {
-        this.buildingId = buildingId;
-    }
-
-    public Long getBuildingId() 
-    {
-        return buildingId;
-    }
-    public void setNotificationType(Integer notificationType) 
-    {
-        this.notificationType = notificationType;
+        this.checkposition = checkposition;
     }
 
-    public Integer getNotificationType() 
+    public String getCheckposition() 
     {
-        return notificationType;
+        return checkposition;
     }
-    public void setReplyCheck(Integer replyCheck) 
+    public void setNoticetype(String noticetype) 
     {
-        this.replyCheck = replyCheck;
-    }
-
-    public Integer getReplyCheck() 
-    {
-        return replyCheck;
-    }
-    public void setReplyInfo(String replyInfo) 
-    {
-        this.replyInfo = replyInfo;
+        this.noticetype = noticetype;
     }
 
-    public String getReplyInfo() 
+    public String getNoticetype() 
     {
-        return replyInfo;
+        return noticetype;
+    }
+    public void setCheckdatet(Date checkdatet) 
+    {
+        this.checkdatet = checkdatet;
+    }
+
+    public Date getCheckdatet() 
+    {
+        return checkdatet;
+    }
+    public void setIsreply(String isreply) 
+    {
+        this.isreply = isreply;
+    }
+
+    public String getIsreply() 
+    {
+        return isreply;
     }
     public void setDataType(Integer dataType) 
     {
@@ -151,13 +126,13 @@ public class GdSynergy extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
-            .append("projectName", getProjectName())
-            .append("checkTime", getCheckTime())
-            .append("streetId", getStreetId())
-            .append("buildingId", getBuildingId())
-            .append("notificationType", getNotificationType())
-            .append("replyCheck", getReplyCheck())
-            .append("replyInfo", getReplyInfo())
+            .append("projectguid", getProjectguid())
+            .append("noticenum", getNoticenum())
+            .append("checkposition", getCheckposition())
+            .append("noticetype", getNoticetype())
+            .append("checkdatet", getCheckdatet())
+            .append("isreply", getIsreply())
+            .append("createTime", getCreateTime())
             .append("dataType", getDataType())
             .toString();
     }

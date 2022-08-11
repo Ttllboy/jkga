@@ -1,42 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.jkza.mapper.GdBaseMapper">
-    
     <resultMap type="GdBase" id="GdBaseResult">
-        <result property="id"    column="id"    />
-        <result property="buildingSite"    column="building_site"    />
-        <result property="buildingSitePrice"    column="building_site_price"    />
-        <result property="buildingSiteWorker"    column="building_site_worker"    />
-        <result property="buildingSiteWorkerDuty"    column="building_site_worker_duty"    />
-        <result property="liftingEquipment"    column="lifting_equipment"    />
-        <result property="liftingEquipmentFiling"    column="lifting_equipment_filing"    />
-        <result property="dataType"    column="data_type"    />
+        <result property="id" column="id"/>
+        <result property="buildingSite" column="building_site"/>
+        <result property="buildingSitePrice" column="building_site_price"/>
+        <result property="buildingSiteWorker" column="building_site_worker"/>
+        <result property="buildingSiteWorkerDuty" column="building_site_worker_duty"/>
+        <result property="liftingEquipment" column="lifting_equipment"/>
+        <result property="liftingEquipmentFiling" column="lifting_equipment_filing"/>
+        <result property="dataType" column="data_type"/>
     </resultMap>
 
     <sql id="selectGdBaseVo">
-        select id, building_site, building_site_price, building_site_worker, building_site_worker_duty, lifting_equipment, lifting_equipment_filing, data_type from gd_base
+        select id,
+               building_site,
+               building_site_price,
+               building_site_worker,
+               building_site_worker_duty,
+               lifting_equipment,
+               lifting_equipment_filing,
+               data_type
+        from gd_base
     </sql>
 
     <select id="selectGdBaseList" parameterType="GdBase" resultMap="GdBaseResult">
         <include refid="selectGdBaseVo"/>
-        <where>  
-            <if test="buildingSite != null "> and building_site = #{buildingSite}</if>
-            <if test="buildingSitePrice != null "> and building_site_price = #{buildingSitePrice}</if>
-            <if test="buildingSiteWorker != null "> and building_site_worker = #{buildingSiteWorker}</if>
-            <if test="buildingSiteWorkerDuty != null "> and building_site_worker_duty = #{buildingSiteWorkerDuty}</if>
-            <if test="liftingEquipment != null "> and lifting_equipment = #{liftingEquipment}</if>
-            <if test="liftingEquipmentFiling != null "> and lifting_equipment_filing = #{liftingEquipmentFiling}</if>
-            <if test="dataType != null "> and data_type = #{dataType}</if>
+        <where>
+            <if test="buildingSite != null ">and building_site = #{buildingSite}</if>
+            <if test="buildingSitePrice != null ">and building_site_price = #{buildingSitePrice}</if>
+            <if test="buildingSiteWorker != null ">and building_site_worker = #{buildingSiteWorker}</if>
+            <if test="buildingSiteWorkerDuty != null ">and building_site_worker_duty = #{buildingSiteWorkerDuty}</if>
+            <if test="liftingEquipment != null ">and lifting_equipment = #{liftingEquipment}</if>
+            <if test="liftingEquipmentFiling != null ">and lifting_equipment_filing = #{liftingEquipmentFiling}</if>
+            <if test="dataType != null ">and data_type = #{dataType}</if>
         </where>
     </select>
-    
+
     <select id="selectGdBaseById" parameterType="Long" resultMap="GdBaseResult">
         <include refid="selectGdBaseVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertGdBase" parameterType="GdBase" useGeneratedKeys="true" keyProperty="id">
         insert into gd_base
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -47,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="liftingEquipment != null">lifting_equipment,</if>
             <if test="liftingEquipmentFiling != null">lifting_equipment_filing,</if>
             <if test="dataType != null">data_type,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="buildingSite != null">#{buildingSite},</if>
             <if test="buildingSitePrice != null">#{buildingSitePrice},</if>
@@ -56,7 +63,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="liftingEquipment != null">#{liftingEquipment},</if>
             <if test="liftingEquipmentFiling != null">#{liftingEquipmentFiling},</if>
             <if test="dataType != null">#{dataType},</if>
-         </trim>
+        </trim>
+    </insert>
+
+    <insert id="insertYjTqyb" parameterType="YjTqyb" useGeneratedKeys="true" keyProperty="id">
+        insert into yj_tqyb (date, tqyb,tqyb2,tqyb3,tqyb4,tqyb5,tqyb6,tqyb7)
+        values (#{date}, #{tqyb},#{tqyb2},#{tqyb3},#{tqyb4},#{tqyb5},#{tqyb6},#{tqyb7})
     </insert>
 
     <update id="updateGdBase" parameterType="GdBase">
@@ -74,13 +86,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteGdBaseById" parameterType="Long">
-        delete from gd_base where id = #{id}
+        delete
+        from gd_base
+        where id = #{id}
     </delete>
 
+    <update id="truncateTabel" parameterType="String" statementType="STATEMENT">
+        TRUNCATE TABLE ${tabel}
+    </update>
+
+    <select id="ifGd" parameterType="String" statementType="STATEMENT" resultType="java.util.HashMap">
+        select * from adm_gd_gbm
+        where ${channelCode} = channel_code
+    </select>
+
+    <select id="selectChannelCode" parameterType="String" statementType="STATEMENT" resultType="java.util.HashMap">
+        select * from adm_tdcjgl
+        where  channel_name LIKE ${deviceName}
+    </select>
+
     <delete id="deleteGdBaseByIds" parameterType="String">
-        delete from gd_base where id in 
+        delete from gd_base where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
+    <select id="selectAdmTdcjgl" resultType="java.util.HashMap">
+        select * from adm_tdcjgl
+    </select>
 </mapper>

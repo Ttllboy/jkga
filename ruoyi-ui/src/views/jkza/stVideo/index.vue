@@ -1,41 +1,32 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="110px">
-      <el-form-item label="固废点名称" prop="solidId">
-        <!--<el-input-->
-        <!--  v-model="queryParams.solidId"-->
-        <!--  placeholder="请输入固废点名称"-->
-        <!--  clearable-->
-        <!--  @keyup.enter.native="handleQuery"-->
-        <!--/>-->
-        <el-select v-model="queryParams.solidId" placeholder="请选择固废点" @change="changeStreetId" clearable>
-          <el-option
-            v-for="item in solidNames"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <!--<el-form-item label="视频设备名称" prop="videoName">-->
-      <!--  <el-input-->
-      <!--    v-model="queryParams.videoName"-->
-      <!--    placeholder="请输入视频设备名称"-->
-      <!--    clearable-->
-      <!--    @keyup.enter.native="handleQuery"-->
-      <!--  />-->
-      <!--</el-form-item>-->
-      <el-form-item label="坐标" prop="coordinate">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="固废点ID" prop="solidId">
         <el-input
-          v-model="queryParams.coordinate"
-          placeholder="请输入坐标"
+          v-model="queryParams.solidId"
+          placeholder="请输入固废点ID"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="设备类型" prop="equipmentType">
-        <el-select v-model="queryParams.equipmentType" placeholder="请选择设备类型" clearable>
+      <el-form-item label="驾驶舱ID" prop="jscId">
+        <el-input
+          v-model="queryParams.jscId"
+          placeholder="请输入驾驶舱ID"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="视频设备名称" prop="channelName">
+        <el-input
+          v-model="queryParams.channelName"
+          placeholder="请输入视频设备名称"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="摄像机类型" prop="cameraType">
+        <el-select v-model="queryParams.cameraType" placeholder="请选择摄像机类型" clearable>
           <el-option
             v-for="dict in dict.type.equipment_type"
             :key="dict.value"
@@ -44,8 +35,8 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="在线状态" prop="onlineType">
-        <el-select v-model="queryParams.onlineType" placeholder="请选择在线状态" clearable>
+      <el-form-item label="在线状态" prop="networkStatus">
+        <el-select v-model="queryParams.networkStatus" placeholder="请选择在线状态" clearable>
           <el-option
             v-for="dict in dict.type.online_type"
             :key="dict.value"
@@ -53,6 +44,30 @@
             :value="dict.value"
           />
         </el-select>
+      </el-form-item>
+      <el-form-item label="通道编码" prop="channelCode">
+        <el-input
+          v-model="queryParams.channelCode"
+          placeholder="请输入通道编码"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="经度" prop="gpsX">
+        <el-input
+          v-model="queryParams.gpsX"
+          placeholder="请输入经度"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="纬度" prop="gpsY">
+        <el-input
+          v-model="queryParams.gpsY"
+          placeholder="请输入纬度"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item label="数据类型" prop="dataType">
         <el-select v-model="queryParams.dataType" placeholder="请选择数据类型" clearable>
@@ -118,29 +133,23 @@
 
     <el-table v-loading="loading" :data="stVideoList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <!--<el-table-column label="ID" align="center" prop="id" />-->
-      <el-table-column label="序号" align="center" prop="id" >
+      <el-table-column label="ID" align="center" prop="id" />
+      <el-table-column label="固废点ID" align="center" prop="solidId" />
+      <el-table-column label="驾驶舱ID" align="center" prop="jscId" />
+      <el-table-column label="视频设备名称" align="center" prop="channelName" />
+      <el-table-column label="摄像机类型" align="center" prop="cameraType">
         <template slot-scope="scope">
-          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+          <dict-tag :options="dict.type.equipment_type" :value="scope.row.cameraType"/>
         </template>
       </el-table-column>
-      <el-table-column label="固废点名称" align="center" prop="solidId" >
-        <template slot-scope="scope" v-if="scope.row.solidId">
-          {{solidNames.find(item => item.value == scope.row.solidId).label}}
-        </template>
-      </el-table-column>
-      <el-table-column label="视频设备名称" align="center" prop="videoName" />
-      <el-table-column label="坐标" align="center" prop="coordinate" />
-      <el-table-column label="设备类型" align="center" prop="equipmentType">
+      <el-table-column label="在线状态" align="center" prop="networkStatus">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.equipment_type" :value="scope.row.equipmentType"/>
+          <dict-tag :options="dict.type.online_type" :value="scope.row.networkStatus"/>
         </template>
       </el-table-column>
-      <el-table-column label="在线状态" align="center" prop="onlineType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.online_type" :value="scope.row.onlineType"/>
-        </template>
-      </el-table-column>
+      <el-table-column label="通道编码" align="center" prop="channelCode" />
+      <el-table-column label="经度" align="center" prop="gpsX" />
+      <el-table-column label="纬度" align="center" prop="gpsY" />
       <el-table-column label="数据类型" align="center" prop="dataType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.data_type" :value="scope.row.dataType"/>
@@ -165,7 +174,7 @@
         </template>
       </el-table-column>
     </el-table>
-
+    
     <pagination
       v-show="total>0"
       :total="total"
@@ -176,55 +185,55 @@
 
     <!-- 添加或修改视频设备对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="110px">
-        <el-form-item label="固废点名称" prop="solidId">
-          <!--<el-input v-model="form.solidId" placeholder="请输入固废点名称" />-->
-          <el-select v-model="form.solidId" placeholder="请选择固废点名称" @change="changeFormStreetId" clearable>
-            <el-option
-              v-for="item in solidNames"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="固废点ID" prop="solidId">
+          <el-input v-model="form.solidId" placeholder="请输入固废点ID" />
         </el-form-item>
-        <el-form-item label="视频设备名称" prop="videoName">
-          <el-input v-model="form.videoName" placeholder="请输入视频设备名称" />
+        <el-form-item label="驾驶舱ID" prop="jscId">
+          <el-input v-model="form.jscId" placeholder="请输入驾驶舱ID" />
         </el-form-item>
-        <el-form-item label="坐标" prop="coordinate">
-          <el-input v-model="form.coordinate" placeholder="请输入坐标" />
+        <el-form-item label="视频设备名称" prop="channelName">
+          <el-input v-model="form.channelName" placeholder="请输入视频设备名称" />
         </el-form-item>
-        <el-form-item label="设备类型" prop="equipmentType">
-          <el-select v-model="form.equipmentType" placeholder="请选择设备类型">
+        <el-form-item label="摄像机类型" prop="cameraType">
+          <el-select v-model="form.cameraType" placeholder="请选择摄像机类型">
             <el-option
               v-for="dict in dict.type.equipment_type"
               :key="dict.value"
               :label="dict.label"
-              :value="parseInt(dict.value)"
+:value="parseInt(dict.value)"
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="在线状态" prop="onlineType">
-          <el-select v-model="form.onlineType" placeholder="请选择在线状态">
+        <el-form-item label="在线状态" prop="networkStatus">
+          <el-select v-model="form.networkStatus" placeholder="请选择在线状态">
             <el-option
               v-for="dict in dict.type.online_type"
               :key="dict.value"
               :label="dict.label"
-              :value="parseInt(dict.value)"
+:value="parseInt(dict.value)"
             ></el-option>
           </el-select>
         </el-form-item>
-        <!--        <el-form-item label="数据类型" prop="dataType">-->
-        <!--          <el-select v-model="form.dataType" placeholder="请选择数据类型">-->
-        <!--            <el-option-->
-        <!--              v-for="dict in dict.type.data_type"-->
-        <!--              :key="dict.value"-->
-        <!--              :label="dict.label"-->
-        <!--:value="parseInt(dict.value)"-->
-        <!--            ></el-option>-->
-        <!--          </el-select>-->
-        <!--        </el-form-item>-->
+        <el-form-item label="通道编码" prop="channelCode">
+          <el-input v-model="form.channelCode" placeholder="请输入通道编码" />
+        </el-form-item>
+        <el-form-item label="经度" prop="gpsX">
+          <el-input v-model="form.gpsX" placeholder="请输入经度" />
+        </el-form-item>
+        <el-form-item label="纬度" prop="gpsY">
+          <el-input v-model="form.gpsY" placeholder="请输入纬度" />
+        </el-form-item>
+        <el-form-item label="数据类型" prop="dataType">
+          <el-select v-model="form.dataType" placeholder="请选择数据类型">
+            <el-option
+              v-for="dict in dict.type.data_type"
+              :key="dict.value"
+              :label="dict.label"
+:value="parseInt(dict.value)"
+            ></el-option>
+          </el-select>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -235,7 +244,7 @@
 </template>
 
 <script>
-import {listStVideo, getStVideo, delStVideo, addStVideo, updateStVideo, listSolidNames} from "@/api/jkza/stVideo";
+import { listStVideo, getStVideo, delStVideo, addStVideo, updateStVideo } from "@/api/jkza/stVideo";
 
 export default {
   name: "StVideo",
@@ -256,8 +265,6 @@ export default {
       total: 0,
       // 视频设备表格数据
       stVideoList: [],
-      //所有的固废点名称
-      solidNames: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -267,10 +274,13 @@ export default {
         pageNum: 1,
         pageSize: 10,
         solidId: null,
-        videoName: null,
-        coordinate: null,
-        equipmentType: null,
-        onlineType: null,
+        jscId: null,
+        channelName: null,
+        cameraType: null,
+        networkStatus: null,
+        channelCode: null,
+        gpsX: null,
+        gpsY: null,
         dataType: null
       },
       // 表单参数
@@ -292,9 +302,6 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
-      listSolidNames().then(res => {
-        this.solidNames = res;
-      })
     },
     // 取消按钮
     cancel() {
@@ -306,10 +313,13 @@ export default {
       this.form = {
         id: null,
         solidId: null,
-        videoName: null,
-        coordinate: null,
-        equipmentType: null,
-        onlineType: null,
+        jscId: null,
+        channelName: null,
+        cameraType: null,
+        networkStatus: null,
+        channelCode: null,
+        gpsX: null,
+        gpsY: null,
         dataType: null
       };
       this.resetForm("form");
@@ -381,16 +391,7 @@ export default {
       this.download('jkza/stVideo/export', {
         ...this.queryParams
       }, `stVideo_${new Date().getTime()}.xlsx`)
-    },
-    //改变queryParams所属街道ID
-    changeStreetId(streetId){
-      this.queryParams.solidId =streetId;
-    },
-    //改变form所属街道ID
-    changeFormStreetId(streetId){
-      this.form.solidId =streetId;
-    },
-
+    }
   }
 };
 </script>
